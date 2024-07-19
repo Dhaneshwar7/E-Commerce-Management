@@ -13,15 +13,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import axios from './axios.config';
-// import axios from '../../../axios.config';
+import { createAxiosInstance } from 'src/axios';
 
-
-// TODO remove, this demo shouldn't need to reset the theme.
+const axiosInstance = createAxiosInstance();
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
 		firstname: '',
 		lastname: '',
@@ -29,20 +28,30 @@ export default function SignUp() {
 		password: '',
 		contact: '',
 		city: '',
-
-		// console.log(formValues);
+		gender: '',
+	});
+	const handleChange = e => {
+		setFormValues({ ...formValues, [e.target.name]: e.target.value });
+		setError(null);
 	};
 	const handleSubmit = async e => {
 		e.preventDefault();
+		const hasError = Object.keys(formValues).reduce((acc, field) => {
+			if (formValues[field].trim() === '') {
+				acc = true;
+			}
+			return acc;
+		}, false);
+		if (hasError) {
+			setError('All fields must be Filled !.');
+			return;
+		}
 
-		// submit logic
+		// SignUP Api code likhunga
 		try {
 			// console.log(formValues);
-			const admin = await axios.post(
-				'/admin/signup',
-				formValues
-			);
-			console.log(admin);
+			const admin = await axiosInstance.post('/admin/signup', formValues);
+			console.log('Signup successful:', admin);
 			setFormValues({
 				firstname: '',
 				lastname: '',
@@ -53,10 +62,9 @@ export default function SignUp() {
 				gender: '',
 			});
 		} catch (error) {
-			console.log(error.message);
+			console.error('Error during signup:', error.message);
 		}
 	};
-
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Container component="main" maxWidth="xs">
@@ -176,11 +184,25 @@ export default function SignUp() {
 								</FormControl>
 							</Grid>
 						</Grid>
+						<Typography
+							sx={{
+								mt: 2,
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								backgroundColor: 'rgba(202, 100, 100, 0.836)',
+								borderRadius:1
+							}}
+							component="h3"
+							variant="h6"
+						>
+							{error}
+						</Typography>
 						<Button
 							type="submit"
 							fullWidth
 							variant="contained"
-							sx={{ mt: 3, mb: 2 }}
+							sx={{ mt: 2, mb: 2 }}
 						>
 							Sign Up
 						</Button>

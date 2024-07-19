@@ -12,12 +12,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { createAxiosInstance } from 'src/axios';
+
+const axiosInstance = createAxiosInstance();
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
 		email: '',
 		password: '',
@@ -25,18 +29,35 @@ export default function SignIn() {
 	const handleChange = event => {
 		setFormValues({ ...formValues, [event.target.name]: event.target.value });
 		console.log(formValues);
+		setError(null )
 	};
 
-	const handleSubmit = event => {
-		event.preventDefault();
-		// const data = new FormData(event.currentTarget);
+	const handleSubmit = async e => {
+		e.preventDefault();
+		const hasError = Object.keys(formValues).reduce((acc, field) => {
+			if (formValues[field].trim() === '') {
+				acc = true;
+			}
+			return acc;
+		}, false);
+		if (hasError) {
+			setError('All fields must be Filled !.');
+			return;
+		}
 
-		// submit logic
-
-		console.log(formValues);
-		setFormValues({ email: '', password: '' });
+		// SignUP Api code likhunga
+		try {
+			// console.log(formValues);
+			const admin = await axiosInstance.post('/admin/signin', formValues);
+			console.log('Login successful:', admin);
+			setFormValues({
+				email: '',
+				password: '',
+			});
+		} catch (error) {
+			console.error('Error during signup:', error.message);
+		}
 	};
-
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Container component="main" maxWidth="xs">
@@ -89,6 +110,20 @@ export default function SignIn() {
 							control={<Checkbox value="remember" color="primary" />}
 							label="Remember me"
 						/> */}
+						<Typography
+							sx={{
+								mt: 2,
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								backgroundColor: 'rgba(202, 100, 100, 0.836)',
+								borderRadius: 1,
+							}}
+							component="h3"
+							variant="h6"
+						>
+							{error}
+						</Typography>
 						<Button
 							type="submit"
 							fullWidth
