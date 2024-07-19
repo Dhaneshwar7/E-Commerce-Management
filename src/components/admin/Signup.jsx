@@ -20,6 +20,7 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+	// console.log(import.meta.env.VITE_APP_API_URL);
 	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
 		firstname: '',
@@ -65,6 +66,8 @@ export default function SignUp() {
 			console.error('Error during signup:', error.message);
 		}
 	};
+
+
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Container component="main" maxWidth="xs">
@@ -191,7 +194,7 @@ export default function SignUp() {
 								flexDirection: 'column',
 								alignItems: 'center',
 								backgroundColor: 'rgba(202, 100, 100, 0.836)',
-								borderRadius:1
+								borderRadius: 1,
 							}}
 							component="h3"
 							variant="h6"

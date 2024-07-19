@@ -6,10 +6,12 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppAppBar, Features, Footer, Hero } from './components/landingpage';
 import { useEffect } from 'react';
 import { ProductContext, useProductContext } from './utils/ProductReducer';
+import { asyncCurrentAdmin } from './store/Actions/adminActions';
+import { useDispatch } from 'react-redux';
 
 export default function LandingPage() {
-	// const { state } = useProductContext();
 	const { state } = React.useContext(ProductContext);
+	const dispatch = useDispatch();
 	console.log(state);
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
@@ -21,6 +23,10 @@ export default function LandingPage() {
 	useEffect(() => {
 		localStorage.setItem('mode', mode);
 	}, [toggleColorMode]);
+
+	useEffect(() => {
+		dispatch(asyncCurrentAdmin());
+	}, []);
 
 	return (
 		<ThemeProvider theme={defaultTheme}>

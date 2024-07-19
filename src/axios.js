@@ -4,11 +4,12 @@ import axios from 'axios';
 export const createAxiosInstance = () => {
 	return axios.create({
 		baseURL: import.meta.env.VITE_APP_API_URL,
-		withCredentials: false, // Optionally set based on your needs
+		withCredentials: true,
+		credentials: 'include',
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
 		},
 	});
 };
-// 
+//
