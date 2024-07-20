@@ -5,14 +5,11 @@ import Divider from '@mui/material/Divider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppAppBar, Features, Footer, Hero } from './components/landingpage';
 import { useEffect } from 'react';
-import { ProductContext, useProductContext } from './utils/ProductReducer';
-import { asyncCurrentAdmin } from './store/Actions/adminActions';
+import { asyncCurrentAdmin, asyncHomepage } from './store/Actions/adminActions';
 import { useDispatch } from 'react-redux';
 
 export default function LandingPage() {
-	const { state } = React.useContext(ProductContext);
 	const dispatch = useDispatch();
-	console.log(state);
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
 

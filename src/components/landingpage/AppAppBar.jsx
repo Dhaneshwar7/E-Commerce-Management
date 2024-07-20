@@ -104,31 +104,19 @@ function AppAppBar({ mode, toggleColorMode }) {
 						</Box>
 						<Box
 							sx={{
+								width:"auto",
 								display: { xs: 'none', md: 'flex' },
 								gap: 0.5,
 								alignItems: 'center',
 							}}
 						>
 							<ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-							<Button
-								color="primary"
-								variant="text"
-								size="small"
-								component="a"
-								target="_blank"
-							>
-								Sign in
-							</Button>
-							{/* <Button
-								color="primary"
-								variant="contained"
-								size="small"
-								component="a"
-								target="_blank"
-							>
-							</Button> */}
-							<NavLink to="/signup" className="nbtn text-sm">
-							SIGN UP
+
+							<NavLink to="/admin/signin" className="nmwbtn w-auto px-2 text-sm">
+								SIGN IN
+							</NavLink>
+							<NavLink to="/admin/signup" className="nbtn w-auto py-2	 text-sm">
+								SIGN UP
 							</NavLink>
 						</Box>
 						<Box sx={{ display: { sm: '', md: 'none' } }}>

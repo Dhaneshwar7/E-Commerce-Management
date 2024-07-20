@@ -82,7 +82,7 @@ export default function ForgetPassword() {
 						</Button>
 						<Grid container>
 							<Grid item>
-								<Link to='/signup'
+								<Link to='/admin/signup'
 								className="text-blue-500"
 								>
 									{"Don't have an account? Sign Up"}

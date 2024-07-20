@@ -13,6 +13,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
+import {
+	asyncLogoutAdmin,
+	asyncSignInAdmin,
+} from '../../store/Actions/adminActions';
+import { useDispatch } from 'react-redux';
 
 const axiosInstance = createAxiosInstance();
 
@@ -21,6 +26,7 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+	const dispatch = useDispatch();
 	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
 		email: '',
@@ -28,8 +34,8 @@ export default function SignIn() {
 	});
 	const handleChange = event => {
 		setFormValues({ ...formValues, [event.target.name]: event.target.value });
-		console.log(formValues);
-		setError(null )
+		// console.log(formValues);
+		setError(null);
 	};
 
 	const handleSubmit = async e => {
@@ -45,11 +51,9 @@ export default function SignIn() {
 			return;
 		}
 
-		// SignUP Api code likhunga
+		// SignIn Api code likhunga
 		try {
-			// console.log(formValues);
-			const admin = await axiosInstance.post('/admin/signin', formValues);
-			console.log('Login successful:', admin);
+			dispatch(asyncSignInAdmin(formValues));
 			setFormValues({
 				email: '',
 				password: '',
@@ -73,6 +77,14 @@ export default function SignIn() {
 					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 						<LockOutlinedIcon />
 					</Avatar>
+					<Button
+						onClick={() => dispatch(asyncLogoutAdmin())}
+						fullWidth
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Logg out
+					</Button>
 					<Typography component="h1" variant="h5">
 						Sign in
 					</Typography>
@@ -134,12 +146,20 @@ export default function SignIn() {
 						</Button>
 						<Grid container>
 							<Grid item xs>
-								<Link className="text-blue-500" to="/forget" variant="body2">
+								<Link
+									className="text-blue-500"
+									to="/admin/forget"
+									variant="body2"
+								>
 									Forgot password?
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link className="text-blue-500" to="/signup" variant="body2">
+								<Link
+									className="text-blue-500"
+									to="/admin	/signup"
+									variant="body2"
+								>
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>

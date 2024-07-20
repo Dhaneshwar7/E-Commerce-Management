@@ -14,6 +14,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
+import { useDispatch } from 'react-redux';
+import { asyncSignUpAdmin } from '../../store/Actions/adminActions';
 
 const axiosInstance = createAxiosInstance();
 
@@ -21,7 +23,17 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
 	// console.log(import.meta.env.VITE_APP_API_URL);
+	const dispatch = useDispatch();
 	const [error, setError] = React.useState(null);
+	// const initialFormData = {
+	// 	firstname: '',
+	// 	lastname: '',
+	// 	email: '',
+	// 	password: '',
+	// 	contact: '',
+	// 	city: '',
+	// 	gender: '',
+	// };
 	const [formValues, setFormValues] = React.useState({
 		firstname: '',
 		lastname: '',
@@ -47,12 +59,11 @@ export default function SignUp() {
 			setError('All fields must be Filled !.');
 			return;
 		}
-
+		console.log(formValues);
 		// SignUP Api code likhunga
 		try {
-			// console.log(formValues);
-			const admin = await axiosInstance.post('/admin/signup', formValues);
-			console.log('Signup successful:', admin);
+			dispatch(asyncSignUpAdmin(formValues));
+
 			setFormValues({
 				firstname: '',
 				lastname: '',
@@ -66,7 +77,6 @@ export default function SignUp() {
 			console.error('Error during signup:', error.message);
 		}
 	};
-
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -83,6 +93,14 @@ export default function SignUp() {
 					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 						<LockOutlinedIcon />
 					</Avatar>
+					<Button
+						onClick={() => dispatch(asyncLogoutAdmin)}
+						fullWidth
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Logg out
+					</Button>
 					<Typography component="h1" variant="h5">
 						Sign up
 					</Typography>
@@ -211,7 +229,7 @@ export default function SignUp() {
 						</Button>
 						<Grid container justifyContent="flex-end">
 							<Grid item>
-								<Link to="/signin" variant="body2">
+								<Link to="/admin/signin" variant="body2">
 									Already have an account? <b>Sign in</b>
 								</Link>
 							</Grid>
