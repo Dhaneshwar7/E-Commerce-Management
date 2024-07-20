@@ -11,13 +11,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
 import {
+	asyncCurrentAdmin,
 	asyncLogoutAdmin,
 	asyncSignInAdmin,
 } from '../../store/Actions/adminActions';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 const axiosInstance = createAxiosInstance();
 
@@ -27,6 +29,8 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
 		email: '',
@@ -58,10 +62,15 @@ export default function SignIn() {
 				email: '',
 				password: '',
 			});
+			navigate('/');
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}
 	};
+	useEffect(() => {
+		dispatch(asyncCurrentAdmin());
+	}, []);
+
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Container component="main" maxWidth="xs">

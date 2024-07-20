@@ -4,13 +4,12 @@ import { Outlet } from 'react-router-dom';
 import { asyncCurrentAdmin, asyncHomepage } from './store/Actions/adminActions';
 
 const Layout = () => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-	// useEffect(() => {
-	// 	dispatch(asyncHomepage());
-	// 	dispatch(asyncCurrentAdmin());
-	// }, []);
-	console.log('helljeflo3ij');
+	useEffect(() => {
+		dispatch(asyncCurrentAdmin());
+	}, []);
+	// console.log('helljeflo3ij');
 	return (
 		<div>
 			<h1>lh hello</h1>

@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
 import { useDispatch } from 'react-redux';
 import { asyncSignUpAdmin } from '../../store/Actions/adminActions';
@@ -24,6 +24,8 @@ const defaultTheme = createTheme();
 export default function SignUp() {
 	// console.log(import.meta.env.VITE_APP_API_URL);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const [error, setError] = React.useState(null);
 	// const initialFormData = {
 	// 	firstname: '',
@@ -73,6 +75,7 @@ export default function SignUp() {
 				city: '',
 				gender: '',
 			});
+			navigate('/');
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}

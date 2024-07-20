@@ -8,11 +8,14 @@ const initialState = {
 };
 
 export const adminReducer = createSlice({
-	name: 'admin',
+	name: 'admin-slice',
 	initialState,
 	reducers: {
-		currentAdmin: state => {
+		setAdmin: (state, action) => {
 			state.admin = action.payload;
+			state.isAuthenticated = true;
+			state.isLoading = false;
+			state.errors = null;
 		},
 		addAdmin: (state, action) => {
 			state.admin = action.payload;
@@ -36,7 +39,7 @@ export const adminReducer = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-	currentAdmin,
+	setAdmin,
 	addAdmin,
 	removeAdmin,
 	isError,
