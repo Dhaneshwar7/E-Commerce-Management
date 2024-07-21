@@ -1,15 +1,33 @@
 import {
 	Box,
 	Container,
-	createTheme,
 	CssBaseline,
-	ThemeProvider,
+	Toolbar,
 	Typography,
 } from '@mui/material';
-import { AppAppBar, LinearBg } from '../landingpage';
-import { useState } from 'react';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import {
+	ChevronDownIcon,
+	FunnelIcon,
+	Squares2X2Icon,
+} from '@heroicons/react/20/solid';
+import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import AddProductForm from './AddProduct';
+import NavBarBox from './NavBarBox';
 
+const sortOptions = [
+	{ name: 'Most Popular', href: '#', current: true },
+	{ name: 'Best Rating', href: '#', current: false },
+	{ name: 'Newest', href: '#', current: false },
+	{ name: 'Price: Low to High', href: '#', current: false },
+	{ name: 'Price: High to Low', href: '#', current: false },
+];
+function classNames(...classes) {
+	return classes.filter(Boolean).join(' ');
+}
 const products = [
 	{
 		id: 1,
@@ -95,76 +113,110 @@ const products = [
 	// More products...
 ];
 
-export default function Homepage() {
+export default function Homepage({ mode, toggleColorMode }) {
+	const [isScrolledDown, setIsScrolledDown] = useState({
+		isScroll: false,
+		isScrolllVaue: 0,
+	});
+	const [addProductMenu, setAddProductMenu] = useState(false);
+	const handleAddCartMenu = () => {
+		setAddProductMenu(prev => !prev);
+	};
+
+	useEffect(() => {
+		let lastScroll = 0;
+		let isScrolled = false;
+		const handleScroll = () => {
+			let currentScroll =
+				window.pageYOffset ||
+				document.documentElement.scrollTop ||
+				document.body.scrollTop ||
+				0;
+			let scrollDirection = currentScroll < lastScroll;
+			let shouldToggle = isScrolled && scrollDirection;
+			isScrolled = currentScroll > 100;
+			lastScroll = currentScroll;
+			setIsScrolledDown({
+				isScroll: scrollDirection,
+				isScrolllVaue: currentScroll,
+			});
+			// console.log(currentScroll);
+		};
+		window.addEventListener('scroll', handleScroll);
+	}, []);
+
 	return (
-		<Container className="mx-auto max-w-2xl px-4 py-5 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-			<Typography
-				variant="h1"
-				color={'text.primary'}
-				sx={{
-					display: 'flex',
-					flexDirection: { xs: 'column', md: 'row' },
-					alignSelf: 'center',
-					textAlign: 'center',
-					fontSize: 'clamp(1.7rem, 2vw, 2rem)',
-					fontWeight: '600',
-				}}
-			>
-				Your Listed Products
-			</Typography>
-			<div className="mt-6 grid grid-cols-1 max-sm:grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-				{products.map(product => (
-					<Box key={product.id} className="group relative">
-						<div className="acha aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 max-sm:h-52">
-							<img
-								alt={product.imageAlt}
-								src={product.imageSrc}
-								className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-							/>
-						</div>
-						<Box className="mt-4 flex justify-between">
-							<Box>
-								<Typography>
-									<Link href={product.href}>
-										<span aria-hidden="true" className="absolute inset-0" />
-										<Typography
-											component={'span'}
-											variant={'body2'}
-											sx={{
-												display: 'flex',
-												flexDirection: { xs: 'column', md: 'row' },
-												alignSelf: 'center',
-												textAlign: 'center',
-												fontSize: 'clamp(1rem, .8vw, 1rem)',
-												fontWeight: '600',
-												opacity: '.9',
-											}}
-										>
-											{product.name}
+		<>
+			<div className="relative">
+				<AddProductForm
+					addProductMenu={addProductMenu}
+					handleAddCartMenu={handleAddCartMenu}
+				/>
+
+				<Container className="mx-auto pt-0 sticky top-0 max-w-2xl px-4 py-5 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+					<CssBaseline />
+					<NavBarBox
+						mode={mode}
+						isScrolledDown={isScrolledDown}
+						handleAddCartMenu={handleAddCartMenu}
+						addProductMenu={addProductMenu}
+					/>
+
+					<div className="Product-Container mt-6 grid grid-cols-1 max-sm:grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+						{products.map(product => (
+							<Box key={product.id} className="group relative">
+								<div className="acha aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 max-sm:h-52">
+									<img
+										alt={product.imageAlt}
+										src={product.imageSrc}
+										className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+									/>
+								</div>
+								<Box className="mt-4 flex justify-between">
+									<Box>
+										<Typography>
+											<Link href={product.href}>
+												<span aria-hidden="true" className="absolute inset-0" />
+												<Typography
+													component={'span'}
+													variant={'body2'}
+													sx={{
+														display: 'flex',
+														flexDirection: { xs: 'column', md: 'row' },
+														alignSelf: 'center',
+														textAlign: 'center',
+														fontSize: 'clamp(1rem, .8vw, 1rem)',
+														fontWeight: '600',
+														opacity: '.9',
+													}}
+												>
+													{product.name}
+												</Typography>
+											</Link>
 										</Typography>
-									</Link>
-								</Typography>
-								<Typography sx={{ backgroundColor: 'rgb(177, 174, 174)' }}>
-									{product.color}
-								</Typography>
+										<Typography sx={{ backgroundColor: 'rgb(177, 174, 174)' }}>
+											{product.color}
+										</Typography>
+									</Box>
+									<Typography
+										variant="h5"
+										sx={{
+											display: 'flex',
+											flexDirection: { xs: 'column', md: 'row' },
+											alignSelf: 'center',
+											textAlign: 'center',
+											fontSize: 'clamp(.6rem, 4vw, 1rem)',
+											fontWeight: '600',
+										}}
+									>
+										{product.price}
+									</Typography>
+								</Box>
 							</Box>
-							<Typography
-								variant="h5"
-								sx={{
-									display: 'flex',
-									flexDirection: { xs: 'column', md: 'row' },
-									alignSelf: 'center',
-									textAlign: 'center',
-									fontSize: 'clamp(.6rem, 4vw, 1rem)',
-									fontWeight: '600',
-								}}
-							>
-								{product.price}
-							</Typography>
-						</Box>
-					</Box>
-				))}
+						))}
+					</div>
+				</Container>
 			</div>
-		</Container>
+		</>
 	);
 }

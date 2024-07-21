@@ -1,5 +1,15 @@
 import AdminHomepage from './AdminHomepage';
-import FilterPage from './FilterProductWrapper';
+import FilterProductPage from './FilterProductPage';
 import AdminLayout from './AdminLayout';
+import AddProductPage from './AddProduct';
+import AddProductForm from './AddProduct';
+import NavBarBox from './NavBarBox';
 
-export { AdminHomepage, FilterPage, AdminLayout };
+export {
+	AdminHomepage,
+	FilterProductPage,
+	AdminLayout,
+	AddProductPage,
+	AddProductForm,
+	NavBarBox,
+};

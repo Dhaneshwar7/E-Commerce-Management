@@ -164,7 +164,7 @@ const navigation = {
 		{ name: 'Stores', href: '#' },
 	],
 };
-function AppAppBar({ mode, toggleColorMode }) {
+function AppAppBar({ isScrolledDown, mode, toggleColorMode }) {
 	const [open, setOpen] = React.useState(false);
 	const toggleDrawer = newOpen => () => {
 		setOpen(newOpen);
@@ -406,6 +406,12 @@ function AppAppBar({ mode, toggleColorMode }) {
 								className="nmwbtn w-auto px-2 text-sm"
 							>
 								Wrap
+							</NavLink>
+							<NavLink
+								to="/admin/add-product"
+								className="nmwbtn w-auto px-2 text-sm"
+							>
+								ADd
 							</NavLink>
 							<NavLink
 								to="/admin/homepage"

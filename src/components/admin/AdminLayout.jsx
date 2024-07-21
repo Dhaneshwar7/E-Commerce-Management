@@ -1,34 +1,44 @@
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppAppBar, LinearBg } from '../landingpage';
 import { blue } from '@mui/material/colors';
 
 const AuthLayout = () => {
-	const [mode, setMode] = React.useState('light');
-	const defaultTheme = createTheme({ palette: { mode } });
-	const toggleColorMode = () => {
-		setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
-	};
-
-	const theme = createTheme({
-		palette: {
-			// primary: '#e3f2fd',
-			primary: {
-				main: blue[500],
-			},
-			tonalOffset: 0.5,
-		},
+	const [isScrolledDown, setIsScrolledDown] = useState({
+		isScroll: false,
+		isScrolllVaue: 0,
 	});
 
+	useEffect(() => {
+		let lastScroll = 0;
+		let isScrolled = false;
+		const handleScroll = () => {
+			let currentScroll =
+				window.pageYOffset ||
+				document.documentElement.scrollTop ||
+				document.body.scrollTop ||
+				0;
+			let scrollDirection = currentScroll < lastScroll;
+			let shouldToggle = isScrolled && scrollDirection;
+			isScrolled = currentScroll > 100;
+			lastScroll = currentScroll;
+			setIsScrolledDown({
+				isScroll: scrollDirection,
+				isScrolllVaue: currentScroll,
+			});
+			// console.log(currentScroll);
+		};
+		window.addEventListener('scroll', handleScroll);
+	}, []);
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<CssBaseline />
+		<>
 			<LinearBg />
-			<AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
-			<Outlet />
-		</ThemeProvider>
+			<Outlet
+				isScrolledDown={isScrolledDown}
+			/>
+		</>
 	);
 };
 

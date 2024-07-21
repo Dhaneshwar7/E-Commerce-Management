@@ -6,16 +6,17 @@ const LinearBg = () => {
 		<Box
 			id="hero"
 			sx={theme => ({
-				width: '100%',
+				width: '100vw',
 				height: '100%',
-				zIndex: '0',
-                pointerEvents:'none',
+				zIndex: '-10',
+				pointerEvents: 'none',
 				position: 'absolute',
+				top: '0',
 				backgroundImage:
 					theme.palette.mode === 'light'
 						? 'linear-gradient(180deg, #CEE5FD, #FFF)'
 						: `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
-				backgroundSize: '100% 20%',
+				backgroundSize: '100% 70%',
 				backgroundRepeat: 'no-repeat',
 			})}
 		></Box>

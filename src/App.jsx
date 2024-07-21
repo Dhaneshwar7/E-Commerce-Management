@@ -8,15 +8,23 @@ import {
 	RouterProvider,
 	Routes,
 } from 'react-router-dom';
-import { AuthLayout, ForgetPassword, ResetPassword, SignIn, SignUp } from './components/auth';
+import {
+	AuthLayout,
+	ForgetPassword,
+	ResetPassword,
+	SignIn,
+	SignUp,
+} from './components/auth';
 import Layout from './Layout';
 import {
+	AddProductPage,
 	AdminHomepage,
 	AdminLayout,
-	FilterPage,
+	FilterProductPage,
 } from './components/admin';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import { useEffect, useState } from 'react';
 
 function App() {
 	// const router = createBrowserRouter(
@@ -48,7 +56,7 @@ function App() {
 							</Route>
 							<Route path="/admin" element={<AdminLayout />}>
 								<Route path="/admin/homepage" element={<AdminHomepage />} />
-								<Route path="/admin/filter" element={<FilterPage />} />
+								<Route path="/admin/filter" element={<FilterProductPage />} />
 							</Route>
 						</Route>
 					</Routes>
