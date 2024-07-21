@@ -16,6 +16,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
 import { useDispatch } from 'react-redux';
 import { asyncSignUpAdmin } from '../../store/Actions/adminActions';
+import { AppAppBar, LinearBg } from '../landingpage';
 
 const axiosInstance = createAxiosInstance();
 
@@ -80,14 +81,13 @@ export default function SignUp() {
 			console.error('Error during signup:', error.message);
 		}
 	};
-
 	return (
-		<ThemeProvider theme={defaultTheme}>
+
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<Box
 					sx={{
-						marginTop: 8,
+						pt: 10,
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
@@ -240,6 +240,5 @@ export default function SignUp() {
 					</Box>
 				</Box>
 			</Container>
-		</ThemeProvider>
 	);
 }

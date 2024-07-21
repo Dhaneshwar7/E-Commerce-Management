@@ -45,7 +45,14 @@
   color: #888;
 } */
 
-.card {
-  padding: 2em;
-  color: rgba(202, 100, 100, 0.836);
-}
+
+  html,body{
+     height: 100%;
+     width: 100%;
+  }
+  #main{
+      height: 100%;
+      width: 100%;
+      background-color: rgb(177, 174, 174);
+      color: rgba(255, 255, 255, 0.619)
+  };

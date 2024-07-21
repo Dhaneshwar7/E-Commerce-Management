@@ -2,8 +2,12 @@
 export default {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				'nav-l': 'rgba(255, 255, 255, 1)',
+				'nav-d': 'rgba(0, 0, 0, 1)',
+			},
+		},
 	},
-	plugins: [],
+	plugins: [require('@tailwindcss/aspect-ratio')],
 };
-

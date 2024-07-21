@@ -2,12 +2,11 @@ import { createAxiosInstance } from 'src/axios';
 const axiosInstance = createAxiosInstance();
 
 import {
-	addAdmin,
+	setAdmin,
 	removeAdmin,
 	isError,
 	removeError,
 	isLoading,
-	setAdmin,
 } from '../Reducers/AdminReducer';
 
 export const asyncHomepage = () => async (dispatch, getState) => {
@@ -26,7 +25,7 @@ export const asyncCurrentAdmin = () => async (dispatch, getState) => {
 		// console.log(data.data.currentAdmin, 'Current Admin Added');
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
-		console.log(error.response.data.message);
+		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -38,7 +37,7 @@ export const asyncSignUpAdmin = admin => async (dispatch, getState) => {
 		// console.log(data, 'Admin SIGN_UP done');
 		dispatch(asyncCurrentAdmin());
 	} catch (error) {
-		console.log(error.response.data.message);
+		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -47,10 +46,10 @@ export const asyncSignUpAdmin = admin => async (dispatch, getState) => {
 export const asyncSignInAdmin = admin => async (dispatch, getState) => {
 	try {
 		const data = await axiosInstance.post('/admin/signin', admin);
-		console.log(data, 'Admin SIGN_IN done');
+		// console.log(data, 'Admin SIGN_IN done');
 		dispatch(asyncCurrentAdmin(data));
 	} catch (error) {
-		console.log(error.response.data.message);
+		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -61,6 +60,17 @@ export const asyncLogoutAdmin = () => async (dispatch, getState) => {
 		const { data } = await axiosInstance.get('/admin/signout');
 		// console.log(data, 'Admin Logout-done!');
 		dispatch(removeAdmin(data));
+	} catch (error) {
+		// console.log(error.response.data.message);
+		dispatch(isError(error.response.data.message));
+	}
+};
+
+/* -----------   ADMIN FORGET_PASSWORD_SENDLINK   ----------*/
+export const asyncForgetLinkSend = email => async (dispatch, getState) => {
+	try {
+		const { data } = await axiosInstance.post('/admin/sendlink-mail', email);
+		// console.log(data, 'Admin Forget-LInk-Sent!');
 	} catch (error) {
 		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));

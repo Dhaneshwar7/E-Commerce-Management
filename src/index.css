@@ -3,6 +3,18 @@
 @tailwind utilities;
 
 
+  html,body{
+     height: 100%;
+     width: 100%;
+  }
+  #main{
+      height: 100%;
+      width: 100%;
+      background-color: rgb(177, 174, 174);
+      color: rgba(255, 255, 255, 0.619)
+  };
+
+
 @layer components {
   .nbtn {
      @apply inline-flex items-center px-3 py-1 bg-blue-500 text-white font-bold rounded shadow hover:bg-blue-700;

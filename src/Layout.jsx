@@ -12,7 +12,7 @@ const Layout = () => {
 	// console.log('helljeflo3ij');
 	return (
 		<div>
-			<h1>lh hello</h1>
+			{/* <h1>lh hello</h1> */}
 			{/* Your layout header, navigation, etc. */}
 			<Outlet /> {/* Render the content from routes */}
 			{/* Your layout footer */}

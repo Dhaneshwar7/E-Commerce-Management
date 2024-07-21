@@ -8,10 +8,11 @@ import {
 	RouterProvider,
 	Routes,
 } from 'react-router-dom';
-import { ForgetPassword, SignIn, SignUp } from './components/admin';
+import { AuthLayout, ForgetPassword, SignIn, SignUp } from './components/auth';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Layout from './Layout';
+import { AdminHomepage, HomepageWrapper } from './components/admin';
 
 function App() {
 	// const router = createBrowserRouter(
@@ -30,9 +31,13 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Layout />}>
 							<Route path="" element={<LandingPage />} />
+							<Route path="/admin" element={<AuthLayout />} >
 							<Route path="/admin/signin" element={<SignIn />} />
 							<Route path="/admin/signup" element={<SignUp />} />
 							<Route path="/admin/forget" element={<ForgetPassword />} />
+							</Route>
+							<Route path="/admin/homepage" element={<AdminHomepage />} />
+							<Route path="/admin/homewrap" element={<HomepageWrapper />} />
 						</Route>
 					</Routes>
 					{/* <Toaster position="top-center" reverseOrder={false} /> */}

@@ -17,10 +17,6 @@ export const adminReducer = createSlice({
 			state.isLoading = false;
 			state.errors = null;
 		},
-		addAdmin: (state, action) => {
-			state.admin = action.payload;
-			state.isAuthenticated = true;
-		},
 		removeAdmin: (state, action) => {
 			state.admin = null;
 			state.isAuthenticated = false;
@@ -40,7 +36,6 @@ export const adminReducer = createSlice({
 // Action creators are generated for each case reducer function
 export const {
 	setAdmin,
-	addAdmin,
 	removeAdmin,
 	isError,
 	removeError,
