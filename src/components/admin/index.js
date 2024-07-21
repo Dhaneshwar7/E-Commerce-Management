@@ -1,4 +1,5 @@
 import AdminHomepage from './AdminHomepage';
-import HomepageWrapper from './HomepageWrapper'
+import FilterPage from './FilterProductWrapper';
+import AdminLayout from './AdminLayout';
 
-export { AdminHomepage ,HomepageWrapper};
+export { AdminHomepage, FilterPage, AdminLayout };

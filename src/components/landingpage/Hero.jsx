@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -9,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import ShopImg from '../../assets/images/shop.png';
 import ShopingImg from '../../assets/svgs/shoping.svg';
+import { alpha } from '@mui/material';
 
 export default function Hero() {
 	return (

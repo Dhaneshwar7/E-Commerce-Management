@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { alpha, Box } from '@mui/material';
 import React from 'react';
 
 const LinearBg = () => {
@@ -7,7 +7,7 @@ const LinearBg = () => {
 			id="hero"
 			sx={theme => ({
 				width: '100%',
-				height: '90%',
+				height: '100%',
 				zIndex: '0',
                 pointerEvents:'none',
 				position: 'absolute',

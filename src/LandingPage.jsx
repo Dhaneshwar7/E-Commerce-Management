@@ -24,6 +24,7 @@ export default function LandingPage() {
 	useEffect(() => {
 		dispatch(asyncCurrentAdmin());
 	}, []);
+	
 
 	return (
 		<ThemeProvider theme={defaultTheme}>

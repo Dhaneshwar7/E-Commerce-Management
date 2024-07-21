@@ -8,11 +8,15 @@ import {
 	RouterProvider,
 	Routes,
 } from 'react-router-dom';
-import { AuthLayout, ForgetPassword, SignIn, SignUp } from './components/auth';
+import { AuthLayout, ForgetPassword, ResetPassword, SignIn, SignUp } from './components/auth';
+import Layout from './Layout';
+import {
+	AdminHomepage,
+	AdminLayout,
+	FilterPage,
+} from './components/admin';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import Layout from './Layout';
-import { AdminHomepage, HomepageWrapper } from './components/admin';
 
 function App() {
 	// const router = createBrowserRouter(
@@ -25,19 +29,27 @@ function App() {
 	// );
 	return (
 		<>
-			{/* <RouterProvider router={router} />; */}
 			<BrowserRouter>
 				<Provider store={store}>
 					<Routes>
 						<Route path="/" element={<Layout />}>
 							<Route path="" element={<LandingPage />} />
-							<Route path="/admin" element={<AuthLayout />} >
-							<Route path="/admin/signin" element={<SignIn />} />
-							<Route path="/admin/signup" element={<SignUp />} />
-							<Route path="/admin/forget" element={<ForgetPassword />} />
+							<Route path="/admin" element={<AuthLayout />}>
+								<Route path="/admin/auth/signin" element={<SignIn />} />
+								<Route path="/admin/auth/signup" element={<SignUp />} />
+								<Route
+									path="/admin/auth/forget-password"
+									element={<ForgetPassword />}
+								/>
+								<Route
+									path="/admin/auth/reset-password"
+									element={<ResetPassword />}
+								/>
 							</Route>
-							<Route path="/admin/homepage" element={<AdminHomepage />} />
-							<Route path="/admin/homewrap" element={<HomepageWrapper />} />
+							<Route path="/admin" element={<AdminLayout />}>
+								<Route path="/admin/homepage" element={<AdminHomepage />} />
+								<Route path="/admin/filter" element={<FilterPage />} />
+							</Route>
 						</Route>
 					</Routes>
 					{/* <Toaster position="top-center" reverseOrder={false} /> */}

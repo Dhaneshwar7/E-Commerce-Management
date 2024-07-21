@@ -27,11 +27,19 @@ export default function ForgetPassword() {
 	};
 
 	return (
-		<Container component="main" maxWidth="xs">
+		<Container
+			component="main"
+			maxWidth="xs"
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+			}}
+		>
 			<CssBaseline />
 			<Box
 				sx={{
-					marginTop: 20,
+					pt:25,
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -66,7 +74,7 @@ export default function ForgetPassword() {
 					</Button>
 					<Grid container>
 						<Grid item>
-							<Link to="/admin/signup" className="text-blue-500">
+							<Link to="/admin/auth/signup" className="text-blue-500">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>

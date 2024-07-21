@@ -82,163 +82,155 @@ export default function SignUp() {
 		}
 	};
 	return (
-
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				<Box
-					sx={{
-						pt: 10,
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-					}}
+		<Container component="main" maxWidth="xs" xs={{ height: '100%' }}>
+			<CssBaseline />
+			<Box
+				sx={{
+					pt: 10,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+					<LockOutlinedIcon />
+				</Avatar>
+				<Button
+					onClick={() => dispatch(asyncLogoutAdmin)}
+					fullWidth
+					variant="contained"
+					sx={{ mt: 3, mb: 2 }}
 				>
-					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-						<LockOutlinedIcon />
-					</Avatar>
+					Logg out
+				</Button>
+				<Typography component="h1" variant="h5">
+					Sign up
+				</Typography>
+				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+					<Grid container spacing={2}>
+						<Grid item xs={12} sm={6}>
+							<TextField
+								value={formValues.firstname}
+								onChange={handleChange}
+								autoComplete="given-name"
+								name="firstname"
+								required
+								fullWidth
+								id="firstName"
+								label="First Name"
+								autoFocus
+							/>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<TextField
+								value={formValues.lastname}
+								onChange={handleChange}
+								required
+								fullWidth
+								id="lastName"
+								label="Last Name"
+								name="lastname"
+								autoComplete="family-name"
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								value={formValues.email}
+								onChange={handleChange}
+								required
+								fullWidth
+								id="email"
+								label="Email Address"
+								name="email"
+								autoComplete="email"
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								value={formValues.password}
+								onChange={handleChange}
+								required
+								fullWidth
+								name="password"
+								label="Password"
+								type="password"
+								id="password"
+								autoComplete="new-password"
+							/>
+						</Grid>
+						<Grid item="true" xs={12}>
+							<TextField
+								value={formValues.contact}
+								onChange={handleChange}
+								required
+								fullWidth
+								id="contactNumber"
+								label="Contact Number"
+								name="contact"
+								type="number"
+								autoComplete="family-name"
+							/>
+						</Grid>
+						<Grid item="true" xs={12} sm={6}>
+							<TextField
+								value={formValues.city}
+								onChange={handleChange}
+								required
+								fullWidth
+								id="cityName"
+								label="City Name"
+								name="city"
+								autoComplete="family-name"
+							/>
+						</Grid>
+						<Grid item="true" xs={12} sm={6}>
+							<FormControl fullWidth>
+								<InputLabel id="demo-simple-select-label">Gender *</InputLabel>
+								<Select
+									labelId="demo-simple-select-label"
+									id="demo-simple-select"
+									value={formValues.gender}
+									label="Age"
+									name="gender"
+									onChange={handleChange}
+								>
+									<MenuItem value={'Male'}>Male</MenuItem>
+									<MenuItem value={'Female'}>Female</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
+					</Grid>
+					<Typography
+						sx={{
+							mt: 2,
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							backgroundColor: 'rgba(202, 100, 100, 0.836)',
+							borderRadius: 1,
+						}}
+						component="h3"
+						variant="h6"
+					>
+						{error}
+					</Typography>
 					<Button
-						onClick={() => dispatch(asyncLogoutAdmin)}
+						type="submit"
 						fullWidth
 						variant="contained"
-						sx={{ mt: 3, mb: 2 }}
+						sx={{ mt: 2, mb: 2 }}
 					>
-						Logg out
+						Sign Up
 					</Button>
-					<Typography component="h1" variant="h5">
-						Sign up
-					</Typography>
-					<Box
-						component="form"
-						noValidate
-						onSubmit={handleSubmit}
-						sx={{ mt: 3 }}
-					>
-						<Grid container spacing={2}>
-							<Grid item xs={12} sm={6}>
-								<TextField
-									value={formValues.firstname}
-									onChange={handleChange}
-									autoComplete="given-name"
-									name="firstname"
-									required
-									fullWidth
-									id="firstName"
-									label="First Name"
-									autoFocus
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<TextField
-									value={formValues.lastname}
-									onChange={handleChange}
-									required
-									fullWidth
-									id="lastName"
-									label="Last Name"
-									name="lastname"
-									autoComplete="family-name"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									value={formValues.email}
-									onChange={handleChange}
-									required
-									fullWidth
-									id="email"
-									label="Email Address"
-									name="email"
-									autoComplete="email"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									value={formValues.password}
-									onChange={handleChange}
-									required
-									fullWidth
-									name="password"
-									label="Password"
-									type="password"
-									id="password"
-									autoComplete="new-password"
-								/>
-							</Grid>
-							<Grid item="true" xs={12}>
-								<TextField
-									value={formValues.contact}
-									onChange={handleChange}
-									required
-									fullWidth
-									id="contactNumber"
-									label="Contact Number"
-									name="contact"
-									type="number"
-									autoComplete="family-name"
-								/>
-							</Grid>
-							<Grid item="true" xs={12} sm={6}>
-								<TextField
-									value={formValues.city}
-									onChange={handleChange}
-									required
-									fullWidth
-									id="cityName"
-									label="City Name"
-									name="city"
-									autoComplete="family-name"
-								/>
-							</Grid>
-							<Grid item="true" xs={12} sm={6}>
-								<FormControl fullWidth>
-									<InputLabel id="demo-simple-select-label">
-										Gender *
-									</InputLabel>
-									<Select
-										labelId="demo-simple-select-label"
-										id="demo-simple-select"
-										value={formValues.gender}
-										label="Age"
-										name="gender"
-										onChange={handleChange}
-									>
-										<MenuItem value={'Male'}>Male</MenuItem>
-										<MenuItem value={'Female'}>Female</MenuItem>
-									</Select>
-								</FormControl>
-							</Grid>
+					<Grid container justifyContent="flex-end">
+						<Grid item>
+							<Link to="/admin/auth/signin" variant="body2">
+								Already have an account? <b>Sign in</b>
+							</Link>
 						</Grid>
-						<Typography
-							sx={{
-								mt: 2,
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								backgroundColor: 'rgba(202, 100, 100, 0.836)',
-								borderRadius: 1,
-							}}
-							component="h3"
-							variant="h6"
-						>
-							{error}
-						</Typography>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							sx={{ mt: 2, mb: 2 }}
-						>
-							Sign Up
-						</Button>
-						<Grid container justifyContent="flex-end">
-							<Grid item>
-								<Link to="/admin/signin" variant="body2">
-									Already have an account? <b>Sign in</b>
-								</Link>
-							</Grid>
-						</Grid>
-					</Box>
+					</Grid>
 				</Box>
-			</Container>
+			</Box>
+		</Container>
 	);
 }

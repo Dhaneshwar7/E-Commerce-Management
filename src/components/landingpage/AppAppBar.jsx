@@ -228,7 +228,7 @@ function AppAppBar({ mode, toggleColorMode }) {
 							}}
 						>
 							<NavLink to="/">
-								<SiteMarkImg  width={'auto'} height={'auto'} />
+								<SiteMarkImg width="100%" height="auto" />
 							</NavLink>
 							<Container>
 								<nav
@@ -402,7 +402,7 @@ function AppAppBar({ mode, toggleColorMode }) {
 								</MenuItem>
 							</Box>
 							<NavLink
-								to="/admin/homewrap"
+								to="/admin/filter"
 								className="nmwbtn w-auto px-2 text-sm"
 							>
 								Wrap
@@ -425,12 +425,15 @@ function AppAppBar({ mode, toggleColorMode }) {
 							<ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
 
 							<NavLink
-								to="/admin/signin"
+								to="/admin/auth/signin"
 								className="nmwbtn w-auto px-2 text-sm"
 							>
 								SIGN IN
 							</NavLink>
-							<NavLink to="/admin/signup" className="nbtn w-auto py-2	 text-sm">
+							<NavLink
+								to="/admin/auth/signup"
+								className="nbtn w-auto py-2	 text-sm"
+							>
 								SIGN UP
 							</NavLink>
 						</Box>
@@ -483,12 +486,12 @@ function AppAppBar({ mode, toggleColorMode }) {
 									</MenuItem>
 									<Divider />
 									<MenuItem>
-										<NavLink to="/signup" className="nmbtn nbtn">
+										<NavLink to="/admin/auth/signup" className="nmbtn nbtn">
 											SIGN UP
 										</NavLink>
 									</MenuItem>
 									<MenuItem>
-										<NavLink to="/signin" className="nmwbtn">
+										<NavLink to="/admin/auth/signin" className="nmwbtn">
 											SIGN IN
 										</NavLink>
 									</MenuItem>

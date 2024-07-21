@@ -55,7 +55,7 @@ export default function SignIn() {
 			return;
 		}
 
-		// SignIn Api code 
+		// SignIn Api code
 		try {
 			dispatch(asyncSignInAdmin(formValues));
 			setFormValues({
@@ -151,7 +151,7 @@ export default function SignIn() {
 						<Grid item xs>
 							<Link
 								className="text-blue-500"
-								to="/admin/forget"
+								to="/admin/auth/forget-password"
 								variant="body2"
 							>
 								Forgot password?
@@ -160,7 +160,7 @@ export default function SignIn() {
 						<Grid item>
 							<Link
 								className="text-blue-500"
-								to="/admin	/signup"
+								to="/admin/auth/signup"
 								variant="body2"
 							>
 								{"Don't have an account? Sign Up"}
