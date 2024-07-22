@@ -73,7 +73,7 @@ export default function SignIn() {
 			<CssBaseline />
 			<Box
 				sx={{
-					pt: 10,
+					pt: { xs: 15, md: 12 },
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -82,14 +82,6 @@ export default function SignIn() {
 				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 					<LockOutlinedIcon />
 				</Avatar>
-				<Button
-					onClick={() => dispatch(asyncLogoutAdmin())}
-					fullWidth
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
-				>
-					Logg out
-				</Button>
 				<Typography component="h1" variant="h5">
 					Sign in
 				</Typography>
@@ -144,7 +136,17 @@ export default function SignIn() {
 					>
 						Sign In
 					</Button>
-					<Grid container>
+					<Grid
+						container
+						sx={{
+							display: 'flex',
+							flexDirection: { xs: 'column', lg: 'row' },
+							justifyItems:'center',
+							alignItems:'center',
+							gap:{xs:2,lg:2},
+							mt:{xs:2 ,lg:2}
+						}}
+					>
 						<Grid item xs>
 							<Link
 								className="text-blue-500"

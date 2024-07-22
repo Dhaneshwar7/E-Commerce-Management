@@ -86,7 +86,7 @@ export default function SignUp() {
 			<CssBaseline />
 			<Box
 				sx={{
-					pt: 10,
+					pt: {xs:10,md:12},
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -95,14 +95,6 @@ export default function SignUp() {
 				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 					<LockOutlinedIcon />
 				</Avatar>
-				<Button
-					onClick={() => dispatch(asyncLogoutAdmin)}
-					fullWidth
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
-				>
-					Logg out
-				</Button>
 				<Typography component="h1" variant="h5">
 					Sign up
 				</Typography>

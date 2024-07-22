@@ -85,7 +85,7 @@ function AppAppBar({ mode, toggleColorMode }) {
 							}}
 						>
 							<NavLink to="/">
-								<SiteMarkImg width="100%" height="auto" />
+								<SiteMarkImg width="150" height="auto" />
 							</NavLink>
 
 							{/* It Navigation Filter */}
@@ -181,15 +181,31 @@ function AppAppBar({ mode, toggleColorMode }) {
 											toggleColorMode={toggleColorMode}
 										/>
 									</Box>
-									<MenuItem onClick={() => scrollToSection('features')}>
-										<NavLink to="/admin/filter">STORE</NavLink>
-									</MenuItem>
-									<MenuItem onClick={() => scrollToSection('testimonials')}>
-										<NavLink to="/admin/homepage">HOMEPAGE</NavLink>
-									</MenuItem>
-									<MenuItem onClick={() => scrollToSection('pricing')}>
-										RESET PASSWORD
-									</MenuItem>
+									{isAuth ? (
+										<>
+											<MenuItem onClick={() => scrollToSection('features')}>
+												<NavLink to="/admin/filter">STORE</NavLink>
+											</MenuItem>
+											<MenuItem onClick={() => scrollToSection('testimonials')}>
+												<NavLink to="/admin/homepage">HOMEPAGE</NavLink>
+											</MenuItem>
+											<MenuItem>
+												<NavLink to="/admin/reset">STORE</NavLink>
+											</MenuItem>
+										</>
+									) : (
+										<>
+											<>
+												<MenuItem onClick={() => scrollToSection('features')}>
+													Features
+												</MenuItem>
+												<MenuItem onClick={() => scrollToSection('footer')}>
+													Footer
+												</MenuItem>
+											</>
+										</>
+									)}
+
 									<Divider />
 									{isAuth ? (
 										<>
@@ -252,9 +268,11 @@ function AppAppBar({ mode, toggleColorMode }) {
 										</>
 									) : (
 										<>
-											<MenuItem
->
-												<NavLink to="/admin/auth/signin" className="nmwbtn py-2">
+											<MenuItem>
+												<NavLink
+													to="/admin/auth/signin"
+													className="nmwbtn py-2"
+												>
 													SIGN IN
 												</NavLink>
 											</MenuItem>

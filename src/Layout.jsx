@@ -10,7 +10,6 @@ import { blue } from '@mui/material/colors';
 const Layout = () => {
 	const dispatch = useDispatch();
 	const { admin } = useSelector(state => state.adminReducer);
-	const [isScrolledDown, setIsScrolledDown] = useState(false);
 
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
@@ -27,36 +26,12 @@ const Layout = () => {
 			tonalOffset: 0.5,
 		},
 	});
-	useEffect(() => {
-		let lastScroll = 0;
-		let isScrolled = false;
-		const handleScroll = () => {
-			let currentScroll =
-				window.pageYOffset ||
-				document.documentElement.scrollTop ||
-				document.body.scrollTop ||
-				0;
-			let scrollDirection = currentScroll < lastScroll;
-			let shouldToggle = isScrolled && scrollDirection;
-			isScrolled = currentScroll > 100;
-			lastScroll = currentScroll;
-			setIsScrolledDown(scrollDirection);
-		};
-		window.addEventListener('scroll', handleScroll);
-	}, []);
-
-	useEffect(() => {
-		if (!admin) {
-			dispatch(asyncCurrentAdmin());
-		}
-	}, []);
 
 	return (
 		<div>
 			<ThemeProvider theme={defaultTheme}>
 				<CssBaseline />
 				<AppAppBar
-					isScrolledDown={isScrolledDown}
 					mode={mode}
 					toggleColorMode={toggleColorMode}
 				/>

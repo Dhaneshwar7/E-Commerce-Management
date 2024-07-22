@@ -28,9 +28,8 @@ export default function LandingPage() {
 
 	if (!mount) return null;
 	return (
-		<ThemeProvider theme={defaultTheme}>
+		< >
 			<CssBaseline />
-			<AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
 			<Hero />
 			<Box sx={{ bgcolor: 'background.default' }}>
 				<Features />
@@ -38,6 +37,6 @@ export default function LandingPage() {
 				<Divider />
 				<Footer />
 			</Box>
-		</ThemeProvider>
+		</>
 	);
 }
