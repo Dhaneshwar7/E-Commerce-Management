@@ -112,13 +112,21 @@ const NavBarBox = ({
 
 					<Button
 						type="button"
+						sx={{
+							':hover': { color: '#0f0f0f', backgroundColor: '#f5f5f5' },
+						}}
 						onClick={handleAddCartMenu}
 						className=" ml-6 p-2 text-white hover:bg-slate-800 text-xl  sm:ml-7"
 					>
 						<AddProImg width={25} height={25} />
-						<Typography sx={{ml:1,
-							backgroundColor:hover
-						}} className="text-base ml-2 ">Add Product</Typography>
+						<Typography
+							sx={{
+								ml: 1,
+							}}
+							className="text-base ml-2 "
+						>
+							Add Product
+						</Typography>
 					</Button>
 					<button
 						type="button"
