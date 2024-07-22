@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
 import { Outlet } from 'react-router-dom';
@@ -8,17 +8,16 @@ import { AppAppBar, LinearBg } from '../src/components/landingpage';
 import { blue } from '@mui/material/colors';
 
 const Layout = () => {
-	const [isScrolledDown, setIsScrolledDown] = useState(false);
 	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(asyncCurrentAdmin());
-	}, []);
+	const { admin } = useSelector(state => state.adminReducer);
+	const [isScrolledDown, setIsScrolledDown] = useState(false);
+
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
 	const toggleColorMode = () => {
 		setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
 	};
-	
+
 	const theme = createTheme({
 		palette: {
 			// primary: '#e3f2fd',
@@ -44,6 +43,12 @@ const Layout = () => {
 			setIsScrolledDown(scrollDirection);
 		};
 		window.addEventListener('scroll', handleScroll);
+	}, []);
+
+	useEffect(() => {
+		if (!admin) {
+			dispatch(asyncCurrentAdmin());
+		}
 	}, []);
 
 	return (

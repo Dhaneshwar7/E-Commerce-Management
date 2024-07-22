@@ -22,7 +22,7 @@ function Copyright() {
 	return (
 		<Typography variant="body2" color="text.secondary" mt={1}>
 			{'Copyright © '}
-			<Link href="https://mui.com/">Sitemark&nbsp;</Link>
+			<Link href="https://www.dhaneshwar.site">Dhaneshwar Marskole&nbsp;</Link>
 			{new Date().getFullYear()}
 		</Typography>
 	);
@@ -197,7 +197,7 @@ export default function Footer() {
 				>
 					<IconButton
 						color="inherit"
-						href="https://github.com/mui"
+						href="https://github.com/Dhaneshwar7"
 						aria-label="GitHub"
 						sx={{ alignSelf: 'center' }}
 					>
@@ -205,7 +205,7 @@ export default function Footer() {
 					</IconButton>
 					<IconButton
 						color="inherit"
-						href="https://x.com/MaterialUI"
+						href="https://bento.me/dhaneshwar"
 						aria-label="X"
 						sx={{ alignSelf: 'center' }}
 					>
@@ -213,7 +213,7 @@ export default function Footer() {
 					</IconButton>
 					<IconButton
 						color="inherit"
-						href="https://www.linkedin.com/company/mui/"
+						href="https://www.linkedin.com/in/dhaneshwar-marskole-a4569b206/"
 						aria-label="LinkedIn"
 						sx={{ alignSelf: 'center' }}
 					>

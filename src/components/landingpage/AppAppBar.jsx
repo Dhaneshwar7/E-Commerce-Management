@@ -13,161 +13,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import SiteMarkImg from '../../assets/svgs/sitemark.svg';
 import { Link, NavLink } from 'react-router-dom';
-import { Fragment, useState } from 'react';
-import {
-	Dialog,
-	DialogBackdrop,
-	DialogPanel,
-	Popover,
-	PopoverButton,
-	PopoverGroup,
-	PopoverPanel,
-	Tab,
-	TabGroup,
-	TabList,
-	TabPanel,
-	TabPanels,
-} from '@headlessui/react';
-import {
-	Bars3Icon,
-	MagnifyingGlassIcon,
-	ShoppingBagIcon,
-	XMarkIcon,
-} from '@heroicons/react/24/outline';
-const logoStyle = {
-	width: '140px',
-	height: 'auto',
-	cursor: 'pointer',
-};
-
-const navigation = {
-	categories: [
-		{
-			id: 'women',
-			name: 'Women',
-			featured: [
-				{
-					name: 'New Arrivals',
-					href: '#',
-					imageSrc:
-						'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-					imageAlt:
-						'Models sitting back to back, wearing Basic Tee in black and bone.',
-				},
-				{
-					name: 'Basic Tees',
-					href: '#',
-					imageSrc:
-						'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-					imageAlt:
-						'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
-				},
-			],
-			sections: [
-				{
-					id: 'clothing',
-					name: 'Clothing',
-					items: [
-						{ name: 'Tops', href: '#' },
-						{ name: 'Dresses', href: '#' },
-						{ name: 'Pants', href: '#' },
-						{ name: 'Denim', href: '#' },
-						{ name: 'Sweaters', href: '#' },
-					],
-				},
-				{
-					id: 'accessories',
-					name: 'Accessories',
-					items: [
-						{ name: 'Watches', href: '#' },
-						{ name: 'Wallets', href: '#' },
-						{ name: 'Bags', href: '#' },
-						{ name: 'Sunglasses', href: '#' },
-						{ name: 'Hats', href: '#' },
-					],
-				},
-				{
-					id: 'brands',
-					name: 'Brands',
-					items: [
-						{ name: 'Full Nelson', href: '#' },
-						{ name: 'My Way', href: '#' },
-						{ name: 'Re-Arranged', href: '#' },
-						{ name: 'Counterfeit', href: '#' },
-						{ name: 'Significant Other', href: '#' },
-					],
-				},
-			],
-		},
-		{
-			id: 'men',
-			name: 'Men',
-			featured: [
-				{
-					name: 'New Arrivals',
-					href: '#',
-					imageSrc:
-						'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
-					imageAlt:
-						'Drawstring top with elastic loop closure and textured interior padding.',
-				},
-				{
-					name: 'Artwork Tees',
-					href: '#',
-					imageSrc:
-						'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
-					imageAlt:
-						'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
-				},
-			],
-			sections: [
-				{
-					id: 'clothing',
-					name: 'Clothing',
-					items: [
-						{ name: 'Tops', href: '#' },
-						{ name: 'Pants', href: '#' },
-						{ name: 'Sweaters', href: '#' },
-						{ name: 'T-Shirts', href: '#' },
-						{ name: 'Jackets', href: '#' },
-						{ name: 'Activewear', href: '#' },
-						{ name: 'Browse All', href: '#' },
-					],
-				},
-				{
-					id: 'accessories',
-					name: 'Accessories',
-					items: [
-						{ name: 'Watches', href: '#' },
-						{ name: 'Wallets', href: '#' },
-						{ name: 'Bags', href: '#' },
-						{ name: 'Sunglasses', href: '#' },
-						{ name: 'Hats', href: '#' },
-						{ name: 'Belts', href: '#' },
-					],
-				},
-				{
-					id: 'brands',
-					name: 'Brands',
-					items: [
-						{ name: 'Re-Arranged', href: '#' },
-						{ name: 'Counterfeit', href: '#' },
-						{ name: 'Full Nelson', href: '#' },
-						{ name: 'My Way', href: '#' },
-					],
-				},
-			],
-		},
-	],
-	pages: [
-		{ name: 'Company', href: '#' },
-		{ name: 'Stores', href: '#' },
-	],
-};
 import { useDispatch, useSelector } from 'react-redux';
 import { NavFilter } from '.';
 import { Profile } from '../admin';
-function AppAppBar({ isScrolledDown, mode, toggleColorMode }) {
+import { asyncLogoutAdmin } from '../../store/Actions/adminActions';
+function AppAppBar({ mode, toggleColorMode }) {
 	const dispatch = useDispatch();
 	const [open, setOpen] = React.useState(false);
 	const toggleDrawer = newOpen => () => {
@@ -242,7 +92,7 @@ function AppAppBar({ isScrolledDown, mode, toggleColorMode }) {
 							{isAuth && <NavFilter mode={mode} />}
 
 							{isAuth && (
-								<div className='max-sm:hidden flex'>
+								<div className="max-sm:hidden flex">
 									<NavLink
 										to="/admin/filter"
 										className="nmwbtn w-auto mr-2 px-4 "
@@ -312,6 +162,8 @@ function AppAppBar({ isScrolledDown, mode, toggleColorMode }) {
 									sx={{
 										minWidth: '60dvw',
 										p: 2,
+										pt: 15,
+										pb: 4,
 										backgroundColor: 'background.paper',
 										flexGrow: 1,
 									}}
@@ -330,38 +182,114 @@ function AppAppBar({ isScrolledDown, mode, toggleColorMode }) {
 										/>
 									</Box>
 									<MenuItem onClick={() => scrollToSection('features')}>
-										Featur
+										<NavLink to="/admin/filter">STORE</NavLink>
 									</MenuItem>
 									<MenuItem onClick={() => scrollToSection('testimonials')}>
-										Testimonials
+										<NavLink to="/admin/homepage">HOMEPAGE</NavLink>
 									</MenuItem>
-									{/* <MenuItem onClick={() => scrollToSection('highlights')}>
-                    Highlights
-                  </MenuItem> */}
 									<MenuItem onClick={() => scrollToSection('pricing')}>
-										Pricing
-									</MenuItem>
-									<MenuItem onClick={() => scrollToSection('faq')}>
-										FAQ
+										RESET PASSWORD
 									</MenuItem>
 									<Divider />
-									<MenuItem>
-										<NavLink to="/admin/auth/signup" className="nmbtn nbtn">
-											SIGN UP
-										</NavLink>
-									</MenuItem>
-									<MenuItem>
-										<NavLink to="/admin/auth/signin" className="nmwbtn">
-											SIGN IN
-										</NavLink>
-									</MenuItem>
+									{isAuth ? (
+										<>
+											{' '}
+											<Button
+												sx={theme => ({
+													borderRadius: '999px',
+													mt: 2,
+													p: 1,
+													color:
+														theme.palette.mode === 'light'
+															? '#bad4f0'
+															: '#ffff',
+													backgroundColor:
+														theme.palette.mode === 'light'
+															? '#4d4b4b'
+															: '#5a676d',
+												})}
+												className="nmbtn nbtn"
+											>
+												Profile
+											</Button>
+											<Button
+												sx={theme => ({
+													borderRadius: '999px',
+													mt: 2,
+													p: 1,
+													color:
+														theme.palette.mode === 'light'
+															? '#bad4f0'
+															: '#ffff',
+													backgroundColor:
+														theme.palette.mode === 'light'
+															? '#4d4b4b'
+															: '#5a676d83',
+												})}
+												className="nmbtn nbtn"
+											>
+												Settings
+											</Button>
+											<Button
+												onClick={() => dispatch(asyncLogoutAdmin())}
+												sx={theme => ({
+													borderRadius: '999px',
+													mt: 2,
+													p: 1,
+													color:
+														theme.palette.mode === 'light'
+															? '#0f0f0f'
+															: '#ffff',
+													backgroundColor:
+														theme.palette.mode === 'light'
+															? '#fd907c'
+															: '#b4483c',
+												})}
+												className="nmbtn nbtn"
+											>
+												LOG OUT
+											</Button>
+										</>
+									) : (
+										<>
+											<MenuItem
+>
+												<NavLink to="/admin/auth/signin" className="nmwbtn py-2">
+													SIGN IN
+												</NavLink>
+											</MenuItem>
+											<MenuItem
+												sx={theme => ({
+													borderRadius: '999px',
+													border:
+														theme.palette.mode === 'light'
+															? '1.5px solid #2b2929'
+															: '1.5px solid white',
+													display: 'flex',
+													justifyContent: 'center',
+													flexGrow: 1,
+													mt: 2,
+													color:
+														theme.palette.mode === 'light'
+															? '#0f0f0f'
+															: '#ffff',
+													backgroundColor:
+														theme.palette.mode === 'light'
+															? '#dd7367'
+															: '#b4483c',
+												})}
+											>
+												<NavLink to="/admin/auth/signup" className="">
+													SIGN UP
+												</NavLink>
+											</MenuItem>
+										</>
+									)}
 								</Box>
 							</Drawer>
 						</Box>
 					</Toolbar>
 				</Container>
-
-
 			</AppBar>
 		</div>
 	);

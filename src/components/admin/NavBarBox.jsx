@@ -112,9 +112,12 @@ const NavBarBox = ({
 
 					<Button
 						type="button"
-						sx={{
-							':hover': { color: '#0f0f0f', backgroundColor: '#f5f5f5' },
-						}}
+						sx={theme => ({
+							':hover':
+								theme.palette.mode === 'light'
+									? { color: '#f5f5f5', backgroundColor: '#0f0f0f' }
+									: { color: '#0f0f0f', backgroundColor: '#f5f5f5' },
+						})}
 						onClick={handleAddCartMenu}
 						className=" ml-6 p-2 text-white hover:bg-slate-800 text-xl  sm:ml-7"
 					>

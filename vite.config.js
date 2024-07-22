@@ -7,7 +7,7 @@ import checker from 'vite-plugin-checker';
 // https://vitejs.dev/config/
 export default defineConfig({
 	resolve: {
-		alias: [	
+		alias: [
 			{
 				find: /^src(.+)/,
 				replacement: path.join(process.cwd(), 'src/$1'),
@@ -22,6 +22,9 @@ export default defineConfig({
 			input: 'index.html',
 			env: loadEnv('production', process.cwd()), // Load environment variables during build
 		},
+	},
+	optimizeDeps: {
+		include: ['@mui/material/Box'],
 	},
 
 	plugins: [

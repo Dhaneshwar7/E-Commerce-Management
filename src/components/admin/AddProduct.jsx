@@ -8,6 +8,7 @@ import {
 import { alpha, Box } from '@mui/material';
 
 export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
+	const { products, admin } = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -73,8 +74,13 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 		setErrorMessage(null);
 	};
 	useEffect(() => {
-		dispatch(asyncCurrentAdmin());
-		dispatch(asyncAllProduct());
+		if (!admin) {
+			dispatch(asyncCurrentAdmin());
+		}
+		if (products <= 0) {
+			dispatch(asyncAllProduct());
+		}
+
 		// console.log('add product clicked ');
 	}, [dispatch]);
 	return (
