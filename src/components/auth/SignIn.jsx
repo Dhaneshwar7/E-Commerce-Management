@@ -67,9 +67,6 @@ export default function SignIn() {
 			console.error('Error during signup:', error.message);
 		}
 	};
-	useEffect(() => {
-		dispatch(asyncCurrentAdmin());
-	}, []);
 
 	return (
 		<Container component="main" maxWidth="xs">

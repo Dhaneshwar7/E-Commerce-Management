@@ -4,11 +4,12 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppAppBar, Features, Footer, Hero } from './components/landingpage';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { asyncCurrentAdmin, asyncHomepage } from './store/Actions/adminActions';
 import { useDispatch } from 'react-redux';
 
 export default function LandingPage() {
+	const [mount, setMount] = useState(false);
 	const dispatch = useDispatch();
 	const [mode, setMode] = React.useState('dark');
 	const defaultTheme = createTheme({ palette: { mode } });
@@ -22,10 +23,10 @@ export default function LandingPage() {
 	}, [toggleColorMode]);
 
 	useEffect(() => {
-		dispatch(asyncCurrentAdmin());
+		setMount(true);
 	}, []);
-	
 
+	if (!mount) return null;
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<CssBaseline />

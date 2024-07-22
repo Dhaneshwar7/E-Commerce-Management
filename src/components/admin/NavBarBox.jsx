@@ -1,28 +1,14 @@
 import React from 'react';
-import {
-	Dialog,
-	DialogBackdrop,
-	DialogPanel,
-	Disclosure,
-	DisclosureButton,
-	DisclosurePanel,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuItems,
-} from '@headlessui/react';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import {
 	ChevronDownIcon,
 	FunnelIcon,
-	MinusIcon,
-	PlusIcon,
 	Squares2X2Icon,
 } from '@heroicons/react/20/solid';
-import { Button, Container, Toolbar, Typography } from '@mui/material';
+import { Button, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AddProImg from '../../assets/svgs/AddProImg.svg';
 const sortOptions = [
 	{ name: 'Most Popular', href: '#', current: true },
 	{ name: 'Best Rating', href: '#', current: false },
@@ -38,9 +24,11 @@ const NavBarBox = ({
 	isScrolledDown,
 	mode,
 	handleAddCartMenu,
+	setMobileFiltersOpen,
+	navFilterbtn,
 }) => {
 	return (
-		<Box className="AllProduct-Heading  -mt-24 pt-20 flex items-baseline justify-between sticky top-0 z-50">
+		<Box className="AllProduct-Heading -mt-24 pt-20 flex items-baseline justify-between sticky top-0 z-40">
 			<Toolbar
 				variant="regular"
 				sx={theme => ({
@@ -65,7 +53,7 @@ const NavBarBox = ({
 					isScrolledDown.isScroll ? 'top-auto opacity-100' : 'top-5 opacity-0'
 				} ${
 					isScrolledDown.isScrolllVaue === 0 && 'top-auto opacity-100'
-				} top-0 w-[76vw] m-auto justify-between transition items-center`}
+				} top-0 w-[76vw] max-sm:w-full m-auto justify-between transition items-center`}
 			>
 				<Typography
 					sx={{
@@ -80,10 +68,13 @@ const NavBarBox = ({
 				</Typography>
 
 				<div className="flex items-center">
-					<Menu as="div" className="relative inline-block text-left">
+					<Menu
+						as="div"
+						className="relative inline-block max-sm:hidden items-center text-left"
+					>
 						<div>
 							<MenuButton
-								className={`group z-50 bg-slate-300 py-1 px-2 rounded inline-flex justify-center text-sm font-medium ${
+								className={`group z-50 bg-slate-300 py-1 mr-6 max-sm:mr-0 px-2 rounded inline-flex justify-center text-sm font-medium ${
 									mode === 'light' ? 'text-green-500' : 'text-zinc-900'
 								}`}
 							>
@@ -122,17 +113,19 @@ const NavBarBox = ({
 					<Button
 						type="button"
 						onClick={handleAddCartMenu}
-						className=" ml-6 p-2 text-white hover:bg-slate-100  sm:ml-7"
+						className=" ml-6 p-2 text-white hover:bg-slate-800 text-xl  sm:ml-7"
 					>
-						{' '}
-						<span className="sr-only">View grid</span>
-						<Squares2X2Icon aria-hidden="true" className="h-5 w-5" />
-						<span>Add Product</span>
+						<AddProImg width={25} height={25} />
+						<Typography sx={{ml:1,
+							backgroundColor:hover
+						}} className="text-base ml-2 ">Add Product</Typography>
 					</Button>
 					<button
 						type="button"
 						onClick={() => setMobileFiltersOpen(true)}
-						className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+						className={`-m-2 ml-4 ${
+							navFilterbtn ? 'block' : 'hidden'
+						} p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden`}
 					>
 						<span className="sr-only">Filters</span>
 						<FunnelIcon aria-hidden="true" className="h-5 w-5" />

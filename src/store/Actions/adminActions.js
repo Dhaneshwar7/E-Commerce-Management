@@ -7,6 +7,7 @@ import {
 	isError,
 	removeError,
 	isLoading,
+	setAllProducts,
 } from '../Reducers/AdminReducer';
 
 export const asyncHomepage = () => async (dispatch, getState) => {
@@ -26,7 +27,7 @@ export const asyncCurrentAdmin = () => async (dispatch, getState) => {
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
 		// console.log(error.response.data.message);
-		dispatch(isError(error.response.data.message));
+		dispatch(isError(error));
 	}
 };
 /* -----------  ADMIN SIGN_UP  -----------*/
@@ -71,6 +72,38 @@ export const asyncForgetLinkSend = email => async (dispatch, getState) => {
 	try {
 		const { data } = await axiosInstance.post('/admin/sendlink-mail', email);
 		// console.log(data, 'Admin Forget-LInk-Sent!');
+	} catch (error) {
+		// console.log(error.response.data.message);
+		dispatch(isError(error.response.data.message));
+	}
+};
+
+/* -----------   ADMIN PRODUCT_CREAT   ----------*/
+export const asyncCreateProduct = formData => async (dispatch, getState) => {
+	try {
+		const { data } = await axiosInstance.post(
+			'/admin/product/create-product',
+			formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			}
+		);
+		console.log(data, 'Product donnnnnnnn');
+	} catch (error) {
+		// console.log(error.response.data.message);
+		console.log('Product creeeete fail');
+		dispatch(isError(error.response.data.message));
+	}
+};
+
+/* -----------   ADMIN VIEW ALL PRODUCTS   ----------*/
+export const asyncAllProduct = () => async (dispatch, getState) => {
+	try {
+		const data = await axiosInstance.get('/admin/product/viewall');
+		// console.log(data.data.products, 'All Product Visible');
+		dispatch(setAllProducts(data.data.products));
 	} catch (error) {
 		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));

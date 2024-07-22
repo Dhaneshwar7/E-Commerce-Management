@@ -17,24 +17,16 @@ import {
 } from './components/auth';
 import Layout from './Layout';
 import {
-	AddProductPage,
 	AdminHomepage,
 	AdminLayout,
 	FilterProductPage,
 } from './components/admin';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { store } from './store/store';
 import { useEffect, useState } from 'react';
+import {Profile} from './components/admin';
 
 function App() {
-	// const router = createBrowserRouter(
-	// 	createRoutesFromElements(
-	// 		<Route path="/" element={<LandingPage />}>
-	// 			<Route path="/sigin" element={<SignIn />} />
-	// 			<Route path="/signup" element={<SignUp />} />
-	// 		</Route>
-	// 	)
-	// );
 	return (
 		<>
 			<BrowserRouter>

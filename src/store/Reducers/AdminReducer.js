@@ -3,8 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	admin: null,
 	errors: [],
-	isAuthenticated: false,
+	isAuth: false,
 	isLoading: false,
+	products: null,
 };
 
 export const adminReducer = createSlice({
@@ -13,13 +14,13 @@ export const adminReducer = createSlice({
 	reducers: {
 		setAdmin: (state, action) => {
 			state.admin = action.payload;
-			state.isAuthenticated = true;
+			state.isAuth = true;
 			state.isLoading = false;
 			state.errors = null;
 		},
 		removeAdmin: (state, action) => {
 			state.admin = null;
-			state.isAuthenticated = false;
+			state.isAuth = false;
 		},
 		isError: (state, action) => {
 			state.errors.push(action.payload);
@@ -29,6 +30,9 @@ export const adminReducer = createSlice({
 		},
 		isLoading: (state, action) => {
 			state.isLoading = action.payload;
+		},
+		setAllProducts: (state, action) => {
+			state.products=action.payload;
 		},
 	},
 });
@@ -40,6 +44,7 @@ export const {
 	isError,
 	removeError,
 	isLoading,
+	setAllProducts,
 } = adminReducer.actions;
 
 export default adminReducer.reducer;

@@ -6,25 +6,17 @@ import {
 	Disclosure,
 	DisclosureButton,
 	DisclosurePanel,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuItems,
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import {
-	ChevronDownIcon,
-	FunnelIcon,
-	MinusIcon,
-	PlusIcon,
-	Squares2X2Icon,
-} from '@heroicons/react/20/solid';
+import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
 import { Button, Container, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box } from '@mui/system';
 import NavBarBox from './NavBarBox';
 import AddProductForm from './AddProduct';
+import { useSelector } from 'react-redux';
+import noProductImg from '../../assets/images/noProducts.webp';
 
 const subCategories = [
 	{ name: 'Totes', href: '#' },
@@ -71,7 +63,7 @@ const filters = [
 	},
 ];
 
-const products = [
+const demoProducts = [
 	{
 		id: 1,
 		name: 'Basic Tee',
@@ -81,163 +73,18 @@ const products = [
 		imageAlt: "Front of men's Basic Tee in black.",
 		price: '$35',
 		color: 'Black',
-	},
-	{
-		id: 2,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 3,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 4,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 5,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 6,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 7,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 8,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 9,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 10,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 11,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 12,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 13,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 14,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	{
-		id: 15,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-
-	// More products...
+	}, // More products...
 ];
 
 export default function FilterProductPage({ mode }) {
-	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+	const [mount, setMount] = useState(false);
+	const { products: allProducts } = useSelector(state => state.adminReducer);
+	const [navFilterbtn, setNavFilterbtn] = useState(true);
+	// const allProducts = null;
 	const [isScrolledDown, setIsScrolledDown] = useState({
 		isScroll: false,
 		isScrolllVaue: 0,
 	});
-	const [addProductMenu, setAddProductMenu] = useState(false);
-
-	const handleAddCartMenu = () => {
-		setAddProductMenu(prev => !prev);
-	};
-
 	useEffect(() => {
 		let lastScroll = 0;
 		let isScrolled = false;
@@ -259,16 +106,30 @@ export default function FilterProductPage({ mode }) {
 		};
 		window.addEventListener('scroll', handleScroll);
 	}, []);
+	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+	const [addProductMenu, setAddProductMenu] = useState(false);
+	const handleMobileFilterButton = () => {
+		setMobileFiltersOpen(false);
+	};
+	const handleAddCartMenu = () => {
+		setAddProductMenu(prev => !prev);
+	};
 
+	useEffect(() => {
+		setMount(true);
+	}, []);
+	if (!mount) return null;
 	return (
 		<div className="relative">
-			<div className="bg-red-400 h-screen fixed top-0 z-40 auto">
+			<div className="bg-red-400 h-screen fixed top-0 z-50 auto">
 				<AddProductForm
 					addProductMenu={addProductMenu}
 					handleAddCartMenu={handleAddCartMenu}
+					handleMobileFilterButton={handleMobileFilterButton}
+					mobileFiltersOpen={mobileFiltersOpen}
 				/>
 			</div>
-			<Container sx={{}}>
+			<>
 				{/* Mobile filter dialog */}
 				<Dialog
 					open={mobileFiltersOpen}
@@ -277,7 +138,7 @@ export default function FilterProductPage({ mode }) {
 				>
 					<DialogBackdrop
 						transition
-						className="fixed inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+						className="fixed z-50 inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
 					/>
 
 					<div className="fixed inset-0 z-40 flex">
@@ -285,11 +146,11 @@ export default function FilterProductPage({ mode }) {
 							transition
 							className="relative ml-auto bg-slate-600 flex h-full w-full max-w-xs transform flex-col overflow-y-auto py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
 						>
-							<div className="flex items-center justify-between px-4">
+							<div className="flex items-center justify-between mt-20 px-4">
 								<h2 className="text-lg font-medium text-gray-900">Filters</h2>
 								<button
 									type="button"
-									onClick={() => setMobileFiltersOpen(false)}
+									onClick={handleMobileFilterButton}
 									className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
 								>
 									<span className="sr-only">Close menu</span>
@@ -369,6 +230,10 @@ export default function FilterProductPage({ mode }) {
 						isScrolledDown={isScrolledDown}
 						handleAddCartMenu={handleAddCartMenu}
 						addProductMenu={addProductMenu}
+						handleMobileFilterButton={handleMobileFilterButton}
+						mobileFiltersOpen={mobileFiltersOpen}
+						setMobileFiltersOpen={setMobileFiltersOpen}
+						navFilterbtn={navFilterbtn}
 					/>
 					{/* Navbar for Homepage and Filter Page Same componet */}
 
@@ -380,10 +245,10 @@ export default function FilterProductPage({ mode }) {
 							Products
 						</h2>
 
-						<div className="grid grid-cols-1 gap-x-8 gap-y-10 relative lg:grid-cols-4">
+						<div className="grid grid-cols-1  gap-x-8 gap-y-10 relative lg:grid-cols-4">
 							{/* Filters */}
 							<div>
-								<form className="SideBar sticky top-0 Filter hidden lg:block  rounded bg-slate-100/70 z-50">
+								<form className="SideBar sticky top-0 Filter hidden lg:block  rounded bg-slate-100/70 z-40">
 									<h3 className="sr-only">Categories</h3>
 									<ul
 										role="list"
@@ -454,69 +319,96 @@ export default function FilterProductPage({ mode }) {
 
 							{/* Product grid */}
 							<div className="lg:col-span-3">
-								<div className="Product-Container grid grid-cols-1 max-sm:grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-									{products.map(product => (
-										<Box key={product.id} className="group relative">
-											<div className="acha aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 max-sm:h-52">
-												<img
-													alt={product.imageAlt}
-													src={product.imageSrc}
-													className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-												/>
-											</div>
-											<Box className="mt-4 flex justify-between">
-												<Box>
-													<Typography>
-														<Link href={product.href}>
-															<span
-																aria-hidden="true"
-																className="absolute inset-0"
-															/>
-															<Typography
-																component={'span'}
-																variant={'body2'}
-																sx={{
-																	display: 'flex',
-																	flexDirection: { xs: 'column', md: 'row' },
-																	alignSelf: 'center',
-																	textAlign: 'center',
-																	fontSize: 'clamp(1rem, .8vw, 1rem)',
-																	fontWeight: '600',
-																	opacity: '.9',
-																}}
-															>
-																{product.name}
-															</Typography>
-														</Link>
-													</Typography>
+								{allProducts && allProducts.length > 0 ? (
+									<div className="Product-Container mt-6 grid grid-cols-1 max-sm:grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+										{allProducts.map(product => (
+											<Box key={product._id} className="group relative">
+												<div className="acha aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 max-sm:h-52">
+													<img
+														alt={product?.productName}
+														src={product?.productImageUrl.url}
+														className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+													/>
+												</div>
+												<Box className="mt-4 flex justify-between">
+													<Box>
+														<Typography>
+															<Link href={product.href}>
+																<span
+																	aria-hidden="true"
+																	className="absolute inset-0"
+																/>
+																<Typography
+																	component={'span'}
+																	variant={'body2'}
+																	sx={{
+																		display: 'flex',
+																		flexDirection: { xs: 'column', md: 'row' },
+																		alignSelf: 'center',
+																		textAlign: 'center',
+																		fontSize: 'clamp(1rem, .8vw, 1rem)',
+																		fontWeight: '600',
+																		opacity: '.9',
+																	}}
+																>
+																	{product?.productName}
+																</Typography>
+															</Link>
+														</Typography>
+														<Typography
+															sx={{ backgroundColor: 'rgb(177, 174, 174)' }}
+														>
+															{product?.price}
+														</Typography>
+													</Box>
 													<Typography
-														sx={{ backgroundColor: 'rgb(177, 174, 174)' }}
+														variant="h5"
+														sx={{
+															display: 'flex',
+															flexDirection: { xs: 'column', md: 'row' },
+															alignSelf: 'center',
+															textAlign: 'center',
+															fontSize: 'clamp(.6rem, 4vw, 1rem)',
+															fontWeight: '600',
+														}}
 													>
-														{product.color}
+														{product.price}
 													</Typography>
 												</Box>
-												<Typography
-													variant="h5"
-													sx={{
-														display: 'flex',
-														flexDirection: { xs: 'column', md: 'row' },
-														alignSelf: 'center',
-														textAlign: 'center',
-														fontSize: 'clamp(.6rem, 4vw, 1rem)',
-														fontWeight: '600',
-													}}
-												>
-													{product.price}
-												</Typography>
 											</Box>
-										</Box>
-									))}
-								</div>
+										))}
+									</div>
+								) : (
+									<Box
+										sx={{
+											backgroundColor: 'gray',
+											height: '60vh',
+											width: '100%',
+											margin: 'auto',
+											display: 'flex',
+											flexDirection: { xs: 'column', md: 'row' },
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}
+									>
+										<Typography
+											variant="h5"
+											sx={{
+												textAlign: 'center',
+												fontSize: 'clamp(.6rem, 4vw, 2rem)',
+												fontWeight: '600',
+											}}
+										>
+											<img src={noProductImg} alt="" />
+											NO PRODUCTS !! ADD PRODUCTS
+										</Typography>
+									</Box>
+								)}
 							</div>
 						</div>
 					</section>
 				</Container>
-			</Container>
+			</>
 		</div>
 	);
 }

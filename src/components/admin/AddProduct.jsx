@@ -1,27 +1,126 @@
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-	Box,
-} from '@mui/material';
+	asyncAllProduct,
+	asyncCreateProduct,
+	asyncCurrentAdmin,
+} from '../../store/Actions/adminActions';
+import { alpha, Box } from '@mui/material';
 
-export default function AddProductForm({
-	addProductMenu,
-	handleAddCartMenu,
-}) {
+export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
+	const dispatch = useDispatch();
+	const [errorMessage, setErrorMessage] = useState(null);
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [productForm, setProductForm] = useState({
+		productName: '',
+		price: '',
+		quantity: '',
+		description: '',
+		status: 'Available',
+	});
+
+	const handleSubmitProduct = async e => {
+		e.preventDefault();
+		const formData = new FormData();
+		Object.keys(productForm).forEach(key => {
+			formData.append(key, productForm[key]);
+		});
+		if (selectedImage) {
+			formData.append('image', selectedImage);
+		}
+
+		try {
+			dispatch(asyncCreateProduct(formData));
+			if (formData) {
+				// Handle successful upload
+				setProductForm({
+					productName: '',
+					price: '',
+					quantity: '',
+					description: '',
+					status: 'Available',
+				}); // Clear form data
+				setSelectedImage(null);
+			} else {
+				setErrorMessage(response.data.message || 'Submission failed.'); // Handle API error messages
+			}
+		} catch (error) {
+			console.error('Submission error:', error);
+			setErrorMessage(
+				'An error occurred during submission. Please try again later.'
+			);
+		}
+	};
+
+	const handleChange = e => {
+		setProductForm({ ...productForm, [e.target.name]: e.target.value });
+	};
+	const validImageTypes = [
+		'image/png',
+		'image/jpeg',
+		'image/jpg',
+		'image/webp',
+		'image/gif',
+	];
+	const handleImageUpload = e => {
+		const file = e.target.files[0];
+		if (!file || !validImageTypes.includes(file.type)) {
+			setErrorMessage('⚠️ Please select a valid image file');
+			return;
+		}
+		console.log(file);
+		setSelectedImage(file);
+		setErrorMessage(null);
+	};
+	useEffect(() => {
+		dispatch(asyncCurrentAdmin());
+		dispatch(asyncAllProduct());
+		// console.log('add product clicked ');
+	}, [dispatch]);
 	return (
 		<Box
 			className={`w-2/5 h-screen flex items-center justify-center transition-[right] duration-100 ease-in-out ${
 				addProductMenu ? 'right-0' : '-right-full'
 			} bg-white fixed z-50`}
 		>
-			<form className="z-50 py-20 px-4 w-3/4 ">
+			{/* Linear Bg Backgroung */}
+			<Box
+				id="hero"
+				sx={theme => ({
+					width: '100%',
+					height: '100%',
+					zIndex: '-10',
+					pointerEvents: 'none',
+					position: 'absolute',
+					top: '30',
+					backgroundImage:
+						theme.palette.mode === 'light'
+							? 'linear-gradient(180deg, #bad4f0, #FFF)'
+							: `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+					backgroundSize: '100% 200%',
+					backgroundRepeat: 'no-repeat',
+				})}
+			></Box>
+			{/* Linear Bg Backgroung */}
+			<form className="z-50 py-20 px-4 w-3/4 " onSubmit={handleSubmitProduct}>
 				<div className="space-y-12">
-					<div className="border-b border-gray-900/10 pb-12">
-						<div className=" -mt-5 mb-8 w-full flex justify-end">
+					<div className="border-b border-gray-900/10 pb-2">
+						<div className="w-full mb-5 -mt-5 flex justify-end">
 							<button
 								onClick={handleAddCartMenu}
-								className="bg-orange-400 py-2 px-4 rounded"
+								className="bg-orange-400 w-fit py-2 flex items-center justify-center px-4 rounded"
 							>
-								Close
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									width="24"
+									height="24"
+								>
+									<path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
+								</svg>
+
+								<h1>Close</h1>
 							</button>
 						</div>
 						<h2 className="text-xl font-extrabold text-center leading-7 text-gray-900">
@@ -40,6 +139,8 @@ export default function AddProductForm({
 										id="productName"
 										name="productName"
 										type="text"
+										onChange={handleChange}
+										value={productForm.productName}
 										required
 										autoComplete="productName"
 										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -57,8 +158,10 @@ export default function AddProductForm({
 								<div className="mt-2">
 									<input
 										id="Price"
-										name="Price"
-										type="Number"
+										name="price"
+										type="number"
+										onChange={handleChange}
+										value={productForm.price}
 										required
 										autoComplete="price"
 										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -75,10 +178,12 @@ export default function AddProductForm({
 								</label>
 								<div className="mt-2">
 									<input
-										id="quatity"
-										name="quatity"
+										id="quantity"
+										name="quantity"
 										type="number"
-										autoComplete="quatity"
+										onChange={handleChange}
+										value={productForm.quantity}
+										autoComplete="quantity"
 										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 									/>
 								</div>
@@ -94,10 +199,11 @@ export default function AddProductForm({
 									<textarea
 										id="description"
 										name="description"
+										onChange={handleChange}
+										value={productForm.description}
 										rows={4}
 										minLength={5}
 										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-										defaultValue={''}
 									/>
 								</div>
 							</div>
@@ -112,7 +218,9 @@ export default function AddProductForm({
 									<select
 										id="status"
 										name="status"
-										autoComplete="stutus"
+										onChange={handleChange}
+										value={productForm.status}
+										autoComplete="status"
 										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
 									>
 										<option>Available</option>
@@ -122,19 +230,29 @@ export default function AddProductForm({
 								</div>
 							</div>
 						</div>
-						<div className="col-span-4 row-span-4">
-							<label
+						{/* --------- Photo Upload -------*/}
+						<div className="col-span-4 row-span-4 mt-4">
+							{/* <label
 								htmlFor="cover-photo"
 								className="block text-sm font-medium leading-6 text-gray-900"
 							>
 								Cover photo
-							</label>
+							</label> */}
 							<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-2">
 								<div className="text-center">
-									<PhotoIcon
-										aria-hidden="true"
-										className="mx-auto h-12 w-12 text-gray-300"
-									/>
+									{selectedImage ? (
+										<img
+											src={URL.createObjectURL(selectedImage)}
+											alt="Selected image preview"
+											className="mx-auto h-32 w-32 object-contain rounded"
+										/>
+									) : (
+										<img
+											src="https://billcust.devasena.biz/assets-shop/images/icons/no-product-image.png"
+											alt="Selected image preview"
+											className="mx-auto h-32 w-32 object-contain rounded"
+										/>
+									)}
 									<div className="mt-4 flex text-sm leading-6 text-gray-600">
 										<label
 											htmlFor="file-upload"
@@ -142,13 +260,15 @@ export default function AddProductForm({
 										>
 											<span>Upload a file</span>
 											<input
+												accept="image/*"
 												id="file-upload"
-												name="file-upload"
+												name="image"
+												onChange={handleImageUpload}
 												type="file"
 												className="sr-only"
 											/>
 										</label>
-										<p className="pl-1">or drag and drop</p>
+										{/* <p className="pl-1">or drag and drop</p> */}
 									</div>
 									<p className="text-xs leading-5 text-gray-600">
 										PNG, JPG, GIF up to 10MB
@@ -170,6 +290,16 @@ export default function AddProductForm({
 								Save
 							</button>
 						</div>
+						{errorMessage && (
+							<div className="mt-2 w-full flex justify-end">
+								<button
+									onClick={handleAddCartMenu}
+									className="bg-red-400 text-sm w-full p-2 rounded"
+								>
+									{errorMessage}
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</form>

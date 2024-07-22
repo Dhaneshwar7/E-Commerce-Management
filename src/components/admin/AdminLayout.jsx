@@ -4,8 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppAppBar, LinearBg } from '../landingpage';
 import { blue } from '@mui/material/colors';
+import { useDispatch } from 'react-redux';
+import { asyncAllProduct } from '../../store/Actions/adminActions';
 
 const AuthLayout = () => {
+	const dispatch = useDispatch();
+	
 	const [isScrolledDown, setIsScrolledDown] = useState({
 		isScroll: false,
 		isScrolllVaue: 0,
@@ -32,12 +36,15 @@ const AuthLayout = () => {
 		};
 		window.addEventListener('scroll', handleScroll);
 	}, []);
+	useEffect(() => {
+		dispatch(asyncAllProduct());
+		// console.log("all products aajoa ek bar");
+	}, []);
+
 	return (
 		<>
 			<LinearBg />
-			<Outlet
-				isScrolledDown={isScrolledDown}
-			/>
+			<Outlet isScrolledDown={isScrolledDown} />
 		</>
 	);
 };

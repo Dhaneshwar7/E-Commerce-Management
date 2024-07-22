@@ -10,17 +10,15 @@ import { blue } from '@mui/material/colors';
 const Layout = () => {
 	const [isScrolledDown, setIsScrolledDown] = useState(false);
 	const dispatch = useDispatch();
-
 	useEffect(() => {
 		dispatch(asyncCurrentAdmin());
 	}, []);
-	// console.log('helljeflo3ij');
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
 	const toggleColorMode = () => {
 		setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
 	};
-
+	
 	const theme = createTheme({
 		palette: {
 			// primary: '#e3f2fd',
