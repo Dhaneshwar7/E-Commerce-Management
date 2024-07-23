@@ -183,14 +183,16 @@ function AppAppBar({ mode, toggleColorMode }) {
 									</Box>
 									{isAuth ? (
 										<>
-											<MenuItem onClick={() => scrollToSection('features')}>
-												<NavLink to="/admin/filter">STORE</NavLink>
-											</MenuItem>
 											<MenuItem onClick={() => scrollToSection('testimonials')}>
 												<NavLink to="/admin/homepage">HOMEPAGE</NavLink>
 											</MenuItem>
+											<MenuItem onClick={() => scrollToSection('features')}>
+												<NavLink to="/admin/filter">FILTER</NavLink>
+											</MenuItem>
 											<MenuItem>
-												<NavLink to="/admin/reset">STORE</NavLink>
+												<NavLink to="/admin/auth/reset-password">
+													RESET PASSWORD
+												</NavLink>
 											</MenuItem>
 										</>
 									) : (

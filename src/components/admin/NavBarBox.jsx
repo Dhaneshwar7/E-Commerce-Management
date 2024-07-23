@@ -59,12 +59,12 @@ const NavBarBox = ({
 					sx={{
 						color: theme =>
 							theme.palette.mode === 'light' ? 'black' : 'white',
-						fontSize: '1.2rem',
+						fontSize: {xs:'.7rem',lg:'1.3rem'},
 						fontWeight: 'bold',
 						zIndex: '50',
 					}}
 				>
-					All Products
+					All Listed Products
 				</Typography>
 
 				<div className="flex items-center">

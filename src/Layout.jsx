@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import { asyncCurrentAdmin, asyncHomepage } from './store/Actions/adminActions';
+import {
+	asyncAllProduct,
+	asyncCurrentAdmin,
+	asyncHomepage,
+} from './store/Actions/adminActions';
 import { AppAppBar, LinearBg } from '../src/components/landingpage';
 import { blue } from '@mui/material/colors';
 
 const Layout = () => {
 	const dispatch = useDispatch();
-	const { admin } = useSelector(state => state.adminReducer);
+	const { admin, products } = useSelector(state => state.adminReducer);
 
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
@@ -26,15 +30,20 @@ const Layout = () => {
 			tonalOffset: 0.5,
 		},
 	});
+	useEffect(() => {
+		if (!admin) {
+			dispatch(asyncCurrentAdmin());
+		}
+		if (!products) {
+			dispatch(asyncAllProduct());
+		}
+	}, []);
 
 	return (
 		<div>
 			<ThemeProvider theme={defaultTheme}>
 				<CssBaseline />
-				<AppAppBar
-					mode={mode}
-					toggleColorMode={toggleColorMode}
-				/>
+				<AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
 				<Outlet mode={mode} toggleColorMode={toggleColorMode} />
 			</ThemeProvider>
 		</div>

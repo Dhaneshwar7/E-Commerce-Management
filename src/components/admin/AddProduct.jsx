@@ -6,6 +6,7 @@ import {
 	asyncCurrentAdmin,
 } from '../../store/Actions/adminActions';
 import { alpha, Box } from '@mui/material';
+import { validImageTypes } from '../../utils/FnCollection';
 
 export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 	const { products, admin } = useSelector(state => state.adminReducer);
@@ -32,6 +33,9 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 
 		try {
 			dispatch(asyncCreateProduct(formData));
+			setTimeout(() => {
+				dispatch(asyncAllProduct());
+			}, 3000);
 			if (formData) {
 				// Handle successful upload
 				setProductForm({
@@ -56,20 +60,12 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 	const handleChange = e => {
 		setProductForm({ ...productForm, [e.target.name]: e.target.value });
 	};
-	const validImageTypes = [
-		'image/png',
-		'image/jpeg',
-		'image/jpg',
-		'image/webp',
-		'image/gif',
-	];
 	const handleImageUpload = e => {
 		const file = e.target.files[0];
 		if (!file || !validImageTypes.includes(file.type)) {
 			setErrorMessage('⚠️ Please select a valid image file');
 			return;
 		}
-		console.log(file);
 		setSelectedImage(file);
 		setErrorMessage(null);
 	};
@@ -80,13 +76,14 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 		if (products <= 0) {
 			dispatch(asyncAllProduct());
 		}
-
 		// console.log('add product clicked ');
 	}, [dispatch]);
 	return (
 		<Box
-			className={`w-2/5 h-screen flex items-center justify-center transition-[right] duration-100 ease-in-out ${
-				addProductMenu ? 'right-0' : '-right-full'
+			className={`w-2/5 max-sm:w-full h-full rounded-md bottom-0  max-sm:h-4/6 max-sm:bottom-0  max-h-screen flex items-center justify-center transition-[right] max-sm:transition-[bottom] duration-100 ease-in-out ${
+				addProductMenu
+					? 'right-0 max-sm:bottom'
+					: '-right-full max-sm:-bottom-full'
 			} bg-white fixed z-50`}
 		>
 			{/* Linear Bg Backgroung */}
@@ -108,10 +105,13 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 				})}
 			></Box>
 			{/* Linear Bg Backgroung */}
-			<form className="z-50 py-20 px-4 w-3/4 " onSubmit={handleSubmitProduct}>
+			<form
+				className="z-50 py-20 max-sm:py-2 max-sm:-mt-16 px-4 w-3/4 max-sm:w-full"
+				onSubmit={handleSubmitProduct}
+			>
 				<div className="space-y-12">
 					<div className="border-b border-gray-900/10 pb-2">
-						<div className="w-full mb-5 -mt-5 flex justify-end">
+						<div className="w-full max-sm:hidden mb-5 -mt-5 flex justify-end">
 							<button
 								onClick={handleAddCartMenu}
 								className="bg-orange-400 w-fit py-2 flex items-center justify-center px-4 rounded"
@@ -132,7 +132,7 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 						<h2 className="text-xl font-extrabold text-center leading-7 text-gray-900">
 							ADD PRODUCT INFORMATION
 						</h2>
-						<div className="mt-2 grid grid-rows-3 grid-flow-col gap-2">
+						<div className="mt-2 grid grid-rows-3 grid-flow-col max-sm:gap-1 gap-2">
 							<div className="col-span-1">
 								<label
 									htmlFor="productName"
@@ -244,19 +244,19 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 							>
 								Cover photo
 							</label> */}
-							<div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-2">
-								<div className="text-center">
+							<div className="mt-2 max-sm:h-22 max-sm:p-0 max-sm:pb-2 max-sm:w-full flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-2 max-sm:py-34">
+								<div className="text-center max-sm:flex max-sm:items-center max-sm:justify-center max-sm:gap-2">
 									{selectedImage ? (
 										<img
 											src={URL.createObjectURL(selectedImage)}
 											alt="Selected image preview"
-											className="mx-auto h-32 w-32 object-contain rounded"
+											className="mx-auto max-sm:h-18 max-sm:w-18 h-32 w-32 object-contain rounded"
 										/>
 									) : (
 										<img
 											src="https://billcust.devasena.biz/assets-shop/images/icons/no-product-image.png"
 											alt="Selected image preview"
-											className="mx-auto h-32 w-32 object-contain rounded"
+											className="mx-auto max-sm:h-18 max-sm:w-18 h-32 w-32 object-contain rounded"
 										/>
 									)}
 									<div className="mt-4 flex text-sm leading-6 text-gray-600">
@@ -271,27 +271,32 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 												name="image"
 												onChange={handleImageUpload}
 												type="file"
-												className="sr-only"
+												className="sr-only max-sm:w-10 max-sm:h-5"
 											/>
+											<p className="text-xs max-sm:block hidden leading-5 text-gray-600">
+												PNG, JPG, GIF up to 10MB
+											</p>
 										</label>
+
 										{/* <p className="pl-1">or drag and drop</p> */}
 									</div>
-									<p className="text-xs leading-5 text-gray-600">
+									<p className="text-xs max-sm:hidden leading-5 text-gray-600">
 										PNG, JPG, GIF up to 10MB
 									</p>
 								</div>
 							</div>
 						</div>
-						<div className="mt-6 flex items-center justify-end gap-x-6">
+						<div className="mt-6 max-sm:mt-2 flex items-center justify-end gap-x-6">
 							<button
 								type="button"
-								className="text-sm font-semibold leading-6 text-gray-900"
+								onClick={handleAddCartMenu}
+								className="text-sm font-semibold max-sm:text-base leading-6 text-gray-900"
 							>
 								Cancel
 							</button>
 							<button
 								type="submit"
-								className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+								className="rounded-md bg-indigo-600 px-3 py-2 max-sm:text-base text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 							>
 								Save
 							</button>

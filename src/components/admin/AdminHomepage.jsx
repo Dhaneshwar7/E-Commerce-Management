@@ -56,7 +56,7 @@ export default function Homepage({ mode, toggleColorMode }) {
 
 	return (
 		<>
-			<div className="relative">
+			<div className="relative min-h-screen min-w-screen">
 				<AddProductForm
 					addProductMenu={addProductMenu}
 					handleAddCartMenu={handleAddCartMenu}

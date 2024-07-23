@@ -239,13 +239,13 @@ export default function FilterProductPage({ mode }) {
 
 					<section
 						aria-labelledby="products-heading"
-						className="relative pb-24 pt-28"
+						className="relative pb-24 max-sm:pt-12 pt-28"
 					>
 						<h2 id="products-heading" className="sr-only">
 							Products
 						</h2>
 
-						<div className="grid grid-cols-1  gap-x-8 gap-y-10 relative lg:grid-cols-4">
+						<div className="grid grid-cols-1   gap-x-8 gap-y-10 relative lg:grid-cols-4">
 							{/* Filters */}
 							<div>
 								<form className="SideBar sticky top-0 Filter hidden lg:block  rounded bg-slate-100/70 z-40">
