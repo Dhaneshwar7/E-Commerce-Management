@@ -76,7 +76,7 @@ export default function SignUp() {
 				city: '',
 				gender: '',
 			});
-			navigate('/');
+			navigate('/admin/homepage');
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}

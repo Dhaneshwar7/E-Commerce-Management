@@ -21,6 +21,8 @@ export const adminReducer = createSlice({
 		removeAdmin: (state, action) => {
 			state.admin = null;
 			state.isAuth = false;
+			state.errors = [];
+			state.products=null;
 		},
 		isError: (state, action) => {
 			state.errors.push(action.payload);
@@ -32,7 +34,7 @@ export const adminReducer = createSlice({
 			state.isLoading = action.payload;
 		},
 		setAllProducts: (state, action) => {
-			state.products=action.payload;
+			state.products = action.payload;
 		},
 	},
 });

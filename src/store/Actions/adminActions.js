@@ -102,8 +102,8 @@ export const asyncCreateProduct = formData => async (dispatch, getState) => {
 export const asyncAllProduct = () => async (dispatch, getState) => {
 	try {
 		const data = await axiosInstance.get('/admin/product/viewall');
-		// console.log(data.data.products, 'All Product Visible');
 		dispatch(setAllProducts(data.data.products));
+		// console.log(data.data.products, 'All Product Visible');
 	} catch (error) {
 		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));

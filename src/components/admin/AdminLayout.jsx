@@ -5,11 +5,14 @@ import { Outlet } from 'react-router-dom';
 import { AppAppBar, LinearBg } from '../landingpage';
 import { blue } from '@mui/material/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncAllProduct } from '../../store/Actions/adminActions';
+import {
+	asyncAllProduct,
+	asyncCurrentAdmin,
+} from '../../store/Actions/adminActions';
 
 const AuthLayout = () => {
 	const dispatch = useDispatch();
-	const { products } = useSelector(state => state.adminReducer);
+	const { products, isAuth ,admin } = useSelector(state => state.adminReducer);
 
 	const [isScrolledDown, setIsScrolledDown] = useState({
 		isScroll: false,
@@ -37,13 +40,16 @@ const AuthLayout = () => {
 		};
 		window.addEventListener('scroll', handleScroll);
 	}, []);
-	useEffect(() => {
-		if (products<=0) {
-			dispatch(asyncAllProduct());
-		}
-		// console.log("all products aajoa ek bar");
-	}, []);
-
+	// useEffect(() => {
+	// 	if (!admin) {
+	// 		dispatch(asyncCurrentAdmin());
+	// 	} else {
+	// 		if (!products || products.length <= 0) {
+	// 			dispatch(asyncAllProduct());
+	// 		}
+	// 	}
+	// 	// console.log("all products aajoa ek bar");
+	// }, []);
 	return (
 		<>
 			<LinearBg />

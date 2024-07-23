@@ -13,7 +13,7 @@ import { blue } from '@mui/material/colors';
 
 const Layout = () => {
 	const dispatch = useDispatch();
-	const { admin, products } = useSelector(state => state.adminReducer);
+	const { admin, products, isAuth } = useSelector(state => state.adminReducer);
 
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
@@ -33,9 +33,10 @@ const Layout = () => {
 	useEffect(() => {
 		if (!admin) {
 			dispatch(asyncCurrentAdmin());
-		}
-		if (!products) {
-			dispatch(asyncAllProduct());
+		} else {
+			if (!products || products.length <= 0) {
+				dispatch(asyncAllProduct());
+			}
 		}
 	}, []);
 

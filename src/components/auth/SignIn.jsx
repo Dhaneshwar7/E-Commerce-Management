@@ -18,7 +18,7 @@ import {
 	asyncLogoutAdmin,
 	asyncSignInAdmin,
 } from '../../store/Actions/adminActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { LinearBg } from '../landingpage';
 
@@ -29,8 +29,14 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+	const { isAuth } = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	useEffect(() => {
+		if (isAuth) {
+			navigate('/admin/homepage');
+		}
+	}, []);
 
 	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
@@ -62,7 +68,7 @@ export default function SignIn() {
 				email: '',
 				password: '',
 			});
-			navigate('/');
+			navigate('/admin/homepage');
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}
@@ -141,10 +147,10 @@ export default function SignIn() {
 						sx={{
 							display: 'flex',
 							flexDirection: { xs: 'column', lg: 'row' },
-							justifyItems:'center',
-							alignItems:'center',
-							gap:{xs:2,lg:2},
-							mt:{xs:2 ,lg:2}
+							justifyItems: 'center',
+							alignItems: 'center',
+							gap: { xs: 2, lg: 2 },
+							mt: { xs: 2, lg: 2 },
 						}}
 					>
 						<Grid item xs>
