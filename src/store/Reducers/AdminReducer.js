@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	admin: null,
-	errors: [],
+	errors: null,
 	isAuth: false,
 	isLoading: false,
 	products: null,
@@ -25,7 +25,7 @@ export const adminReducer = createSlice({
 			state.products=null;
 		},
 		isError: (state, action) => {
-			state.errors.push(action.payload);
+			state.errors=action.payload
 		},
 		removeError: (state, action) => {
 			state.errors = [];

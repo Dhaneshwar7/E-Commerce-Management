@@ -30,6 +30,11 @@ const Profile = () => {
 	const { admin } = useSelector(state => state.adminReducer);
 	// console.log(admin);
 	const navigate = useNavigate();
+	const handleLogout = () => {
+		console.log("logout");
+		dispatch(asyncLogoutAdmin());
+		navigate('/');
+	};
 	return (
 		<div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:pr-0">
 			{/* Profile dropdown */}
@@ -89,10 +94,7 @@ const Profile = () => {
 					<MenuItem>
 						<Box
 							sx={{ ':hover': { cursor: 'pointer' } }}
-							onClick={() => {
-								dispatch(asyncLogoutAdmin());
-								navigate('/');
-							}}
+							onClick={handleLogout}
 							className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
 						>
 							LOG OUT

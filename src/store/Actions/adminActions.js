@@ -59,7 +59,7 @@ export const asyncSignInAdmin = admin => async (dispatch, getState) => {
 /* -----------   ADMIN LOG_OUT   ----------*/
 export const asyncLogoutAdmin = () => async (dispatch, getState) => {
 	try {
-		const { data } = await axiosInstance.get('/admin/signout');
+		const { data } = await axiosInstance.post('/admin/signout');
 		// console.log(data, 'Admin Logout-done!');
 		dispatch(removeAdmin(data));
 	} catch (error) {
