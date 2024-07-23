@@ -12,7 +12,7 @@ import {
 
 const AuthLayout = () => {
 	const dispatch = useDispatch();
-	const { products, isAuth ,admin } = useSelector(state => state.adminReducer);
+	const { products, isAuth, admin } = useSelector(state => state.adminReducer);
 
 	const [isScrolledDown, setIsScrolledDown] = useState({
 		isScroll: false,
@@ -51,9 +51,11 @@ const AuthLayout = () => {
 	// 	// console.log("all products aajoa ek bar");
 	// }, []);
 	useEffect(() => {
-		if (!admin) {
+		if (!isAuth) {
 			dispatch(asyncCurrentAdmin());
 			navigate('/admin/auth/signin');
+		} else {
+			navigate(window.location.pathname);
 		}
 	}, []);
 	return (
