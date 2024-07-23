@@ -91,7 +91,7 @@ const Profile = () => {
 							sx={{ ':hover': { cursor: 'pointer' } }}
 							onClick={() => {
 								dispatch(asyncLogoutAdmin());
-								navigate('/admin/auth/signin');
+								navigate('/');
 							}}
 							className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
 						>
