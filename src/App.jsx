@@ -43,12 +43,12 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Layout />}>
 						<Route path="" element={<LandingPage />} />
-						{isAuth ? (
+						{/* {isAuth ? ( */}
 							<Route path="/admin" element={<AdminLayout />}>
 								<Route path="/admin/homepage" element={<AdminHomepage />} />
 								<Route path="/admin/filter" element={<FilterProductPage />} />
 							</Route>
-						) : (
+						{/* ) : ( */}
 							<Route path="/admin" element={<AuthLayout />}>
 								<Route path="/admin/auth/signin" element={<SignIn />} />
 								<Route path="/admin/auth/signup" element={<SignUp />} />
@@ -61,7 +61,7 @@ function App() {
 									element={<ResetPassword />}
 								/>
 							</Route>
-						)}
+						{/* )} */}
 					</Route>
 				</Routes>
 				{/* <Toaster position="top-center" reverseOrder={false} /> */}
