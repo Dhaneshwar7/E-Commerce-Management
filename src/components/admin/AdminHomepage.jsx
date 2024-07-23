@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AddProductForm from './AddProduct';
 import NavBarBox from './NavBarBox';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import noProductImg from '../../assets/images/noProducts.webp';
+import { asyncCurrentAdmin } from '../../store/Actions/adminActions';
 
 const demoProducts = [
 	{
@@ -21,8 +22,11 @@ const demoProducts = [
 ];
 
 export default function Homepage({ mode, toggleColorMode }) {
-	const { products: allProducts , isAuth } = useSelector(state => state.adminReducer);
-	const navigate =useNavigate()
+	const { products: allProducts, isAuth } = useSelector(
+		state => state.adminReducer
+	);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [navFilterbtn, setNavFilterbtn] = useState(false);
 	const [isScrolledDown, setIsScrolledDown] = useState({
 		isScroll: false,
@@ -54,8 +58,9 @@ export default function Homepage({ mode, toggleColorMode }) {
 	const [addProductMenu, setAddProductMenu] = useState(false);
 
 	useEffect(() => {
-		if(!isAuth){
-			navigate('/admin/auth/signin')
+		if (!isAuth) {
+			dispatch(asyncCurrentAdmin());
+			navigate('/admin/auth/signin');
 		}
 	}, []);
 

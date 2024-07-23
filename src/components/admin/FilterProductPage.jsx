@@ -114,6 +114,7 @@ export default function FilterProductPage({ mode }) {
 	const handleAddCartMenu = () => {
 		setAddProductMenu(prev => !prev);
 	};
+	
 
 	useEffect(() => {
 		setMount(true);
