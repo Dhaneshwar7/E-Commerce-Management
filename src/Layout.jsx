@@ -38,7 +38,7 @@ const Layout = () => {
 				dispatch(asyncAllProduct());
 			}
 		}
-	}, []);
+	}, [isAuth]);
 
 	return (
 		<div>

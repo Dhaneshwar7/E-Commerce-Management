@@ -30,6 +30,7 @@ import { asyncCurrentAdmin } from './store/Actions/adminActions';
 function App() {
 	const { isAuth } = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
+	
 	useEffect(() => {
 		if (!isAuth) {
 			dispatch(asyncCurrentAdmin());
