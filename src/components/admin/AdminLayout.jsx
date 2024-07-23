@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { AppAppBar, LinearBg } from '../landingpage';
 import { blue } from '@mui/material/colors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import {
 
 const AuthLayout = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { products, isAuth, admin } = useSelector(state => state.adminReducer);
 
 	const [isScrolledDown, setIsScrolledDown] = useState({
