@@ -57,12 +57,12 @@ export default function Homepage({ mode, toggleColorMode }) {
 	};
 	const [addProductMenu, setAddProductMenu] = useState(false);
 
-	useEffect(() => {
-		if (!isAuth) {
-			dispatch(asyncCurrentAdmin());
-			navigate('/admin/auth/signin');
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (!isAuth) {
+	// 		dispatch(asyncCurrentAdmin());
+	// 		navigate('/admin/auth/signin');
+	// 	}
+	// }, []);
 
 	return (
 		<>

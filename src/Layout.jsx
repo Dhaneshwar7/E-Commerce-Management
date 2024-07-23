@@ -31,6 +31,9 @@ const Layout = () => {
 		},
 	});
 	useEffect(() => {
+		dispatch(asyncCurrentAdmin());
+		dispatch(asyncAllProduct());
+
 		if (!admin) {
 			dispatch(asyncCurrentAdmin());
 		} else {

@@ -50,6 +50,12 @@ const AuthLayout = () => {
 	// 	}
 	// 	// console.log("all products aajoa ek bar");
 	// }, []);
+	useEffect(() => {
+		if (!admin) {
+			dispatch(asyncCurrentAdmin());
+			navigate('/admin/auth/signin');
+		}
+	}, []);
 	return (
 		<>
 			<LinearBg />
