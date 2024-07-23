@@ -16,7 +16,8 @@ export const asyncHomepage = () => async (dispatch, getState) => {
 		// console.log(data);
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
-		dispatch(isError(error.response.data.message));
+		console.log(error);
+		// dispatch(isError(error.response.data.message));
 	}
 };
 /* -----------  CURRENT ADMIN   -----------*/
