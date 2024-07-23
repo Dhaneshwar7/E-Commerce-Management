@@ -54,7 +54,6 @@ const AuthLayout = () => {
 	useEffect(() => {
 		if (!isAuth) {
 			dispatch(asyncCurrentAdmin());
-			navigate('/admin/auth/signin');
 		} else {
 			navigate(window.location.pathname);
 		}

@@ -133,3 +133,15 @@ export default function Profile() {
 		</Disclosure>
 	);
 }
+
+
+
+
+
+------/
+
+useEffect(() => {
+    if (!isUser) dispatch(asyncCurrentUser());
+    if (isUser) router.push(window.location.pathname);
+    if (member.length === 0) GetMyTeam();
+  }, [isUser]);
