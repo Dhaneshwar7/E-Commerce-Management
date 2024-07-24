@@ -64,7 +64,7 @@ export default function Homepage({ mode }) {
 											className="h-full w-full object-cover object-center lg:h-full lg:w-full"
 										/>
 									</div>
-									<Box className="mt-4 flex justify-between">
+									<Box className="mt-2 flex justify-between">
 										<Box className="">
 											<Typography>
 												<Link href={product.href}>
@@ -77,7 +77,7 @@ export default function Homepage({ mode }) {
 														variant={'body2'}
 														sx={{
 															display: 'flex',
-															backgroundColor: 'rgb(177, 174, 174)',
+															backgroundColor: '#c8f7fab1',
 															px: 2,
 															borderRadius: '2px',
 															flexDirection: { xs: 'column', md: 'row' },
@@ -93,7 +93,7 @@ export default function Homepage({ mode }) {
 												</Link>
 											</Typography>
 
-											<Typography sx={{ fontWeight: '600' ,mt:1,}}>
+											<Typography sx={{ fontWeight: '600', mt: '4px' }}>
 												Price :&nbsp;
 												{product?.price}
 											</Typography>
@@ -115,18 +115,24 @@ export default function Homepage({ mode }) {
 											</Typography>
 
 											<IconButton
-												color="secondary"
+												color="black"
 												onClick={() => handleDeleteProduct(product._id)}
 												sx={{
 													':hover': {
-														backgroundColor: '#dd7367c1',
-														borderRadius:'10px'
+														backgroundColor: '#e93420c1',
+														borderRadius: '10px',
+														color: 'black',
 													},
+													mt: '2px',
+													px: 1,
+													backgroundColor: '#feb5adbb',
+													borderRadius: '10px',
+													height: 'fit',
+													width: 'fit',
 												}}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
-													color="black"
 													viewBox="0 0 24 24"
 													width="20"
 													height="20"

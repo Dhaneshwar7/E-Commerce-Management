@@ -3,7 +3,8 @@ import FilterProductPage from './FilterProductPage';
 import AdminLayout from './AdminLayout';
 import AddProductForm from './AddProduct';
 import NavBarBox from './NavBarBox';
-import Profile from './Profile'
+import Profile from './Profile';
+import ProductView from './ProductView';
 
 export {
 	AdminHomepage,
@@ -11,5 +12,6 @@ export {
 	AdminLayout,
 	AddProductForm,
 	NavBarBox,
-	Profile
+	Profile,
+	ProductView,
 };

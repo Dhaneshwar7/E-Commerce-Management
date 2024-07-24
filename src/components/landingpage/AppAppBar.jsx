@@ -153,13 +153,13 @@ function AppAppBar({ mode, toggleColorMode }) {
 								<>
 									<NavLink
 										to="/admin/auth/signin"
-										className="nmwbtn w-auto px-4 mr-2 text-sm"
+										className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
 									>
 										SIGN IN
 									</NavLink>
 									<NavLink
 										to="/admin/auth/signup"
-										className="nmwbtn w-auto px-4 bg-blue-900 text-white text-sm"
+										className="nmwbtn w-auto px-4 py-[5px] bg-blue-900 text-white text-sm"
 									>
 										SIGN UP
 									</NavLink>
