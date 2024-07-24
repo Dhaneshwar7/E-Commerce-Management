@@ -280,12 +280,12 @@ const NavFilter = ({ mode }) => {
 				>
 					<div className="flex h-16 items-center">
 						{/* Search */}
-						<div className="flex lg:ml-6">
+						{/* <div className="flex lg:ml-6">
 							<a href="#" className="p-2 text-gray-400 hover:text-gray-500">
 								<span className="sr-only">Search</span>
 								<MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
 							</a>
-						</div>
+						</div> */}
 						{/* Flyout menus Women Men Hidden */}
 						<PopoverGroup className="hidden lg:ml-8 max-sm::hidden lg:self-stretch">
 							<div className="flex h-full space-x-8">

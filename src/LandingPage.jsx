@@ -25,7 +25,6 @@ export default function LandingPage() {
 	useEffect(() => {
 		setMount(true);
 	}, []);
-
 	if (!mount) return null;
 	return (
 		< >

@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,11 +16,13 @@ import { createAxiosInstance } from 'src/axios';
 import {
 	asyncCurrentAdmin,
 	asyncLogoutAdmin,
+	asyncSetMessage,
 	asyncSignInAdmin,
 } from '../../store/Actions/adminActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { LinearBg } from '../landingpage';
+import { Typography } from '@mui/material';
 
 const axiosInstance = createAxiosInstance();
 
@@ -29,7 +31,7 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-	const { isAuth } = useSelector(state => state.adminReducer);
+	const { isAuth, message, success } = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	useEffect(() => {
@@ -64,11 +66,14 @@ export default function SignIn() {
 		// SignIn Api code
 		try {
 			dispatch(asyncSignInAdmin(formValues));
-			setFormValues({
-				email: '',
-				password: '',
-			});
-			navigate('/admin/homepage');
+			if (success) {
+				setFormValues({
+					email: '',
+					password: '',
+				});
+				navigate('/admin/homepage');
+				dispatch(asyncSetMessage());
+			}
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}
@@ -88,7 +93,8 @@ export default function SignIn() {
 				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 					<LockOutlinedIcon />
 				</Avatar>
-				<Typography component="h1" variant="h5">
+				<Typography variant="body1" color="initial">
+					{' '}
 					Sign in
 				</Typography>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -129,8 +135,9 @@ export default function SignIn() {
 							backgroundColor: 'rgba(202, 100, 100, 0.836)',
 							borderRadius: 1,
 						}}
+						color="initial"
 						component="h3"
-						variant="h6"
+						variant="body1"
 					>
 						{error}
 					</Typography>
@@ -171,6 +178,20 @@ export default function SignIn() {
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
+						{message && (
+							<Typography
+								sx={{
+									pt: 2,
+									fontWeight: '800',
+									color: 'green',
+								}}
+								component="h3"
+								color="initial"
+								variant="body1"
+							>
+								{message}
+							</Typography>
+						)}
 					</Grid>
 				</Box>
 			</Box>

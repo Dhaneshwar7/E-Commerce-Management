@@ -31,11 +31,11 @@ function App() {
 	const { isAuth } = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
 	
-	useEffect(() => {
-		if (!isAuth) {
-			dispatch(asyncCurrentAdmin());
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (isAuth) {
+	// 		dispatch(asyncCurrentAdmin());
+	// 	}
+	// }, []);
 	// console.log(isAuth);
 	return (
 		<>

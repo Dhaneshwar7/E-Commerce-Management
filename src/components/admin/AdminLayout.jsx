@@ -1,9 +1,6 @@
-import { ThemeProvider } from '@emotion/react';
-import { createTheme, CssBaseline } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { AppAppBar, LinearBg } from '../landingpage';
-import { blue } from '@mui/material/colors';
+import { LinearBg } from '../landingpage';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	asyncAllProduct,
@@ -13,55 +10,23 @@ import {
 const AuthLayout = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { products, isAuth, admin } = useSelector(state => state.adminReducer);
-
-	const [isScrolledDown, setIsScrolledDown] = useState({
-		isScroll: false,
-		isScrolllVaue: 0,
-	});
-
+	const { products, isAuth, admin, success, message } = useSelector(
+		state => state.adminReducer
+	);
 	useEffect(() => {
-		let lastScroll = 0;
-		let isScrolled = false;
-		const handleScroll = () => {
-			let currentScroll =
-				window.pageYOffset ||
-				document.documentElement.scrollTop ||
-				document.body.scrollTop ||
-				0;
-			let scrollDirection = currentScroll < lastScroll;
-			let shouldToggle = isScrolled && scrollDirection;
-			isScrolled = currentScroll > 100;
-			lastScroll = currentScroll;
-			setIsScrolledDown({
-				isScroll: scrollDirection,
-				isScrolllVaue: currentScroll,
-			});
-			// console.log(currentScroll);
-		};
-		window.addEventListener('scroll', handleScroll);
-	}, []);
-	// useEffect(() => {
-	// 	if (!admin) {
-	// 		dispatch(asyncCurrentAdmin());
-	// 	} else {
-	// 		if (!products || products.length <= 0) {
-	// 			dispatch(asyncAllProduct());
-	// 		}
-	// 	}
-	// 	// console.log("all products aajoa ek bar");
-	// }, []);
-	useEffect(() => {
-		if (!isAuth) {
+		if (!admin) {
 			dispatch(asyncCurrentAdmin());
 		} else {
-			navigate(window.location.pathname);
+			if (!products || products.length <= 0) {
+				console.log('all products aajoa ek bar');
+				dispatch(asyncAllProduct());
+			}
 		}
-	}, []);
+	}, [isAuth]);
 	return (
 		<>
 			<LinearBg />
-			<Outlet isScrolledDown={isScrolledDown} />
+			<Outlet />
 		</>
 	);
 };

@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	asyncAllProduct,
+	asyncCreateManyProduct,
 	asyncCreateProduct,
 	asyncCurrentAdmin,
+	asyncSetMessage,
 } from '../../store/Actions/adminActions';
-import { alpha, Box } from '@mui/material';
-import { validImageTypes } from '../../utils/FnCollection';
+import { alpha, Box, Button, FormLabel, Typography } from '@mui/material';
+import { dummyProductData, validImageTypes } from '../../utils/FnCollection';
 
 export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
-	const { products, admin } = useSelector(state => state.adminReducer);
+	const { products, admin, message, success } = useSelector(
+		state => state.adminReducer
+	);
 	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -20,6 +24,22 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 		description: '',
 		status: 'Available',
 	});
+	async function handleProductSubmission(formData) {
+		try {
+			await dispatch(asyncCreateProduct(formData));
+			dispatch(asyncAllProduct());
+			setProductForm({
+				productName: '',
+				price: '',
+				quantity: '',
+				description: '',
+				status: 'Available',
+			});
+			setSelectedImage(null);
+		} catch (error) {
+			console.error('Submission error:', error);
+		}
+	}
 
 	const handleSubmitProduct = async e => {
 		e.preventDefault();
@@ -30,31 +50,7 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 		if (selectedImage) {
 			formData.append('image', selectedImage);
 		}
-
-		try {
-			dispatch(asyncCreateProduct(formData));
-			setTimeout(() => {
-				dispatch(asyncAllProduct());
-			}, 3000);
-			if (formData) {
-				// Handle successful upload
-				setProductForm({
-					productName: '',
-					price: '',
-					quantity: '',
-					description: '',
-					status: 'Available',
-				}); // Clear form data
-				setSelectedImage(null);
-			} else {
-				setErrorMessage(response.data.message || 'Submission failed.'); // Handle API error messages
-			}
-		} catch (error) {
-			console.error('Submission error:', error);
-			setErrorMessage(
-				'An error occurred during submission. Please try again later.'
-			);
-		}
+		handleProductSubmission(formData);
 	};
 
 	const handleChange = e => {
@@ -78,6 +74,11 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 		}
 		// console.log('add product clicked ');
 	}, [dispatch]);
+
+	// const handleCreateMany = () => {
+	// 	dispatch(asyncCreateManyProduct(dummyProductData));
+	// 	console.log('button clikee');
+	// };
 	return (
 		<Box
 			className={`w-2/5 max-sm:w-full h-full rounded-md bottom-0  max-sm:h-4/6 max-sm:bottom-0  max-h-screen flex items-center justify-center transition-[right] max-sm:transition-[bottom] duration-100 ease-in-out ${
@@ -111,7 +112,7 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 			>
 				<div className="space-y-12">
 					<div className="border-b border-gray-900/10 pb-2">
-						<div className="w-full max-sm:hidden mb-5 -mt-5 flex justify-end">
+						{/* <div className="w-full max-sm:hidden mb-5 -mt-5 flex justify-end">
 							<button
 								onClick={handleAddCartMenu}
 								className="bg-orange-400 w-fit py-2 flex items-center justify-center px-4 rounded"
@@ -128,18 +129,24 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 
 								<h1>Close</h1>
 							</button>
-						</div>
-						<h2 className="text-xl font-extrabold text-center leading-7 text-gray-900">
+						</div> */}
+						{/* <Button onClick={handleCreateMany}>Create Many</Button> */}
+						<Typography
+							variant="body2"
+							sx={{ fontSize: { xs: 16, md: 25 }, fontWeight: '900' }}
+							className="text-center leading-7"
+							color="text.primary"
+						>
 							ADD PRODUCT INFORMATION
-						</h2>
+						</Typography>
 						<div className="mt-2 grid grid-rows-3 grid-flow-col max-sm:gap-1 gap-2">
 							<div className="col-span-1">
-								<label
+								<FormLabel
 									htmlFor="productName"
-									className="block text-sm font-medium leading-6 text-gray-900"
+									className="block text-base font-medium leading-6 text-gray-900"
 								>
 									Product Name
-								</label>
+								</FormLabel>
 								<div className="mt-2">
 									<input
 										id="productName"
@@ -155,12 +162,12 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 							</div>
 
 							<div className="">
-								<label
+								<FormLabel
 									htmlFor="Price"
 									className="block text-sm font-medium leading-6 text-gray-900"
 								>
 									Price
-								</label>
+								</FormLabel>
 								<div className="mt-2">
 									<input
 										id="Price"
@@ -176,12 +183,12 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 							</div>
 
 							<div className="row-span-1 col-span-1">
-								<label
+								<FormLabel
 									htmlFor="quantity"
 									className="block text-sm font-medium leading-6 text-gray-900"
 								>
 									Quatitiy
-								</label>
+								</FormLabel>
 								<div className="mt-2">
 									<input
 										id="quantity"
@@ -195,12 +202,12 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 								</div>
 							</div>
 							<div className="row-span-2 col-span-2">
-								<label
+								<FormLabel
 									htmlFor="description"
 									className="block text-sm font-medium leading-6 text-gray-900"
 								>
 									Description
-								</label>
+								</FormLabel>
 								<div className="mt-2">
 									<textarea
 										id="description"
@@ -214,12 +221,12 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 								</div>
 							</div>
 							<div className="row-span-1 col-span-1">
-								<label
+								<FormLabel
 									htmlFor="status"
 									className="block text-sm font-medium leading-6 text-gray-900"
 								>
 									Select Status
-								</label>
+								</FormLabel>
 								<div className="mt-2">
 									<select
 										id="status"
@@ -238,12 +245,12 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 						</div>
 						{/* --------- Photo Upload -------*/}
 						<div className="col-span-4 row-span-4 mt-4">
-							{/* <label
+							{/* <FormLabel
 								htmlFor="cover-photo"
 								className="block text-sm font-medium leading-6 text-gray-900"
 							>
 								Cover photo
-							</label> */}
+							</FormLabel> */}
 							<div className="mt-2 max-sm:h-22 max-sm:p-0 max-sm:pb-2 max-sm:w-full flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-2 max-sm:py-34">
 								<div className="text-center max-sm:flex max-sm:items-center max-sm:justify-center max-sm:gap-2">
 									{selectedImage ? (
@@ -260,9 +267,9 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 										/>
 									)}
 									<div className="mt-4 flex text-sm leading-6 text-gray-600">
-										<label
+										<FormLabel
 											htmlFor="file-upload"
-											className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+											className="relative cursor-pointer rounded-md bg-white px-3 font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
 										>
 											<span>Upload a file</span>
 											<input
@@ -276,7 +283,7 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 											<p className="text-xs max-sm:block hidden leading-5 text-gray-600">
 												PNG, JPG, GIF up to 10MB
 											</p>
-										</label>
+										</FormLabel>
 
 										{/* <p className="pl-1">or drag and drop</p> */}
 									</div>
@@ -303,11 +310,19 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 						</div>
 						{errorMessage && (
 							<div className="mt-2 w-full flex justify-end">
-								<button
-									onClick={handleAddCartMenu}
-									className="bg-red-400 text-sm w-full p-2 rounded"
-								>
+								<button className="bg-red-400 text-sm w-full p-2 rounded">
 									{errorMessage}
+								</button>
+							</div>
+						)}
+						{message && (
+							<div
+								className={`mt-2 hidden ${
+									message && 'block'
+								} w-full flex justify-end`}
+							>
+								<button className="bg-red-400 text-sm w-full p-2 rounded">
+									{message}
 								</button>
 							</div>
 						)}

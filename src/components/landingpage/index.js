@@ -5,6 +5,7 @@ import Footer from './Footer';
 import ToggleColorMode from './ToggleColorMode';
 import LinearBg from './LinearBg';
 import NavFilter from './NavFilter';
+import SearchBar from './SearchBar';
 
 export {
 	AppAppBar,
@@ -14,4 +15,5 @@ export {
 	ToggleColorMode,
 	LinearBg,
 	NavFilter,
+	SearchBar,
 };

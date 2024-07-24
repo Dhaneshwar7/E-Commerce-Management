@@ -2,10 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	admin: null,
-	errors: null,
 	isAuth: false,
-	isLoading: false,
 	products: null,
+	message: null,
+	success: false,
+	errors: null,
+	isLoading: false,
+	searchedProducts: null,
 };
 
 export const adminReducer = createSlice({
@@ -22,10 +25,13 @@ export const adminReducer = createSlice({
 			state.admin = null;
 			state.isAuth = false;
 			state.errors = [];
-			state.products=null;
+			state.products = null;
+			state.message = null;
+			state.success = false;
+			state.isLoading = false;
 		},
 		isError: (state, action) => {
-			state.errors=action.payload
+			state.errors = action.payload;
 		},
 		removeError: (state, action) => {
 			state.errors = [];
@@ -34,6 +40,15 @@ export const adminReducer = createSlice({
 			state.isLoading = action.payload;
 		},
 		setAllProducts: (state, action) => {
+			state.products = action.payload;
+		},
+		setMessage: (state, action) => {
+			state.message = action.payload;
+		},
+		setSuccess: (state, action) => {
+			state.message = action.payload;
+		},
+		setSearchedProducts: (state, action) => {
 			state.products = action.payload;
 		},
 	},
@@ -47,6 +62,9 @@ export const {
 	removeError,
 	isLoading,
 	setAllProducts,
+	setMessage,
+	setSuccess,
+	setSearchedProducts,
 } = adminReducer.actions;
 
 export default adminReducer.reducer;

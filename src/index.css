@@ -16,7 +16,7 @@
     @apply max-sm:text-base max-sm:py-2 max-sm:w-full max-sm:text-center max-sm:flex max-sm:items-center max-sm:justify-center max-sm:m-auto;
   }
    .nmwbtn {
-     @apply inline-flex justify-center text-[14px] items-center py-2  text-blue-400 font-bold rounded-full shadow hover:bg-blue-500/40 hover:text-slate-100 max-sm:hover:bg-blue-700 border-[.5px] w-full text-center border-blue-400;
+     @apply inline-flex justify-center text-[14px] items-center text-blue-400 font-bold rounded-full shadow hover:bg-blue-500/40 hover:text-slate-100 max-sm:hover:bg-blue-700 border-[.5px] w-full text-center border-blue-400;
   }
   /* ... */
 }

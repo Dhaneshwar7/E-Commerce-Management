@@ -8,6 +8,9 @@ import {
 	removeError,
 	isLoading,
 	setAllProducts,
+	setMessage,
+	setSuccess,
+	setSearchedProducts,
 } from '../Reducers/AdminReducer';
 
 export const asyncHomepage = () => async (dispatch, getState) => {
@@ -16,8 +19,8 @@ export const asyncHomepage = () => async (dispatch, getState) => {
 		// console.log(data);
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
-		console.log(error);
-		// dispatch(isError(error.response.data.message));
+		// console.log(error);
+		dispatch(isError(error.response.data.message));
 	}
 };
 /* -----------  CURRENT ADMIN   -----------*/
@@ -28,18 +31,20 @@ export const asyncCurrentAdmin = () => async (dispatch, getState) => {
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
 		// console.log(error.response.data.message);
-		dispatch(isError(error));
+		dispatch(isError(error.response.data.message));
 	}
 };
 /* -----------  ADMIN SIGN_UP  -----------*/
 export const asyncSignUpAdmin = admin => async (dispatch, getState) => {
 	try {
-		console.log(admin);
-		const { data } = await axiosInstance.post('/admin/signup', admin);
+		dispatch(isLoading(true));
+		const data = await axiosInstance.post('/admin/signup', admin);
 		// console.log(data, 'Admin SIGN_UP done');
+		dispatch(setMessage(data.data.message));
+		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentAdmin());
 	} catch (error) {
-		// console.log(error.response.data.message);
+		// console.log(error);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -47,11 +52,14 @@ export const asyncSignUpAdmin = admin => async (dispatch, getState) => {
 /* -----------   ADMIN SIGN_IN   ----------*/
 export const asyncSignInAdmin = admin => async (dispatch, getState) => {
 	try {
+		dispatch(isLoading(true));
 		const data = await axiosInstance.post('/admin/signin', admin);
 		// console.log(data, 'Admin SIGN_IN done');
+		dispatch(setMessage(data.data.message));
+		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentAdmin(data));
 	} catch (error) {
-		// console.log(error.response.data.message);
+		// console.log(error);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -71,8 +79,10 @@ export const asyncLogoutAdmin = () => async (dispatch, getState) => {
 /* -----------   ADMIN FORGET_PASSWORD_SENDLINK   ----------*/
 export const asyncForgetLinkSend = email => async (dispatch, getState) => {
 	try {
-		const { data } = await axiosInstance.post('/admin/sendlink-mail', email);
+		const data = await axiosInstance.post('/admin/sendlink-mail', email);
 		// console.log(data, 'Admin Forget-LInk-Sent!');
+		dispatch(setMessage(data.data.message));
+		dispatch(setSuccess(data.data.success));
 	} catch (error) {
 		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));
@@ -82,7 +92,8 @@ export const asyncForgetLinkSend = email => async (dispatch, getState) => {
 /* -----------   ADMIN PRODUCT_CREAT   ----------*/
 export const asyncCreateProduct = formData => async (dispatch, getState) => {
 	try {
-		const { data } = await axiosInstance.post(
+		dispatch(isLoading(true));
+		const data = await axiosInstance.post(
 			'/admin/product/create-product',
 			formData,
 			{
@@ -91,22 +102,91 @@ export const asyncCreateProduct = formData => async (dispatch, getState) => {
 				},
 			}
 		);
-		console.log(data, 'Product donnnnnnnn');
+		// console.log(data, 'Product donnnnnnnn');
+		dispatch(setMessage(data.data.message));
+		dispatch(setSuccess(data.data.success));
 	} catch (error) {
-		// console.log(error.response.data.message);
-		console.log('Product creeeete fail');
-		dispatch(isError(error.response.data.message));
+		console.log(error);
+		dispatch(isError(error?.response?.data?.message));
 	}
 };
 
 /* -----------   ADMIN VIEW ALL PRODUCTS   ----------*/
 export const asyncAllProduct = () => async (dispatch, getState) => {
 	try {
+		dispatch(isLoading(true));
 		const data = await axiosInstance.get('/admin/product/viewall');
 		dispatch(setAllProducts(data.data.products));
 		// console.log(data.data.products, 'All Product Visible');
 	} catch (error) {
 		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));
+	}
+};
+
+export const asyncSetMessage = () => async (dispatch, getState) => {
+	try {
+		dispatch(setMessage(null));
+		dispatch(setSuccess(false));
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const asyncCreateManyProduct =
+	manydata => async (dispatch, getState) => {
+		try {
+			const data = await axiosInstance.post(
+				'/admin/product/create-many',
+				manydata
+			);
+			console.log('allll done bro');
+			// dispatch(setAllProducts(data.data.products));
+			// console.log(data.data.products, 'All Product Visible');
+		} catch (error) {
+			console.log(error);
+			// dispatch(isError(error.response.data.message));
+		}
+	};
+
+export const asyncSearchProduct = debouncedSearch => async dispatch => {
+	try {
+		const params = new URLSearchParams({
+			searchText: debouncedSearch,
+		});
+
+		const data = await axiosInstance.get(
+			`/admin/product/search?${params.toString()}`
+		);
+		console.log(data);
+		dispatch(setAllProducts(data?.data?.products));
+	} catch (error) {
+		// console.log(error);
+		dispatch(
+			isError(error.response?.data?.message || 'Error occurred during search')
+		);
+	}
+};
+
+export const asyncDeleteProduct = productId => async dispatch => {
+	try {
+		const data = await axiosInstance.delete(
+			`/admin/product/delete/${productId}`
+		);
+		console.log(data);
+		dispatch(setMessage(data.data.message));
+	} catch (error) {
+		console.log(error);
+		dispatch(
+			isError(error.response?.data?.message || 'Error occurred during search')
+		);
+	}
+};
+
+export const asyncRemoveErrors = () => async dispatch => {
+	try {
+		dispatch(removeError([]));
+	} catch (error) {
+		console.log(error);
 	}
 };

@@ -12,12 +12,14 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import SiteMarkImg from '../../assets/svgs/sitemark.svg';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavFilter } from '.';
+import { NavFilter, SearchBar } from '.';
 import { Profile } from '../admin';
 import { asyncLogoutAdmin } from '../../store/Actions/adminActions';
 function AppAppBar({ mode, toggleColorMode }) {
+	const location = useLocation();
+	const paths = ['/admin/homepage', '/admin/filter'];
 	const dispatch = useDispatch();
 	const [open, setOpen] = React.useState(false);
 	const toggleDrawer = newOpen => () => {
@@ -80,6 +82,7 @@ function AppAppBar({ mode, toggleColorMode }) {
 								flexGrow: 1,
 								display: 'flex',
 								alignItems: 'center',
+								justifyContent: 'space-between',
 								ml: '-18px',
 								px: 0,
 							}}
@@ -89,13 +92,27 @@ function AppAppBar({ mode, toggleColorMode }) {
 							</NavLink>
 
 							{/* It Navigation Filter */}
-							{isAuth && <NavFilter mode={mode} />}
+							{/* {isAuth && <NavFilter mode={mode} />} */}
+							{isAuth && (
+								<>
+									{paths.includes(location.pathname) && (
+										<Box sx={{ width: 'fit-content' }}>
+											<SearchBar />
+										</Box>
+									)}
+								</>
+							)}
 
 							{isAuth && (
 								<div className="max-sm:hidden flex">
+									{/* {paths.includes(location.pathname) && (
+										<Box sx={{ width: 'fit-content' }}>
+											<SearchBar />
+										</Box>
+									)} */}
 									<NavLink
 										to="/admin/filter"
-										className="nmwbtn w-auto mr-2 px-4 "
+										className="nmwbtn py-[5px] w-auto mr-2 px-4 "
 									>
 										<Typography variant="body2" color="text.primary">
 											Store
@@ -103,13 +120,16 @@ function AppAppBar({ mode, toggleColorMode }) {
 									</NavLink>
 									<NavLink
 										to="/admin/filter"
-										className="nmwbtn w-auto mr-2 px-4 "
+										className="nmwbtn py-[5px] w-auto mr-2 px-4 "
 									>
 										<Typography variant="body2" color="text.primary">
 											Filter
 										</Typography>
 									</NavLink>
-									<NavLink to="/admin/homepage" className="nmwbtn w-auto px-4">
+									<NavLink
+										to="/admin/homepage"
+										className="nmwbtn py-[5px] w-auto px-4"
+									>
 										<Typography variant="body2" color="text.primary">
 											Products
 										</Typography>

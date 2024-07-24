@@ -1,68 +1,42 @@
-import { Box, Container, CssBaseline, Typography } from '@mui/material';
+import {
+	Box,
+	Container,
+	CssBaseline,
+	IconButton,
+	Typography,
+} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AddProductForm from './AddProduct';
 import NavBarBox from './NavBarBox';
 import { useDispatch, useSelector } from 'react-redux';
 import noProductImg from '../../assets/images/noProducts.webp';
-import { asyncCurrentAdmin } from '../../store/Actions/adminActions';
+import {
+	asyncAllProduct,
+	asyncCurrentAdmin,
+	asyncDeleteProduct,
+} from '../../store/Actions/adminActions';
 
-const demoProducts = [
-	{
-		id: 1,
-		name: 'Basic Tee',
-		href: '#',
-		imageSrc:
-			'https://ik.imagekit.io/deltaimg/productImage-url-1721638177832_imLvG__JHm.jpeg',
-		imageAlt: "Front of men's Basic Tee in black.",
-		price: '$35',
-		color: 'Black',
-	},
-	// More products...
-];
-
-export default function Homepage({ mode, toggleColorMode }) {
-	const { products: allProducts, isAuth } = useSelector(
-		state => state.adminReducer
-	);
+export default function Homepage({ mode }) {
+	const {
+		products: allProducts,
+		isAuth,
+		errors,
+		message,
+	} = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [navFilterbtn, setNavFilterbtn] = useState(false);
-	const [isScrolledDown, setIsScrolledDown] = useState({
-		isScroll: false,
-		isScrolllVaue: 0,
-	});
-	useEffect(() => {
-		let lastScroll = 0;
-		let isScrolled = false;
-		const handleScroll = () => {
-			let currentScroll =
-				window.pageYOffset ||
-				document.documentElement.scrollTop ||
-				document.body.scrollTop ||
-				0;
-			let scrollDirection = currentScroll < lastScroll;
-			let shouldToggle = isScrolled && scrollDirection;
-			isScrolled = currentScroll > 100;
-			lastScroll = currentScroll;
-			setIsScrolledDown({
-				isScroll: scrollDirection,
-				isScrolllVaue: currentScroll,
-			});
-		};
-		window.addEventListener('scroll', handleScroll);
-	}, []);
 	const handleAddCartMenu = () => {
 		setAddProductMenu(prev => !prev);
 	};
 	const [addProductMenu, setAddProductMenu] = useState(false);
-
-	// useEffect(() => {
-	// 	if (!isAuth) {
-	// 		dispatch(asyncCurrentAdmin());
-	// 		navigate('/admin/auth/signin');
-	// 	}
-	// }, []);
+	const handleDeleteProduct = productId => {
+		dispatch(asyncDeleteProduct(productId));
+		setTimeout(() => {
+			dispatch(asyncAllProduct());
+		}, 1000);
+	};
 
 	return (
 		<>
@@ -71,12 +45,10 @@ export default function Homepage({ mode, toggleColorMode }) {
 					addProductMenu={addProductMenu}
 					handleAddCartMenu={handleAddCartMenu}
 				/>
-
 				<Container className="mx-auto pt-24	 sticky top-0 max-w-2xl px-4 py-5 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 					<CssBaseline />
 					<NavBarBox
 						mode={mode}
-						isScrolledDown={isScrolledDown}
 						handleAddCartMenu={handleAddCartMenu}
 						addProductMenu={addProductMenu}
 						navFilterbtn={navFilterbtn}
@@ -93,7 +65,7 @@ export default function Homepage({ mode, toggleColorMode }) {
 										/>
 									</div>
 									<Box className="mt-4 flex justify-between">
-										<Box>
+										<Box className="">
 											<Typography>
 												<Link href={product.href}>
 													<span
@@ -105,10 +77,13 @@ export default function Homepage({ mode, toggleColorMode }) {
 														variant={'body2'}
 														sx={{
 															display: 'flex',
+															backgroundColor: 'rgb(177, 174, 174)',
+															px: 2,
+															borderRadius: '2px',
 															flexDirection: { xs: 'column', md: 'row' },
 															alignSelf: 'center',
 															textAlign: 'center',
-															fontSize: 'clamp(1rem, .8vw, 1rem)',
+															fontSize: 'clamp(1.2rem, 1vw, 2rem)',
 															fontWeight: '600',
 															opacity: '.9',
 														}}
@@ -117,25 +92,50 @@ export default function Homepage({ mode, toggleColorMode }) {
 													</Typography>
 												</Link>
 											</Typography>
-											<Typography
-												sx={{ backgroundColor: 'rgb(177, 174, 174)' }}
-											>
+
+											<Typography sx={{ fontWeight: '600' ,mt:1,}}>
+												Price :&nbsp;
 												{product?.price}
 											</Typography>
 										</Box>
-										<Typography
-											variant="h5"
-											sx={{
-												display: 'flex',
-												flexDirection: { xs: 'column', md: 'row' },
-												alignSelf: 'center',
-												textAlign: 'center',
-												fontSize: 'clamp(.6rem, 4vw, 1rem)',
-												fontWeight: '600',
-											}}
-										>
-											{product.price}
-										</Typography>
+										<Box className="flex flex-col justify-between">
+											<Typography
+												variant="h5"
+												sx={{
+													display: 'flex',
+													flexDirection: { xs: 'column', md: 'row' },
+													alignSelf: 'center',
+													textAlign: 'center',
+													fontSize: 'clamp(.6rem, 4vw, 1rem)',
+													fontWeight: '600',
+												}}
+											>
+												Quantity :&nbsp;
+												{product?.quantity}
+											</Typography>
+
+											<IconButton
+												color="secondary"
+												onClick={() => handleDeleteProduct(product._id)}
+												sx={{
+													':hover': {
+														backgroundColor: '#dd7367c1',
+														borderRadius:'10px'
+													},
+												}}
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													color="black"
+													viewBox="0 0 24 24"
+													width="20"
+													height="20"
+													fill="currentColor"
+												>
+													<path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
+												</svg>
+											</IconButton>
+										</Box>
 									</Box>
 								</Box>
 							))}

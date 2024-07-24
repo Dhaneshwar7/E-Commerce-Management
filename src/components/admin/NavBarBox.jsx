@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import {
 	ChevronDownIcon,
@@ -21,12 +21,32 @@ function classNames(...classes) {
 }
 
 const NavBarBox = ({
-	isScrolledDown,
 	mode,
 	handleAddCartMenu,
 	setMobileFiltersOpen,
 	navFilterbtn,
 }) => {
+	const [isScrolledDown, setIsScrolledDown] = useState(false);
+	const [isScrollValue, setIsScrollValue] = useState(0);
+	useEffect(() => {
+		let lastScroll = 0;
+		let isScrolled = false;
+		const handleScroll = () => {
+			let currentScroll =
+				window.pageYOffset ||
+				document.documentElement.scrollTop ||
+				document.body.scrollTop ||
+				0;
+			let scrollDirection = currentScroll < lastScroll;
+			let shouldToggle = isScrolled && scrollDirection;
+			isScrolled = currentScroll > 100;
+			lastScroll = currentScroll;
+			setIsScrolledDown(scrollDirection);
+			setIsScrollValue(currentScroll);
+			// console.log(currentScroll);
+		};
+		window.addEventListener('scroll', handleScroll);
+	}, []);
 	return (
 		<Box className="AllProduct-Heading -mt-24 pt-20 flex items-baseline justify-between sticky top-0 z-40">
 			<Toolbar
@@ -49,17 +69,17 @@ const NavBarBox = ({
 							? `0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)`
 							: '0 0 1px rgba(2, 31, 59, 0.7), 1px 1.5px 2px -1px rgba(2, 31, 59, 0.65), 4px 4px 12px -2.5px rgba(2, 31, 59, 0.65)',
 				})}
-				className={`ToolbarNav flex  px-6 absolute ${
-					isScrolledDown.isScroll ? 'top-auto opacity-100' : 'top-5 opacity-0'
+				className={`ToolbarNav rounded-lg flex  px-6 absolute ${
+					isScrolledDown ? 'top-auto opacity-100' : 'top-5 opacity-0'
 				} ${
-					isScrolledDown.isScrolllVaue === 0 && 'top-auto opacity-100'
+					isScrollValue === 0 && 'top-auto opacity-100'
 				} top-0 w-[76vw] max-sm:w-full m-auto justify-between transition items-center`}
 			>
 				<Typography
 					sx={{
 						color: theme =>
 							theme.palette.mode === 'light' ? 'black' : 'white',
-						fontSize: {xs:'.7rem',lg:'1.3rem'},
+						fontSize: { xs: '.9rem', lg: '1.3rem' },
 						fontWeight: 'bold',
 						zIndex: '50',
 					}}

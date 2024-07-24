@@ -14,8 +14,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
-import { useDispatch } from 'react-redux';
-import { asyncSignUpAdmin } from '../../store/Actions/adminActions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	asyncSetMessage,
+	asyncSignUpAdmin,
+} from '../../store/Actions/adminActions';
 import { AppAppBar, LinearBg } from '../landingpage';
 
 const axiosInstance = createAxiosInstance();
@@ -23,6 +26,9 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+	const { isAuth, message, success, admin } = useSelector(
+		state => state.adminReducer
+	);
 	// console.log(import.meta.env.VITE_APP_API_URL);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -62,21 +68,22 @@ export default function SignUp() {
 			setError('All fields must be Filled !.');
 			return;
 		}
-		console.log(formValues);
 		// SignUP Api code likhunga
 		try {
 			dispatch(asyncSignUpAdmin(formValues));
-
-			setFormValues({
-				firstname: '',
-				lastname: '',
-				email: '',
-				password: '',
-				contact: '',
-				city: '',
-				gender: '',
-			});
-			navigate('/admin/homepage');
+			if (success) {
+				setFormValues({
+					firstname: '',
+					lastname: '',
+					email: '',
+					password: '',
+					contact: '',
+					city: '',
+					gender: '',
+				});
+				navigate('/admin/homepage');
+				dispatch(asyncSetMessage());
+			}
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}
@@ -86,7 +93,7 @@ export default function SignUp() {
 			<CssBaseline />
 			<Box
 				sx={{
-					pt: {xs:10,md:12},
+					pt: { xs: 10, md: 12 },
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -221,6 +228,19 @@ export default function SignUp() {
 							</Link>
 						</Grid>
 					</Grid>
+					{message && (
+						<Typography
+							sx={{
+								pt: 2,
+								fontWeight: '800',
+								color: 'green',
+							}}
+							component="h3"
+							variant="h6"
+						>
+							{message}
+						</Typography>
+					)}
 				</Box>
 			</Box>
 		</Container>
