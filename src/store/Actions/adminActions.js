@@ -54,12 +54,12 @@ export const asyncSignInAdmin = admin => async (dispatch, getState) => {
 	try {
 		dispatch(isLoading(true));
 		const data = await axiosInstance.post('/admin/signin', admin);
-		// console.log(data, 'Admin SIGN_IN done');
+		console.log(data, 'Admin SIGN_IN done');
 		dispatch(setMessage(data.data.message));
 		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentAdmin(data));
 	} catch (error) {
-		// console.log(error);
+		console.log(error);	
 		dispatch(isError(error.response.data.message));
 	}
 };

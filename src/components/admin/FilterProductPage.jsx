@@ -296,7 +296,6 @@ export default function FilterProductPage({ mode}) {
 								) : (
 									<Box
 										sx={{
-											backgroundColor: 'gray',
 											height: '60vh',
 											width: '100%',
 											margin: 'auto',
@@ -305,6 +304,7 @@ export default function FilterProductPage({ mode}) {
 											alignItems: 'center',
 											justifyContent: 'center',
 										}}
+										className="gray"
 									>
 										<Typography
 											variant="h5"
@@ -312,9 +312,16 @@ export default function FilterProductPage({ mode}) {
 												textAlign: 'center',
 												fontSize: 'clamp(.6rem, 4vw, 2rem)',
 												fontWeight: '600',
+												textAlign: 'center',
 											}}
 										>
-											<img src={noProductImg} alt="" />
+											<img
+												src={noProductImg}
+												width="300"
+												className="m-auto"
+												height="200"
+												alt=""
+											/>
 											NO PRODUCTS !! ADD PRODUCTS
 										</Typography>
 									</Box>

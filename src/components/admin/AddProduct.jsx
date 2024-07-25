@@ -10,7 +10,7 @@ import {
 import { alpha, Box, Button, FormLabel, Typography } from '@mui/material';
 import { dummyProductData, validImageTypes } from '../../utils/FnCollection';
 
-export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
+export default function AddProductForm({ addProductMenu, setAddProductMenu }) {
 	const { products, admin, message, success } = useSelector(
 		state => state.adminReducer
 	);
@@ -112,9 +112,9 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 			>
 				<div className="space-y-12">
 					<div className="border-b border-gray-900/10 pb-2">
-						{/* <div className="w-full max-sm:hidden mb-5 -mt-5 flex justify-end">
+						<div className="w-full max-sm:hidden mb-5 -mt-5 flex justify-end">
 							<button
-								onClick={handleAddCartMenu}
+								onClick={() => setAddProductMenu(prev => !prev)}
 								className="bg-orange-400 w-fit py-2 flex items-center justify-center px-4 rounded"
 							>
 								<svg
@@ -129,7 +129,7 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 
 								<h1>Close</h1>
 							</button>
-						</div> */}
+						</div>
 						{/* <Button onClick={handleCreateMany}>Create Many</Button> */}
 						<Typography
 							variant="body2"
@@ -296,7 +296,7 @@ export default function AddProductForm({ addProductMenu, handleAddCartMenu }) {
 						<div className="mt-6 max-sm:mt-2 flex items-center justify-end gap-x-6">
 							<button
 								type="button"
-								onClick={handleAddCartMenu}
+								onClick={() => setAddProductMenu(prev => !prev)}
 								className="text-sm font-semibold max-sm:text-base leading-6 text-gray-900"
 							>
 								Cancel

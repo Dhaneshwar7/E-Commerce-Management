@@ -97,7 +97,7 @@ function AppAppBar({ mode, toggleColorMode }) {
 								<>
 									{paths.includes(location.pathname) && (
 										<Box sx={{ width: 'fit-content' }}>
-											<SearchBar />
+											<SearchBar mode={mode} />
 										</Box>
 									)}
 								</>
@@ -105,17 +105,12 @@ function AppAppBar({ mode, toggleColorMode }) {
 
 							{isAuth && (
 								<div className="max-sm:hidden flex">
-									{/* {paths.includes(location.pathname) && (
-										<Box sx={{ width: 'fit-content' }}>
-											<SearchBar />
-										</Box>
-									)} */}
 									<NavLink
-										to="/admin/filter"
+										to="/admin/pro"
 										className="nmwbtn py-[5px] w-auto mr-2 px-4 "
 									>
 										<Typography variant="body2" color="text.primary">
-											Store
+											Proview
 										</Typography>
 									</NavLink>
 									<NavLink
@@ -151,6 +146,12 @@ function AppAppBar({ mode, toggleColorMode }) {
 								<Profile />
 							) : (
 								<>
+									{/* <NavLink
+										to="/admin/prod"
+										className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+									>
+										Product view
+									</NavLink> */}
 									<NavLink
 										to="/admin/auth/signin"
 										className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"

@@ -4,7 +4,7 @@ import AdminLayout from './AdminLayout';
 import AddProductForm from './AddProduct';
 import NavBarBox from './NavBarBox';
 import Profile from './Profile';
-import ProductView from './ProductView';
+import ProductPreview from './ProductView';
 
 export {
 	AdminHomepage,
@@ -13,5 +13,5 @@ export {
 	AddProductForm,
 	NavBarBox,
 	Profile,
-	ProductView,
+	ProductPreview,
 };

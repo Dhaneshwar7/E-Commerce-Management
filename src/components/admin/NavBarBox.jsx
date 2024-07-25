@@ -22,7 +22,7 @@ function classNames(...classes) {
 
 const NavBarBox = ({
 	mode,
-	handleAddCartMenu,
+	setAddProductMenu,
 	setMobileFiltersOpen,
 	navFilterbtn,
 }) => {
@@ -138,7 +138,7 @@ const NavBarBox = ({
 									? { color: '#f5f5f5', backgroundColor: '#0f0f0f' }
 									: { color: '#0f0f0f', backgroundColor: '#f5f5f5' },
 						})}
-						onClick={handleAddCartMenu}
+						onClick={setAddProductMenu}
 						className=" ml-6 p-2 text-white hover:bg-slate-800 text-xl  sm:ml-7"
 					>
 						<AddProImg width={25} height={25} />
