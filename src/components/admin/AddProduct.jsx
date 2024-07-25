@@ -10,7 +10,11 @@ import {
 import { alpha, Box, Button, FormLabel, Typography } from '@mui/material';
 import { dummyProductData, validImageTypes } from '../../utils/FnCollection';
 
-export default function AddProductForm({ addProductMenu, setAddProductMenu }) {
+export default function AddProductForm({
+	addProductMenu,
+	setAddProductMenu,
+	mode,
+}) {
 	const { products, admin, message, success } = useSelector(
 		state => state.adminReducer
 	);
@@ -113,9 +117,12 @@ export default function AddProductForm({ addProductMenu, setAddProductMenu }) {
 				<div className="space-y-12">
 					<div className="border-b border-gray-900/10 pb-2">
 						<div className="w-full max-sm:hidden mb-5 -mt-5 flex justify-end">
-							<button
+							<Button
+								sx={theme => ({
+									color: theme.palette.mode === 'light' ? 'black' : 'white',
+								})}
 								onClick={() => setAddProductMenu(prev => !prev)}
-								className="bg-orange-400 w-fit py-2 flex items-center justify-center px-4 rounded"
+								className=" w-fit py-2 flex items-center justify-center px-4 rounded"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +135,7 @@ export default function AddProductForm({ addProductMenu, setAddProductMenu }) {
 								</svg>
 
 								<h1>Close</h1>
-							</button>
+							</Button>
 						</div>
 						{/* <Button onClick={handleCreateMany}>Create Many</Button> */}
 						<Typography
@@ -269,9 +276,13 @@ export default function AddProductForm({ addProductMenu, setAddProductMenu }) {
 									<div className="mt-4 flex text-sm leading-6 text-gray-600">
 										<FormLabel
 											htmlFor="file-upload"
-											className="relative cursor-pointer rounded-md bg-white px-3 font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+											className={`relative cursor-pointer  rounded-md bg-white px-4 font-semibold text-indigo-600 ${
+												mode === 'light' ? 'text-black' : 'text-white'
+											}focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2  text-black`}
 										>
-											<span>Upload a file</span>
+											<span className={`px-4 text-black hover:text-indigo-500`}>
+												Upload a file
+											</span>
 											<input
 												accept="image/*"
 												id="file-upload"

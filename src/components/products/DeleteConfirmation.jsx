@@ -29,8 +29,8 @@ const DeleteConfirmation = ({
 				deleteConfirmationBox ? 'block' : 'hidden'
 			} transition-all absolute flex items-center justify-center w-full h-full top-0 left-0`}
 		>
-			<div className="flex flex-col p-8 max-sm:px-6 max-sm:pb-12 bg-white m-auto text-center rounded-lg">
-				<h1 className="text-2xl font-bold">Delete Product?</h1>
+			<div className="flex flex-col text-gray-800 p-8 max-sm:px-6 max-sm:pb-12 bg-white m-auto text-center rounded-lg">
+				<h1 className="text-2xl  font-bold">Delete Product?</h1>
 				<p className="text-lg max-sm:text-base font-medium leading-tight my-4">
 					Are you Sure you want to delete <b>" {productName} "</b>? <br /> You
 					can't undo this Action.

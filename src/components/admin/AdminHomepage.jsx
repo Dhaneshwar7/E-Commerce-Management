@@ -53,6 +53,7 @@ export default function Homepage({ mode }) {
 					productViewDetails={productViewDetails}
 				/>
 				<AddProductForm
+				mode={mode}
 					addProductMenu={addProductMenu}
 					setAddProductMenu={setAddProductMenu}
 				/>
