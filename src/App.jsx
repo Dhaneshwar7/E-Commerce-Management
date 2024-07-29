@@ -11,12 +11,13 @@ import {
 import Layout from './Layout';
 import {
 	AdminHomepage,
+	AdminLandingPage,
 	AdminLayout,
 	FilterProductPage,
-	ProductPreview,
 } from './components/admin';
 import { useDispatch, useSelector } from 'react-redux';
-import ProductView from './components/admin/ProductView';
+import UserSignIn from './components/user/UserSignIn';
+import UserSignUp from './components/user/UserSignup';
 
 function App() {
 	const { isAuth } = useSelector(state => state.adminReducer);
@@ -33,15 +34,16 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Layout />}>
 						<Route path="" element={<LandingPage />} />
+						<Route path="/user/auth/signin" element={<UserSignIn />} />
+						<Route path="/user/auth/signup" element={<UserSignUp />} />
+
 						{/* {isAuth ? ( */}
-						<Route path="/admin" element={<AdminLayout />}>
-							<Route path="/admin/homepage" element={<AdminHomepage />} />
-							<Route path="/admin/filter" element={<FilterProductPage />} />
-							<Route path="/admin/pro" element={<ProductPreview />} />
-						</Route>
+						<Route path="/admin" element={<AdminLayout />}></Route>
 						{/* ) : ( */}
 						<Route path="/admin" element={<AuthLayout />}>
-							<Route path="/admin/prod" element={<ProductView />} />
+							<Route path="" element={<AdminLandingPage />} />
+							<Route path="/admin/homepage" element={<AdminHomepage />} />
+							<Route path="/admin/filter" element={<FilterProductPage />} />
 							<Route path="/admin/auth/signin" element={<SignIn />} />
 							<Route path="/admin/auth/signup" element={<SignUp />} />
 							<Route

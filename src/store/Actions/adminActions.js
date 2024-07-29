@@ -119,7 +119,7 @@ export const asyncAllProduct = () => async (dispatch, getState) => {
 		dispatch(setAllProducts(data.data.products));
 		// console.log(data.data.products, 'All Product Visible');
 	} catch (error) {
-		// console.log(error.response.data.message);
+		console.log(error);
 		dispatch(isError(error.response.data.message));
 	}
 };

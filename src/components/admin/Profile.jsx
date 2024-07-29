@@ -13,6 +13,7 @@ import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncLogoutAdmin } from '../../store/Actions/adminActions';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { asyncLogoutUser } from '../../store/Actions/userActions';
 
 const navigationProfile = [
 	{ name: 'Dashboard', href: '#', current: true },
@@ -25,15 +26,23 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
 
-const Profile = () => {
+const Profile = ({ loginUser }) => {
 	const dispatch = useDispatch();
-	const { admin } = useSelector(state => state.adminReducer);
+	const { isAuth, admin } = useSelector(state => state.adminReducer);
+	const { isUserAuth, user } = useSelector(state => state.userReducer);
+
 	// console.log(admin);
 	const navigate = useNavigate();
 	const handleLogout = () => {
-		console.log("logout");
-		dispatch(asyncLogoutAdmin());
-		navigate('/');
+		console.log('logout');
+		if (isUserAuth) {
+			dispatch(asyncLogoutUser());
+			navigate('/');
+		}
+		if (isAuth) {
+			dispatch(asyncLogoutAdmin());
+			navigate('/');
+		}
 	};
 	return (
 		<div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:pr-0">
@@ -45,7 +54,7 @@ const Profile = () => {
 						<span className="sr-only">Open user menu</span>
 						<img
 							alt=""
-							src={admin?.avatar.url}
+							src={loginUser?.avatar.url}
 							className="h10 w-10 min-h-10 min-w-10 rounded-full"
 						/>
 					</MenuButton>
@@ -71,7 +80,7 @@ const Profile = () => {
 							</svg>
 							<span className="capitalize ml-1 font-extrabold">
 								Hello ! &nbsp;
-								{admin?.firstname}
+								{loginUser?.firstname}
 							</span>
 						</Box>
 					</MenuItem>

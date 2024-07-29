@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	admin: null,
-	isAuth: false,
-	products: null,
+	user: null,
+	isUserAuth: false,
+	cartProduct: null,
 	message: null,
 	success: false,
 	errors: null,
@@ -11,21 +11,21 @@ const initialState = {
 	searchedProducts: null,
 };
 
-export const adminReducer = createSlice({
-	name: 'admin-slice',
+export const userReducer = createSlice({
+	name: 'user-slice',
 	initialState,
 	reducers: {
-		setAdmin: (state, action) => {
-			state.admin = action.payload;
-			state.isAuth = true;
+		setUser: (state, action) => {
+			state.user = action.payload;
+			state.isUserAuth = true;
 			state.isLoading = false;
 			state.errors = null;
 		},
-		removeAdmin: (state, action) => {
-			state.admin = null;
-			state.isAuth = false;
+		removeUser: (state, action) => {
+			state.user = null;
+			state.isUserAuth = false;
 			state.errors = [];
-			state.products = null;
+			state.cartProduct = null;
 			state.message = null;
 			state.success = false;
 			state.isLoading = false;
@@ -39,8 +39,8 @@ export const adminReducer = createSlice({
 		isLoading: (state, action) => {
 			state.isLoading = action.payload;
 		},
-		setAllProducts: (state, action) => {
-			state.products = action.payload;
+		setAllCartProducts: (state, action) => {
+			state.cartProduct = action.payload;
 		},
 		setMessage: (state, action) => {
 			state.message = action.payload;
@@ -49,22 +49,21 @@ export const adminReducer = createSlice({
 			state.success = action.payload;
 		},
 		setSearchedProducts: (state, action) => {
-			state.products = action.payload;
+			state.cartProduct = action.payload;
 		},
 	},
 });
 
-// Action creators are generated for each case reducer function
 export const {
-	setAdmin,
-	removeAdmin,
+	setUser,
+	removeUser,
 	isError,
 	removeError,
 	isLoading,
-	setAllProducts,
+	setAllCartProducts,
 	setMessage,
 	setSuccess,
 	setSearchedProducts,
-} = adminReducer.actions;
+} = userReducer.actions;
 
-export default adminReducer.reducer;
+export default userReducer.reducer;

@@ -3,46 +3,27 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { createAxiosInstance } from 'src/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+	asyncCurrentUser,
 	asyncSetMessage,
-	asyncSignUpAdmin,
-} from '../../store/Actions/adminActions';
-import { AppAppBar, LinearBg } from '../landingpage';
+	asyncSignUpUser,
+} from '../../store/Actions/userActions';
 import { useEffect } from 'react';
-
-const axiosInstance = createAxiosInstance();
-
-const defaultTheme = createTheme();
-
-export default function SignUp() {
-	const { isAuth, message, success, admin } = useSelector(
-		state => state.adminReducer
+export default function UserSignUp() {
+	const { isUserAuth, user, message, success } = useSelector(
+		state => state.userReducer
 	);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
 	const [error, setError] = React.useState(null);
-	// const initialFormData = {
-	// 	firstname: '',
-	// 	lastname: '',
-	// 	email: '',
-	// 	password: '',
-	// 	contact: '',
-	// 	city: '',
-	// 	gender: '',
-	// };
 	const [formValues, setFormValues] = React.useState({
 		firstname: '',
 		lastname: '',
@@ -70,7 +51,7 @@ export default function SignUp() {
 		}
 		// SignUP Api code likhunga
 		try {
-			dispatch(asyncSignUpAdmin(formValues));
+			dispatch(asyncSignUpUser(formValues));
 			if (success) {
 				setFormValues({
 					firstname: '',
@@ -81,17 +62,22 @@ export default function SignUp() {
 					city: '',
 					gender: '',
 				});
+				console.log('code yaha tak to chal raha');
+				dispatch(asyncSetMessage());
+				console.log('code yaha tak to chal raha !!!');
+				navigate('/');
 			}
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}
 	};
 	useEffect(() => {
-		if (success) {
-			dispatch(asyncSetMessage());
-			navigate('/admin/auth/signup');
+		if (!user) {
+			dispatch(asyncCurrentUser());
+		} else {
+			navigate('/ok');
 		}
-	}, [success]);
+	}, [isUserAuth]);
 
 	return (
 		<Container component="main" maxWidth="xs" xs={{ height: '100%' }}>
@@ -108,7 +94,7 @@ export default function SignUp() {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Admin Sign Up
+					User Sign up
 				</Typography>
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
@@ -216,7 +202,7 @@ export default function SignUp() {
 						component="h3"
 						variant="h6"
 					>
-						{error && error}
+						{error}
 					</Typography>
 					<Button
 						type="submit"
@@ -226,7 +212,7 @@ export default function SignUp() {
 					>
 						Sign Up
 					</Button>
-					<Grid container >
+					<Grid container justifyContent="flex-end">
 						<Grid item>
 							<Link to="/admin/auth/signin" variant="body2">
 								Already have an account? <b>Sign in</b>

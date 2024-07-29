@@ -312,7 +312,6 @@ export default function FilterProductPage({ mode}) {
 												textAlign: 'center',
 												fontSize: 'clamp(.6rem, 4vw, 2rem)',
 												fontWeight: '600',
-												textAlign: 'center',
 											}}
 										>
 											<img

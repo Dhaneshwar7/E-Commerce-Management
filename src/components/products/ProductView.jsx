@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Dialog,
 	DialogBackdrop,
@@ -9,47 +9,10 @@ import {
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/20/solid';
-import { DeleteConfirmationBox } from '../products/index';
-
-const product = {
-	name: 'Basic Tee 6-Pack ',
-	price: '$192',
-	rating: 3.9,
-	reviewCount: 117,
-	href: '#',
-	imageSrc:
-		'https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg',
-	imageAlt: 'Two each of gray, white, and black shirts arranged on table.',
-	colors: [
-		{ name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-		{ name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
-		{ name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
-	],
-	sizes: [
-		{ name: 'XXS', inStock: true },
-		{ name: 'XS', inStock: true },
-		{ name: 'S', inStock: true },
-		{ name: 'M', inStock: true },
-		{ name: 'L', inStock: true },
-		{ name: 'XL', inStock: true },
-		{ name: 'XXL', inStock: true },
-		{ name: 'XXXL', inStock: false },
-	],
-};
-// const productViewDetails = {
-// 	productName: 'Shoe',
-// 	price: '1200',
-// 	quantity: 1,
-// 	category: 'Shoe',
-// 	description: 'okok',
-// 	status: 'Available',
-// 	reviews: [1, 2, 3],
-// 	productImageUrl: {
-// 		url: 'https://hips.hearstapps.com/hmg-prod/images/hoka-zinal-13085-1643565794.jpg',
-// 	},
-// 	_id: 2303939,
-// };
-
+import { DeleteConfirmationBox, EditProductForm } from '../products/index';
+import { Container } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncAllProduct } from '../../store/Actions/adminActions';
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
@@ -57,12 +20,15 @@ function classNames(...classes) {
 // 	open, setOpen, productViewDetails;
 // }
 export default function ProductView({ open, setOpen, productViewDetails }) {
-	// const [open, setOpen] = useState(true);
-	const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-	const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+	const dispatch = useDispatch();
+	const { isAuth, message, success, admin, products } = useSelector(
+		state => state.adminReducer
+	);
 	const [deleteConfirmationBox, setDeleteConfirmationBox] = useState(false);
-	// console.log(productViewDetails);
-	// alert(deleteConfirmationBox);
+	const [editProductForm, setEditProductForm] = useState(false);
+	// console.log(success);
+	// console.log(message);
+	// console.log(editProductForm);
 	return (
 		<Dialog open={open} onClose={setOpen} className="relative z-10">
 			<DialogBackdrop
@@ -76,7 +42,7 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 						transition
 						className="flex w-full transform text-left text-base transition data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in md:my-8 md:max-w-2xl md:px-4 data-[closed]:md:translate-y-0 data-[closed]:md:scale-95 lg:max-w-4xl"
 					>
-						<div className="relative flex w-full items-center overflow-hidden bg-white px-10 pb-8 pt-14 max-sm:pt-20 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+						<div className="relative flex w-full items-center overflow-hidden bg-white/90 px-10 pb-8 pt-14 max-sm:pt-20 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
 							<button
 								type="button"
 								onClick={() => setOpen(false)}
@@ -95,15 +61,25 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 									/>
 								</div>
 								<div className="sm:col-span-8 lg:col-span-7">
-									<div className="text-xl flex max-sm:text-lg items-center font-bold text-gray-900 sm:pr-12 ">
-										<h3 className="text-base text-gray-600">Product Name :</h3>
-										<h2 className="ml-2">{productViewDetails?.productName}</h2>
-									</div>
-
 									<section
 										aria-labelledby="information-heading"
-										className="mt-2"
+										className="mt-2 relative"
 									>
+										<EditProductForm
+											editProductForm={editProductForm}
+											setEditProductForm={setEditProductForm}
+											product={productViewDetails}
+											setOpen={setOpen}
+											open={open}
+										/>
+										<div className="text-xl flex max-sm:text-lg items-center font-bold text-gray-900 sm:pr-12 ">
+											<h3 className="text-base text-gray-600">
+												Product Name :
+											</h3>
+											<h2 className="ml-2">
+												{productViewDetails?.productName}
+											</h2>
+										</div>
 										<h3 id="information-heading" className="sr-only">
 											Product information
 										</h3>
@@ -129,7 +105,7 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 										</div>
 
 										{/* Reviews */}
-										<div className="mt-6 max-sm:mt-4">
+										{/* <div className="mt-6 max-sm:mt-4">
 											<h4 className="sr-only">Reviews</h4>
 											<div className="flex items-center">
 												<div className="flex items-center">
@@ -156,9 +132,9 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 													{productViewDetails?.reviews.length} reviews
 												</a>
 											</div>
-										</div>
+										</div> */}
 									</section>
-									<section className="w-full flex justify-between gap-3">
+									<section className="w-full mt-5 flex justify-between gap-3">
 										<DeleteConfirmationBox
 											deleteConfirmationBox={deleteConfirmationBox}
 											setDeleteConfirmationBox={setDeleteConfirmationBox}
@@ -169,13 +145,13 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 
 										<button
 											onClick={() => setDeleteConfirmationBox(prev => !prev)}
-											className="mt-6 flex w-[47%] max-sm:text-base whitespace-nowrap items-center justify-center rounded-md border border-transparent max-sm:bg-red-600 bg-red-500 px-8 max-sm:h-fit py-3 text-base font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+											className=" flex w-[47%] max-sm:text-base whitespace-nowrap items-center justify-center rounded-md border border-transparent max-sm:bg-red-600 bg-red-500 px-8 max-sm:h-fit py-3 text-base font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
 										>
 											Delete Product
 										</button>
 										<button
-											type="submit"
-											className="mt-6 flex w-[47%] items-center max-sm:h-fit whitespace-nowrap justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+											onClick={() => setEditProductForm(prev => !prev)}
+											className=" flex w-[47%] items-center max-sm:h-fit whitespace-nowrap justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 										>
 											Edit Details
 										</button>

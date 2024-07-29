@@ -17,7 +17,7 @@ import {
 	asyncCurrentAdmin,
 	asyncDeleteProduct,
 } from '../../store/Actions/adminActions';
-import { ProductPreview } from '.';
+import { ProductView } from '../products/index';
 
 export default function Homepage({ mode }) {
 	const {
@@ -25,6 +25,7 @@ export default function Homepage({ mode }) {
 		isAuth,
 		errors,
 		message,
+		success,
 	} = useSelector(state => state.adminReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -36,24 +37,28 @@ export default function Homepage({ mode }) {
 			dispatch(asyncAllProduct());
 		}, 1000);
 	};
+	useEffect(() => {
+		if (success) {
+			dispatch(asyncAllProduct());
+		}
+	}, [success]);
 
 	const [open, setOpen] = useState(false);
 	const [productViewDetails, setProductViewDetails] = useState(null);
 	const handleProductPreviewBtn = product => {
 		setOpen(true);
-		setProductViewDetails(product)
+		setProductViewDetails(product);
 	};
-
 	return (
 		<>
 			<div className="relative min-h-screen min-w-screen">
-				<ProductPreview
+				<ProductView
 					open={open}
 					setOpen={setOpen}
 					productViewDetails={productViewDetails}
 				/>
 				<AddProductForm
-				mode={mode}
+					mode={mode}
 					addProductMenu={addProductMenu}
 					setAddProductMenu={setAddProductMenu}
 				/>
@@ -188,7 +193,6 @@ export default function Homepage({ mode }) {
 					) : (
 						<Box
 							sx={{
-								
 								height: '60vh',
 								width: '100%',
 								margin: 'auto',
@@ -205,10 +209,15 @@ export default function Homepage({ mode }) {
 									textAlign: 'center',
 									fontSize: 'clamp(.6rem, 4vw, 2rem)',
 									fontWeight: '600',
-									textAlign:"center"
 								}}
 							>
-								<img src={noProductImg} width="300" className="m-auto" height="200" alt="" />
+								<img
+									src={noProductImg}
+									width="300"
+									className="m-auto"
+									height="200"
+									alt=""
+								/>
 								NO PRODUCTS !! ADD PRODUCTS
 							</Typography>
 						</Box>

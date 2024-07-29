@@ -12,21 +12,34 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import SiteMarkImg from '../../assets/svgs/sitemark.svg';
+import SiteLogo from '../../assets/svgs/sitelogo.svg';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavFilter, SearchBar } from '.';
 import { Profile } from '../admin';
 import { asyncLogoutAdmin } from '../../store/Actions/adminActions';
+import { useEffect } from 'react';
 function AppAppBar({ mode, toggleColorMode }) {
 	const location = useLocation();
 	const paths = ['/admin/homepage', '/admin/filter'];
 	const dispatch = useDispatch();
 	const [open, setOpen] = React.useState(false);
+	const [loginUser, setLoginUser] = React.useState(null);
 	const toggleDrawer = newOpen => () => {
 		setOpen(newOpen);
 	};
-	const { isAuth } = useSelector(state => state.adminReducer);
+	const { isAuth, admin } = useSelector(state => state.adminReducer);
+	const { isUserAuth, user } = useSelector(state => state.userReducer);
 	// console.log(isAuth);
+
+	useEffect(() => {
+		if (isAuth) {
+			setLoginUser(admin);
+		}
+		if (isUserAuth) {
+			setLoginUser(user);
+		}
+	}, [isAuth, isUserAuth]);
 
 	const scrollToSection = sectionId => {
 		const sectionElement = document.getElementById(sectionId);
@@ -87,8 +100,12 @@ function AppAppBar({ mode, toggleColorMode }) {
 								px: 0,
 							}}
 						>
-							<NavLink to="/">
+							<NavLink to="/" className="max-sm:hidden block">
 								<SiteMarkImg width="150" height="auto" />
+							</NavLink>
+							<NavLink to="/" className="max-sm:block w-1/5 hidden">
+								{/* <SiteLogo width="auto" height="120" /> */}
+								AB
 							</NavLink>
 
 							{/* It Navigation Filter */}
@@ -141,31 +158,88 @@ function AppAppBar({ mode, toggleColorMode }) {
 								alignItems: 'center',
 							}}
 						>
-							<ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-							{isAuth ? (
-								<Profile />
+							{isUserAuth ? (
+								<Profile loginUser={loginUser} />
 							) : (
-								<>
-									{/* <NavLink
-										to="/admin/prod"
-										className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
-									>
-										Product view
-									</NavLink> */}
-									<NavLink
-										to="/admin/auth/signin"
-										className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
-									>
-										SIGN IN
-									</NavLink>
-									<NavLink
-										to="/admin/auth/signup"
-										className="nmwbtn w-auto px-4 py-[5px] bg-blue-900 text-white text-sm"
-									>
-										SIGN UP
-									</NavLink>
-								</>
+								!isAuth && (
+									<>
+										{' '}
+										{![
+											'/admin',
+											'/admin/auth/signup',
+											'/admin/auth/signin',
+										].includes(location.pathname) && (
+											<>
+												<NavLink
+													to="/user/auth/signin"
+													className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+												>
+													U SIGN IN
+												</NavLink>
+												<NavLink
+													to="/user/auth/signup"
+													className="nmwbtn w-auto px-4 py-[5px] bg-blue-900 text-white text-sm"
+												>
+													U SIGN UP
+												</NavLink>
+											</>
+										)}
+									</>
+								)
 							)}
+
+							{isAuth ? (
+								<Profile loginUser={loginUser} />
+							) : (
+								!isUserAuth && (
+									<>
+										{!['/admin'].includes(location.pathname) && (
+											<>
+												{' '}
+												<NavLink
+													to="/admin"
+													className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+												>
+													BECOME SELLER
+												</NavLink>
+												{['/admin/auth/signin'].includes(location.pathname) && (
+													<NavLink
+														to="/admin/auth/signup"
+														className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+													>
+														SIGN UP
+													</NavLink>
+												)}
+												{['/admin/auth/signup'].includes(location.pathname) && (
+													<NavLink
+														to="/admin/auth/signin"
+														className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+													>
+														SIGN IN
+													</NavLink>
+												)}
+											</>
+										)}
+										{['/admin'].includes(location.pathname) && (
+											<>
+												<NavLink
+													to="/admin/auth/signin"
+													className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+												>
+													SIGN IN
+												</NavLink>
+												<NavLink
+													to="/admin/auth/signup"
+													className="nmwbtn w-auto px-4 mr-2 py-[5px] text-sm"
+												>
+													SIGN UP
+												</NavLink>
+											</>
+										)}
+									</>
+								)
+							)}
+							<ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
 						</Box>
 
 						<Box sx={{ display: { sm: '', md: 'none' } }}>
@@ -232,43 +306,16 @@ function AppAppBar({ mode, toggleColorMode }) {
 									<Divider />
 									{isAuth ? (
 										<>
-											{' '}
-											<Button
-												sx={theme => ({
-													borderRadius: '999px',
-													mt: 2,
-													p: 1,
-													color:
-														theme.palette.mode === 'light'
-															? '#bad4f0'
-															: '#ffff',
-													backgroundColor:
-														theme.palette.mode === 'light'
-															? '#4d4b4b'
-															: '#5a676d',
-												})}
-												className="nmbtn nbtn"
-											>
-												Profile
-											</Button>
-											<Button
-												sx={theme => ({
-													borderRadius: '999px',
-													mt: 2,
-													p: 1,
-													color:
-														theme.palette.mode === 'light'
-															? '#bad4f0'
-															: '#ffff',
-													backgroundColor:
-														theme.palette.mode === 'light'
-															? '#4d4b4b'
-															: '#5a676d83',
-												})}
-												className="nmbtn nbtn"
-											>
-												Settings
-											</Button>
+											<MenuItem>
+												<NavLink to="#" className="nmwbtn w-full py-2">
+													PROFILE
+												</NavLink>
+											</MenuItem>
+											<MenuItem>
+												<NavLink to="#" className="nmwbtn w-full py-2">
+													SETTINGS
+												</NavLink>
+											</MenuItem>
 											<Button
 												onClick={() => dispatch(asyncLogoutAdmin())}
 												sx={theme => ({
@@ -299,28 +346,11 @@ function AppAppBar({ mode, toggleColorMode }) {
 													SIGN IN
 												</NavLink>
 											</MenuItem>
-											<MenuItem
-												sx={theme => ({
-													borderRadius: '999px',
-													border:
-														theme.palette.mode === 'light'
-															? '1.5px solid #2b2929'
-															: '1.5px solid white',
-													display: 'flex',
-													justifyContent: 'center',
-													flexGrow: 1,
-													mt: 2,
-													color:
-														theme.palette.mode === 'light'
-															? '#0f0f0f'
-															: '#ffff',
-													backgroundColor:
-														theme.palette.mode === 'light'
-															? '#dd7367'
-															: '#b4483c',
-												})}
-											>
-												<NavLink to="/admin/auth/signup" className="">
+											<MenuItem>
+												<NavLink
+													to="/admin/auth/signup"
+													className="nmwbtn  bg-blue-900 text-white py-2"
+												>
 													SIGN UP
 												</NavLink>
 											</MenuItem>

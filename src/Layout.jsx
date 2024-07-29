@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
 	asyncAllProduct,
 	asyncCurrentAdmin,
@@ -10,10 +10,13 @@ import {
 } from './store/Actions/adminActions';
 import { AppAppBar, LinearBg } from '../src/components/landingpage';
 import { blue } from '@mui/material/colors';
+import { asyncCurrentUser } from './store/Actions/userActions';
 
 const Layout = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { admin, products, isAuth } = useSelector(state => state.adminReducer);
+	const { user, isUserAuth } = useSelector(state => state.userReducer);
 
 	const [mode, setMode] = React.useState('light');
 	const defaultTheme = createTheme({ palette: { mode } });
@@ -39,6 +42,13 @@ const Layout = () => {
 			}
 		}
 	}, [isAuth]);
+	useEffect(() => {
+		if (!user) {
+			dispatch(asyncCurrentUser());
+		} else {
+			navigate('/');
+		}
+	}, [isUserAuth]);
 
 	return (
 		<div>

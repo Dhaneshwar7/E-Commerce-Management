@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { LinearBg } from '../landingpage';
 import { Typography } from '@mui/material';
+import { asyncSignInUser } from '../../store/Actions/userActions';
 
 const axiosInstance = createAxiosInstance();
 
@@ -30,17 +31,10 @@ const axiosInstance = createAxiosInstance();
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-	const { isAuth, message, success, errors } = useSelector(
-		state => state.adminReducer
-	);
+export default function UserSignIn() {
+	const { isUserAuth, message, success } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	useEffect(() => {
-		if (isAuth) {
-			navigate('/admin/homepage');
-		}
-	}, []);
 
 	const [error, setError] = React.useState(null);
 	const [formValues, setFormValues] = React.useState({
@@ -67,14 +61,14 @@ export default function SignIn() {
 
 		// SignIn Api code
 		try {
-			dispatch(asyncSignInAdmin(formValues));
+			dispatch(asyncSignInUser(formValues));
 			if (success) {
 				setFormValues({
 					email: '',
 					password: '',
 				});
-				navigate('/admin/homepage');
 				dispatch(asyncSetMessage());
+				navigate('/');
 			}
 		} catch (error) {
 			console.error('Error during signup:', error.message);
@@ -96,7 +90,7 @@ export default function SignIn() {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Admin Sign In
+					User Sign in
 				</Typography>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<TextField
@@ -179,21 +173,20 @@ export default function SignIn() {
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
-						<Typography
-							sx={{
-								pt: 2,
-								fontWeight: '800',
-								color: 'green',
-							}}
-							component="h3"
-							color="initial"
-							variant="body1"
-						>
-							{message && message}
-							{errors && errors === 'Please Login to access this resource'
-								? ''
-								: errors}
-						</Typography>
+						{message && (
+							<Typography
+								sx={{
+									pt: 2,
+									fontWeight: '800',
+									color: 'green',
+								}}
+								component="h3"
+								color="initial"
+								variant="body1"
+							>
+								{message}
+							</Typography>
+						)}
 					</Grid>
 				</Box>
 			</Box>

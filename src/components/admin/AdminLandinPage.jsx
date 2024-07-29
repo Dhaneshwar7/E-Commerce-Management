@@ -2,14 +2,12 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { AppAppBar, Features, Footer, Hero } from './components/landingpage';
+import { createTheme } from '@mui/material/styles';
+import { Features, Footer, Hero } from '../landingpage';
 import { useEffect, useState } from 'react';
-import { asyncCurrentAdmin, asyncHomepage } from './store/Actions/adminActions';
 import { useDispatch } from 'react-redux';
-import { AllProducts } from './components/products/index';
 
-export default function LandingPage() {
+export default function AdminLandingPage() {
 	const [mount, setMount] = useState(false);
 	const dispatch = useDispatch();
 	const [mode, setMode] = React.useState('dark');
@@ -30,8 +28,10 @@ export default function LandingPage() {
 	return (
 		<>
 			<CssBaseline />
+			<Hero />
 			<Box sx={{ bgcolor: 'background.default' }}>
-				{/* <AllProducts /> */}
+				<Features />
+				<Divider />
 				<Divider />
 				<Footer />
 			</Box>
