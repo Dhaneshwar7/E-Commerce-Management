@@ -138,3 +138,20 @@ export const asyncRemoveErrors = () => async dispatch => {
 		console.log(error);
 	}
 };
+
+export const asyncCreateReview = (reviewData, productId) => async dispatch => {
+	try {
+		console.log(reviewData);
+		console.log(productId);
+		const data = await axiosInstance.post(
+			`/api/user/review/create-review/${productId}`,
+			reviewData
+		);
+	dispatch(setMessage(data.data.message));
+	dispatch(setSuccess(data.data.success));
+		console.log(data);
+	} catch (error) {
+		console.log(error);
+			dispatch(isError(error.response.data.message));
+	}
+};

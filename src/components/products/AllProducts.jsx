@@ -1,14 +1,50 @@
 import { CssBaseline, IconButton, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
-import React from 'react'
+import React from 'react';
 import { NavBarBox } from '../admin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@headlessui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	asyncAllProduct,
+	asyncDeleteProduct,
+} from '../../store/Actions/adminActions';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import noProductImg from '../../assets/images/noProducts.webp';
+import { alpha } from '@mui/material';
+import { RenderProductView } from '.';
 
-const AllProducts = () => {
-	
+const AllProducts = ({ allProducts, mode }) => {
+	// const { allProducts } = useSelector(state => state.adminReducer);
+	// console.log(allProducts);
+	const { isAuth, errors, message, success } = useSelector(
+		state => state.adminReducer
+	);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [navFilterbtn, setNavFilterbtn] = useState(false);
+	const [addProductMenu, setAddProductMenu] = useState(false);
+	const handleDeleteProduct = productId => {
+		dispatch(asyncDeleteProduct(productId));
+		setTimeout(() => {
+			dispatch(asyncAllProduct());
+		}, 1000);
+	};
+	useEffect(() => {
+		if (success) {
+			dispatch(asyncAllProduct());
+		}
+	}, [success]);
 
-  return (
+	const [open, setOpen] = useState(false);
+	const [productViewDetails, setProductViewDetails] = useState(null);
+	const handleProductPreviewBtn = product => {
+		setOpen(true);
+		setProductViewDetails(product);
+	};
+
+	return (
 		<div>
 			{' '}
 			<Box
@@ -28,18 +64,17 @@ const AllProducts = () => {
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
-						pt: { xs: 14, sm: 20 },
+						pt: { xs: 14, sm: 0 },
 						pb: { xs: 8, sm: 12 },
 					}}
 				>
+					<RenderProductView
+						open={open}
+						setOpen={setOpen}
+						productViewDetails={productViewDetails}
+					/>
 					<Container className="mx-auto pt-24	 sticky top-0 max-w-2xl px-4 py-5 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 						<CssBaseline />
-						<NavBarBox
-							mode={mode}
-							setAddProductMenu={setAddProductMenu}
-							addProductMenu={addProductMenu}
-							navFilterbtn={navFilterbtn}
-						/>
 						{allProducts && allProducts.length > 0 ? (
 							<div className="Product-Container mt-6 grid grid-cols-1 max-sm:grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
 								{allProducts.map(product => (
@@ -79,7 +114,7 @@ const AllProducts = () => {
 																flexDirection: { xs: 'column', md: 'row' },
 																alignSelf: 'center',
 																textAlign: 'center',
-																fontSize: 'clamp(1.2rem, 1vw, 2rem)',
+																fontSize: 'clamp(1rem, 1vw, 2rem)',
 																fontWeight: '600',
 																opacity: '.9',
 															}}
@@ -89,7 +124,7 @@ const AllProducts = () => {
 													</Link>
 												</Typography>
 
-												<Typography sx={{ fontWeight: '600', mt: '4px' }}>
+												<Typography sx={{ fontWeight: '500', mt: '4px' }}>
 													Price :&nbsp;
 													{product?.price}
 												</Typography>
@@ -110,37 +145,10 @@ const AllProducts = () => {
 													{product?.quantity}
 												</Typography>
 
-												<IconButton
-													color="black"
-													onClick={() => handleDeleteProduct(product._id)}
-													sx={{
-														':hover': {
-															backgroundColor: '#e93420c1',
-															borderRadius: '10px',
-															color: 'black',
-														},
-														mt: '2px',
-														px: 1,
-														backgroundColor: '#feb5adbb',
-														borderRadius: '10px',
-														height: 'fit',
-														width: 'fit',
-													}}
-												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														viewBox="0 0 24 24"
-														width="20"
-														height="20"
-														fill="currentColor"
-													>
-														<path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
-													</svg>
-												</IconButton>
 											</Box>
 										</Box>
 										<Button
-											className="bottom-32 absolute px-3 w-full z-50  view-details-button"
+											className="bottom-20 absolute px-3 w-full z-50  view-details-button"
 											sx={{ opacity: 0, transition: 'opacity 0.3s' }}
 											onClick={() => handleProductPreviewBtn(product)}
 										>
@@ -148,7 +156,7 @@ const AllProducts = () => {
 												className="w-full m-auto rounded-lg py-1 "
 												sx={{
 													backgroundColor: 'rgba(240, 248, 255, 0.393)',
-													fontSize: { xs: 2, md: 14 },
+													fontSize: { xs: 2, md: 20 },
 													backdropFilter: 'blur(2px)',
 													WebkitBackdropFilter: 'blur(2px)',
 													color: 'black',
@@ -197,6 +205,6 @@ const AllProducts = () => {
 			</Box>
 		</div>
 	);
-}
+};
 
-export default AllProducts
+export default AllProducts;

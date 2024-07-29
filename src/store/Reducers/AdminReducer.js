@@ -9,6 +9,7 @@ const initialState = {
 	errors: null,
 	isLoading: false,
 	searchedProducts: null,
+	allProducts:null,
 };
 
 export const adminReducer = createSlice({
@@ -51,6 +52,9 @@ export const adminReducer = createSlice({
 		setSearchedProducts: (state, action) => {
 			state.products = action.payload;
 		},
+		setRenderAllProducts: (state, action) => {
+			state.allProducts = action.payload;
+		},
 	},
 });
 
@@ -65,6 +69,7 @@ export const {
 	setMessage,
 	setSuccess,
 	setSearchedProducts,
+	setRenderAllProducts,
 } = adminReducer.actions;
 
 export default adminReducer.reducer;

@@ -9,6 +9,7 @@ import { Button, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
 import AddProImg from '../../assets/svgs/AddProImg.svg';
+import { LinearBg } from '../landingpage';
 const sortOptions = [
 	{ name: 'Most Popular', href: '#', current: true },
 	{ name: 'Best Rating', href: '#', current: false },
@@ -49,6 +50,7 @@ const NavBarBox = ({
 	}, []);
 	return (
 		<Box className="AllProduct-Heading -mt-24 pt-20 flex items-baseline justify-between sticky top-0 z-40">
+			<LinearBg/>
 			<Toolbar
 				variant="regular"
 				sx={theme => ({

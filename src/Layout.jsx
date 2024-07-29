@@ -11,6 +11,8 @@ import {
 import { AppAppBar, LinearBg } from '../src/components/landingpage';
 import { blue } from '@mui/material/colors';
 import { asyncCurrentUser } from './store/Actions/userActions';
+import { asyncRenderAllProducts } from './store/Actions/productActions';
+import { NavBarBox } from './components/admin';
 
 const Layout = () => {
 	const dispatch = useDispatch();
@@ -49,6 +51,9 @@ const Layout = () => {
 			navigate('/');
 		}
 	}, [isUserAuth]);
+	useEffect(() => {
+		dispatch(asyncRenderAllProducts());
+	}, []);
 
 	return (
 		<div>

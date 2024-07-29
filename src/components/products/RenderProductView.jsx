@@ -6,29 +6,71 @@ import {
 	DialogPanel,
 	Radio,
 	RadioGroup,
+	Textarea,
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { StarIcon } from '@heroicons/react/20/solid';
-import { DeleteConfirmationBox, EditProductForm } from '../products/index';
 import { Container } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncAllProduct } from '../../store/Actions/adminActions';
+import { StarIcon } from '@heroicons/react/20/solid';
+import { Rating } from '@mui/material';
+import { Link } from 'react-router-dom';
+import {
+	asyncCreateReview,
+	asyncRemoveErrors,
+	asyncSetMessage,
+} from '../../store/Actions/userActions';
+import { asyncRenderAllProducts } from '../../store/Actions/productActions';
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
-// {
-// 	open, setOpen, productViewDetails;
-// }
+
 export default function ProductView({ open, setOpen, productViewDetails }) {
 	const dispatch = useDispatch();
-	const { isAuth, message, success, admin, products } = useSelector(
-		state => state.adminReducer
+	const { isUserAuth, user, message, success, errors } = useSelector(
+		state => state.userReducer
 	);
-	const [deleteConfirmationBox, setDeleteConfirmationBox] = useState(false);
-	const [editProductForm, setEditProductForm] = useState(false);
-	// console.log(success);
-	// console.log(message);
-	// console.log(editProductForm);
+	const [reviewBox, setReviewBox] = useState(false);
+	const [msg, setMsg] = useState(null);
+	const [errorMsg, setErrorMsg] = useState(null);
+	const [rating, setRating] = useState(0);
+	const [review, setReview] = useState('');
+	const handleChangeRating = (event, newValue) => {
+		setRating(newValue);
+	};
+	const handleChangeReview = event => {
+		setReview(event.target.value);
+	};
+	const handleSubmitReview = async e => {
+		e.preventDefault();
+		if (isUserAuth) {
+			const productId = await productViewDetails._id;
+			const reviewData = {
+				rating: Number(rating),
+				review,
+			};
+			dispatch(asyncCreateReview(reviewData, productId));
+		} else {
+			setErrorMsg('For Review Login First !');
+		}
+	};
+
+	const handleCancelReviewBtn = () => {
+		setReviewBox(prev => !prev);
+		setRating(0);
+		setReview('');
+		setErrorMsg(null);
+		dispatch(asyncSetMessage());
+		dispatch(asyncRemoveErrors());
+	};
+	useEffect(() => {
+		if (success) {
+			setRating(0);
+			setReview('');
+			dispatch(asyncRenderAllProducts());
+		}
+		setMsg(message);
+	}, [success, message, errors]);
+
 	return (
 		<Dialog open={open} onClose={setOpen} className="relative z-10">
 			<DialogBackdrop
@@ -60,19 +102,11 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 										className="object-cover object-center"
 									/>
 								</div>
-								<div className="sm:col-span-8 lg:col-span-7">
+								<div className="sm:col-span-8 lg:col-span-7 h-full flex flex-col justify-between">
 									<section
 										aria-labelledby="information-heading"
 										className="mt-2 relative"
 									>
-										
-										<EditProductForm
-											editProductForm={editProductForm}
-											setEditProductForm={setEditProductForm}
-											product={productViewDetails}
-											setOpen={setOpen}
-											open={open}
-										/>
 										<div className="text-xl flex max-sm:text-lg items-center font-bold text-gray-900 sm:pr-12 ">
 											<h3 className="text-base text-gray-600">
 												Product Name :
@@ -85,18 +119,18 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 											Product information
 										</h3>
 
-										<div className="text-xl max-sm:text-lg my-4  max-sm:my-2 flex items-center font-bold text-gray-900 sm:pr-12 ">
+										<div className="text-xl max-sm:text-lg my-2  max-sm:my-2 flex items-center font-bold text-gray-900 sm:pr-12 ">
 											<h2 className="text-base text-gray-600">Price :</h2>
 											<h1 className="ml-2 ">
 												₹&nbsp;
 												{productViewDetails?.price}
 											</h1>
 										</div>
-										<div className="text-xl  mt-2 flex items-center font-bold text-gray-900 sm:pr-12 max-sm:text-lg">
+										<div className="text-xl flex items-center font-bold text-gray-900 sm:pr-12 max-sm:text-lg">
 											<h2 className="text-base text-gray-600">Quantity :</h2>
 											<h1 className="ml-2 ">{productViewDetails?.quantity}</h1>
 										</div>
-										<div className="text-xl my-3 max-sm:my-2 flex items-center font-bold text-gray-900 max-sm:text-lg sm:pr-12 ">
+										<div className="text-xl my-2 max-sm:my-2 flex items-center font-bold text-gray-900 max-sm:text-lg sm:pr-12 ">
 											<h2 className="text-base text-gray-600">Category :</h2>
 											<h1 className="ml-2 ">{productViewDetails?.category}</h1>
 										</div>
@@ -104,9 +138,10 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 											<h2 className="text-base text-gray-600">Status :</h2>
 											<h1 className="ml-2 ">{productViewDetails?.status}</h1>
 										</div>
-
+									</section>
+									<section className="relative">
 										{/* Reviews */}
-										{/* <div className="mt-6 max-sm:mt-4">
+										<div className="mt-6 max-sm:mt-4">
 											<h4 className="sr-only">Reviews</h4>
 											<div className="flex items-center">
 												<div className="flex items-center">
@@ -115,7 +150,7 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 															key={rating}
 															aria-hidden="true"
 															className={classNames(
-																product.rating > rating
+																productViewDetails?.rating > rating
 																	? 'text-gray-900'
 																	: 'text-gray-200',
 																'h-5 w-5 flex-shrink-0'
@@ -124,7 +159,7 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 													))}
 												</div>
 												<p className="sr-only">
-													{product.rating} out of 5 stars
+													{productViewDetails?.rating} out of 5 stars
 												</p>
 												<a
 													href="#"
@@ -132,30 +167,92 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 												>
 													{productViewDetails?.reviews.length} reviews
 												</a>
+												<button
+													onClick={() => setReviewBox(prev => !prev)}
+													className="ml-3 flex items-center justify-center text-sm bg-blue-300 px-2 rounded"
+												>
+													Write Review{' '}
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														viewBox="0 0 24 24"
+														width="12"
+														height="12"
+														fill="currentColor"
+													>
+														<path d="M12.8995 6.85453L17.1421 11.0972L7.24264 20.9967H3V16.754L12.8995 6.85453ZM14.3137 5.44032L16.435 3.319C16.8256 2.92848 17.4587 2.92848 17.8492 3.319L20.6777 6.14743C21.0682 6.53795 21.0682 7.17112 20.6777 7.56164L18.5563 9.68296L14.3137 5.44032Z"></path>
+													</svg>
+												</button>
+												{reviewBox && (
+													<>
+														<div className="bg-white  w-full absolute">
+															<form
+																onSubmit={handleSubmitReview}
+																className=" flex items-center  justify-center gap-2"
+															>
+																<div className="flex flex-col items-center gap-2">
+																	<Rating
+																		name="rating"
+																		value={rating}
+																		defaultValue={2.5}
+																		precision={0.5}
+																		onChange={handleChangeRating}
+																	/>
+																	<textarea
+																		value={review}
+																		onChange={handleChangeReview}
+																		name="review"
+																		className="rounded"
+																		aria-label="empty textarea"
+																		placeholder="Write review ..."
+																	/>
+																</div>
+																<div className="flex gap-3 mt-2">
+																	<button
+																		onClick={handleCancelReviewBtn}
+																		className=" flex w-fit max-sm:text-base whitespace-nowrap items-center justify-center rounded-md border border-transparent max-sm:bg-red-600 bg-red-500 px-2 max-sm:h-fit py-1 text-base font-medium text-white hover:bg-red-600"
+																	>
+																		Cancel
+																	</button>
+																	<button
+																		type="submit"
+																		className=" flex w-[47%] items-center max-sm:h-fit whitespace-nowrap justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-base font-medium text-white hover:bg-indigo-700"
+																	>
+																		Submit
+																	</button>
+																</div>
+															</form>
+															{errorMsg && (
+																<>
+																	<div className="bg-red-400 text-center w-fit m-auto mt-2 rounded px-3">
+																		! {errorMsg} !
+																		<Link
+																			to="/user/auth/signin"
+																			className="bg-blue-500 px-2 py-1 ml-1 rounded"
+																		>
+																			LOG IN
+																		</Link>
+																	</div>
+																</>
+															)}
+															{success && (
+																<>
+																	<div className="bg-green-400 text-center w-fit m-auto mt-2 rounded px-3">
+																		{message}
+																	</div>
+																</>
+															)}
+															{errors && (
+																<>
+																	<div className="bg-red-400 text-center w-fit m-auto mt-2 rounded px-3">
+																		{errors}
+																	</div>
+																</>
+															)}
+														</div>
+													</>
+												)}
 											</div>
-										</div> */}
-									</section>
-									<section className="w-full mt-5 flex justify-between gap-3">
-										<DeleteConfirmationBox
-											deleteConfirmationBox={deleteConfirmationBox}
-											setDeleteConfirmationBox={setDeleteConfirmationBox}
-											productId={productViewDetails?._id}
-											productName={productViewDetails?.productName}
-											setOpen={setOpen}
-										/>
-
-										<button
-											onClick={() => setDeleteConfirmationBox(prev => !prev)}
-											className=" flex w-[47%] max-sm:text-base whitespace-nowrap items-center justify-center rounded-md border border-transparent max-sm:bg-red-600 bg-red-500 px-8 max-sm:h-fit py-3 text-base font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-										>
-											Delete Product
-										</button>
-										<button
-											onClick={() => setEditProductForm(prev => !prev)}
-											className=" flex w-[47%] items-center max-sm:h-fit whitespace-nowrap justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-										>
-											Edit Details
-										</button>
+										</div>
 									</section>
 									<section className="w-full max-sm:flex hidden justify-end">
 										<button

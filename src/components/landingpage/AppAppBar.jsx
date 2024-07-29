@@ -188,7 +188,8 @@ function AppAppBar({ mode, toggleColorMode }) {
 								)
 							)}
 
-							{isAuth ? (
+							{isAuth ? (	
+								
 								<Profile loginUser={loginUser} />
 							) : (
 								!isUserAuth && (
