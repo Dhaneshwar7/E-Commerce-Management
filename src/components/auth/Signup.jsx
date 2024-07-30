@@ -112,7 +112,7 @@ export default function SignUp() {
 				</Typography>
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<TextField
 								value={formValues.firstname}
 								onChange={handleChange}
@@ -125,7 +125,7 @@ export default function SignUp() {
 								autoFocus
 							/>
 						</Grid>
-						<Grid item xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<TextField
 								value={formValues.lastname}
 								onChange={handleChange}
@@ -137,7 +137,7 @@ export default function SignUp() {
 								autoComplete="family-name"
 							/>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item={true} xs={12}>
 							<TextField
 								value={formValues.email}
 								onChange={handleChange}
@@ -149,7 +149,7 @@ export default function SignUp() {
 								autoComplete="email"
 							/>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item={true} xs={12}>
 							<TextField
 								value={formValues.password}
 								onChange={handleChange}
@@ -162,7 +162,7 @@ export default function SignUp() {
 								autoComplete="new-password"
 							/>
 						</Grid>
-						<Grid item="true" xs={12}>
+						<Grid item={true} xs={12}>
 							<TextField
 								value={formValues.contact}
 								onChange={handleChange}
@@ -175,7 +175,7 @@ export default function SignUp() {
 								autoComplete="family-name"
 							/>
 						</Grid>
-						<Grid item="true" xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<TextField
 								value={formValues.city}
 								onChange={handleChange}
@@ -187,7 +187,7 @@ export default function SignUp() {
 								autoComplete="family-name"
 							/>
 						</Grid>
-						<Grid item="true" xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<FormControl fullWidth>
 								<InputLabel id="demo-simple-select-label">Gender *</InputLabel>
 								<Select
@@ -227,7 +227,7 @@ export default function SignUp() {
 						Sign Up
 					</Button>
 					<Grid container >
-						<Grid item>
+						<Grid item={true}>
 							<Link to="/admin/auth/signin" variant="body2">
 								Already have an account? <b>Sign in</b>
 							</Link>

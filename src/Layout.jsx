@@ -12,20 +12,23 @@ import { AppAppBar, LinearBg } from '../src/components/landingpage';
 import { blue } from '@mui/material/colors';
 import { asyncCurrentUser } from './store/Actions/userActions';
 import { asyncRenderAllProducts } from './store/Actions/productActions';
-import { NavBarBox } from './components/admin';
 
 const Layout = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { admin, products, isAuth } = useSelector(state => state.adminReducer);
 	const { user, isUserAuth } = useSelector(state => state.userReducer);
-
-	const [mode, setMode] = React.useState('light');
+	const [mode, setMode] = React.useState('dark');
 	const defaultTheme = createTheme({ palette: { mode } });
 	const toggleColorMode = () => {
 		setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
 	};
-
+	useEffect(() => {
+		setMode(localStorage.getItem('theme'));
+	}, []);
+	useEffect(() => {
+		localStorage.setItem('theme', mode);
+	}, [mode]);
 	const theme = createTheme({
 		palette: {
 			// primary: '#e3f2fd',
@@ -37,7 +40,9 @@ const Layout = () => {
 	});
 	useEffect(() => {
 		if (!admin) {
-			dispatch(asyncCurrentAdmin());
+			if (!isUserAuth) {
+				dispatch(asyncCurrentAdmin());
+			}
 		} else {
 			if (!products || products.length <= 0) {
 				dispatch(asyncAllProduct());
@@ -48,7 +53,7 @@ const Layout = () => {
 		if (!user) {
 			dispatch(asyncCurrentUser());
 		} else {
-			navigate('/');
+			setTimeout(() => navigate('/'), 1000);
 		}
 	}, [isUserAuth]);
 	useEffect(() => {

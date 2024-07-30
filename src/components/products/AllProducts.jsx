@@ -17,7 +17,6 @@ import { RenderProductView } from '.';
 
 const AllProducts = ({ allProducts, mode }) => {
 	// const { allProducts } = useSelector(state => state.adminReducer);
-	// console.log(allProducts);
 	const { isAuth, errors, message, success } = useSelector(
 		state => state.adminReducer
 	);
@@ -144,7 +143,6 @@ const AllProducts = ({ allProducts, mode }) => {
 													Quantity :&nbsp;
 													{product?.quantity}
 												</Typography>
-
 											</Box>
 										</Box>
 										<Button

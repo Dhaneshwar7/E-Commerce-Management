@@ -15,12 +15,7 @@ export default function AdminLandingPage() {
 
 	const toggleColorMode = () => {
 		setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
-		// localStorage.setItem('mode', mode);
 	};
-	useEffect(() => {
-		localStorage.setItem('mode', mode);
-	}, [toggleColorMode]);
-
 	useEffect(() => {
 		setMount(true);
 	}, []);

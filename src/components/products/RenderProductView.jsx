@@ -226,7 +226,7 @@ export default function ProductView({ open, setOpen, productViewDetails }) {
 																	<div className="bg-red-400 text-center w-fit m-auto mt-2 rounded px-3">
 																		! {errorMsg} !
 																		<Link
-																			to="/user/auth/signin"
+																			to="/user/auth/signi n"
 																			className="bg-blue-500 px-2 py-1 ml-1 rounded"
 																		>
 																			LOG IN

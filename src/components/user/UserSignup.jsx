@@ -12,7 +12,6 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	asyncCurrentUser,
 	asyncSetMessage,
 	asyncSignUpUser,
 } from '../../store/Actions/userActions';
@@ -62,23 +61,13 @@ export default function UserSignUp() {
 					city: '',
 					gender: '',
 				});
-				console.log('code yaha tak to chal raha');
 				dispatch(asyncSetMessage());
-				console.log('code yaha tak to chal raha !!!');
-				navigate('/');
+				setTimeout(() => navigate('/'), 1000);
 			}
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}
 	};
-	useEffect(() => {
-		if (!user) {
-			dispatch(asyncCurrentUser());
-		} else {
-			navigate('/ok');
-		}
-	}, [isUserAuth]);
-
 	return (
 		<Container component="main" maxWidth="xs" xs={{ height: '100%' }}>
 			<CssBaseline />
@@ -98,7 +87,7 @@ export default function UserSignUp() {
 				</Typography>
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<TextField
 								value={formValues.firstname}
 								onChange={handleChange}
@@ -111,7 +100,7 @@ export default function UserSignUp() {
 								autoFocus
 							/>
 						</Grid>
-						<Grid item xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<TextField
 								value={formValues.lastname}
 								onChange={handleChange}
@@ -123,7 +112,7 @@ export default function UserSignUp() {
 								autoComplete="family-name"
 							/>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item={true} xs={12}>
 							<TextField
 								value={formValues.email}
 								onChange={handleChange}
@@ -135,7 +124,7 @@ export default function UserSignUp() {
 								autoComplete="email"
 							/>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item={true} xs={12}>
 							<TextField
 								value={formValues.password}
 								onChange={handleChange}
@@ -148,7 +137,7 @@ export default function UserSignUp() {
 								autoComplete="new-password"
 							/>
 						</Grid>
-						<Grid item="true" xs={12}>
+						<Grid item={true} xs={12}>
 							<TextField
 								value={formValues.contact}
 								onChange={handleChange}
@@ -161,7 +150,7 @@ export default function UserSignUp() {
 								autoComplete="family-name"
 							/>
 						</Grid>
-						<Grid item="true" xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<TextField
 								value={formValues.city}
 								onChange={handleChange}
@@ -173,7 +162,7 @@ export default function UserSignUp() {
 								autoComplete="family-name"
 							/>
 						</Grid>
-						<Grid item="true" xs={12} sm={6}>
+						<Grid item={true} xs={12} sm={6}>
 							<FormControl fullWidth>
 								<InputLabel id="demo-simple-select-label">Gender *</InputLabel>
 								<Select
@@ -213,8 +202,8 @@ export default function UserSignUp() {
 						Sign Up
 					</Button>
 					<Grid container justifyContent="flex-end">
-						<Grid item>
-							<Link to="/admin/auth/signin" variant="body2">
+						<Grid item={true}>
+							<Link to="/user/auth/signin" variant="body2">
 								Already have an account? <b>Sign in</b>
 							</Link>
 						</Grid>

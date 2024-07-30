@@ -28,7 +28,7 @@ export const asyncHomepage = () => async (dispatch, getState) => {
 export const asyncCurrentUser = () => async (dispatch, getState) => {
 	try {
 		const data = await axiosInstance.get('/api/user/current');
-		// console.log(data.data.currentAdmin, 'Current Admin Added');
+		// console.log(data.data.currentUser, 'Current User Added');
 		dispatch(setUser(data.data.currentUser));
 	} catch (error) {
 		// console.log(error.response.data.message);
@@ -40,7 +40,7 @@ export const asyncSignUpUser = user => async (dispatch, getState) => {
 	try {
 		dispatch(isLoading(true));
 		const data = await axiosInstance.post('/api/user/signup', user);
-		// console.log(data, 'Admin SIGN_UP done');
+		// console.log(data, 'User SIGN_UP done');
 		dispatch(setMessage(data.data.message));
 		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentUser());
@@ -55,7 +55,7 @@ export const asyncSignInUser = user => async (dispatch, getState) => {
 	try {
 		dispatch(isLoading(true));
 		const data = await axiosInstance.post('/api/user/signin', user);
-		console.log(data, 'Admin SIGN_IN done');
+		console.log(data, 'User SIGN_IN done');
 		dispatch(setMessage(data.data.message));
 		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentUser(data));
@@ -69,7 +69,7 @@ export const asyncSignInUser = user => async (dispatch, getState) => {
 export const asyncLogoutUser = () => async (dispatch, getState) => {
 	try {
 		const { data } = await axiosInstance.post('/api/user/signout');
-		// console.log(data, 'Admin Logout-done!');
+		// console.log(data, 'User Logout-done!');
 		dispatch(removeUser(data));
 	} catch (error) {
 		// console.log(error.response.data.message);
@@ -80,8 +80,8 @@ export const asyncLogoutUser = () => async (dispatch, getState) => {
 /* -----------   USER FORGET_PASSWORD_SENDLINK   ----------*/
 export const asyncForgetLinkSend = email => async (dispatch, getState) => {
 	try {
-		const data = await axiosInstance.post('/admin/sendlink-mail', email);
-		// console.log(data, 'Admin Forget-LInk-Sent!');
+		const data = await axiosInstance.post('/user/sendlink-mail', email);
+		// console.log(data, 'User Forget-LInk-Sent!');
 		dispatch(setMessage(data.data.message));
 		dispatch(setSuccess(data.data.success));
 	} catch (error) {

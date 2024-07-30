@@ -30,7 +30,7 @@ export const asyncCurrentAdmin = () => async (dispatch, getState) => {
 		// console.log(data.data.currentAdmin, 'Current Admin Added');
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
-		// console.log(error.response.data.message);
+		// console.log(error);
 		dispatch(isError(error.response.data.message));
 	}
 };

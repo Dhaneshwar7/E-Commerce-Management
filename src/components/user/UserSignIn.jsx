@@ -3,25 +3,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-// import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { createAxiosInstance } from 'src/axios';
-import {
-	asyncCurrentAdmin,
-	asyncLogoutAdmin,
-	asyncSetMessage,
-	asyncSignInAdmin,
-} from '../../store/Actions/adminActions';
+import { asyncSetMessage } from '../../store/Actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { LinearBg } from '../landingpage';
 import { Typography } from '@mui/material';
 import { asyncSignInUser } from '../../store/Actions/userActions';
 
@@ -32,7 +23,9 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function UserSignIn() {
-	const { isUserAuth, message, success } = useSelector(state => state.userReducer);
+	const { isUserAuth, message, success } = useSelector(
+		state => state.userReducer
+	);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -62,14 +55,16 @@ export default function UserSignIn() {
 		// SignIn Api code
 		try {
 			dispatch(asyncSignInUser(formValues));
-			if (success) {
-				setFormValues({
-					email: '',
-					password: '',
-				});
-				dispatch(asyncSetMessage());
-				navigate('/');
-			}
+			// if (success) {
+			// 	setFormValues({
+			// 		email: '',
+			// 		password: '',
+			// 	});
+			// 	setTimeout(() => {
+			// 		dispatch(asyncSetMessage());
+			// 		navigate('/');
+			// 	}, 1000);
+			// }
 		} catch (error) {
 			console.error('Error during signup:', error.message);
 		}

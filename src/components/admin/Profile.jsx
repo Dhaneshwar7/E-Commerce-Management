@@ -30,17 +30,16 @@ const Profile = ({ loginUser }) => {
 	const dispatch = useDispatch();
 	const { isAuth, admin } = useSelector(state => state.adminReducer);
 	const { isUserAuth, user } = useSelector(state => state.userReducer);
-
-	// console.log(admin);
 	const navigate = useNavigate();
 	const handleLogout = () => {
-		console.log('logout');
 		if (isUserAuth) {
 			dispatch(asyncLogoutUser());
+			// console.log('user log out huaa');
 			navigate('/');
 		}
 		if (isAuth) {
 			dispatch(asyncLogoutAdmin());
+			// console.log('Admin log out huaa');
 			navigate('/');
 		}
 	};

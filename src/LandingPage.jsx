@@ -3,7 +3,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { AppAppBar, Features, Footer, Hero, LinearBg } from './components/landingpage';
+import {
+	AppAppBar,
+	Features,
+	Footer,
+	Hero,
+	LinearBg,
+} from './components/landingpage';
 import { useEffect, useState } from 'react';
 import { asyncCurrentAdmin, asyncHomepage } from './store/Actions/adminActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,11 +24,7 @@ export default function LandingPage() {
 
 	const toggleColorMode = () => {
 		setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
-		// localStorage.setItem('mode', mode);
 	};
-	useEffect(() => {
-		localStorage.setItem('mode', mode);
-	}, [toggleColorMode]);
 	const { allProducts } = useSelector(state => state.adminReducer);
 	useEffect(() => {
 		setMount(true);
