@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { asyncSignInUser } from '../../store/Actions/userActions';
+import { LinearBg } from '../landingpage';
 
 const axiosInstance = createAxiosInstance();
 
@@ -71,120 +72,128 @@ export default function UserSignIn() {
 	};
 
 	return (
-		<Container component="main" maxWidth="xs">
-			<CssBaseline />
-			<Box
-				sx={{
-					pt: { xs: 15, md: 12 },
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-				}}
-			>
-				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-					<LockOutlinedIcon />
-				</Avatar>
-				<Typography component="h1" variant="h5">
-					User Sign in
-				</Typography>
-				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="email"
-						value={formValues.email}
-						onChange={handleChange}
-						label="Email Address"
-						name="email"
-						autoComplete="email"
-						autoFocus
-					/>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						value={formValues.password}
-						onChange={handleChange}
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-					/>
-					{/* <FormControlLabel
+		<>
+			<LinearBg />
+			<Container component="main" maxWidth="xs">
+				<CssBaseline />
+				<Box
+					sx={{
+						pt: { xs: 15, md: 12 },
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+					}}
+				>
+					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+						<LockOutlinedIcon />
+					</Avatar>
+					<Typography component="h1" variant="h5">
+						User Sign in
+					</Typography>
+					<Box
+						component="form"
+						onSubmit={handleSubmit}
+						noValidate
+						sx={{ mt: 1 }}
+					>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="email"
+							value={formValues.email}
+							onChange={handleChange}
+							label="Email Address"
+							name="email"
+							autoComplete="email"
+							autoFocus
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							value={formValues.password}
+							onChange={handleChange}
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+						/>
+						{/* <FormControlLabel
 							control={<Checkbox value="remember" color="primary" />}
 							label="Remember me"
 						/> */}
-					<Typography
-						sx={{
-							mt: 2,
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							backgroundColor: 'rgba(202, 100, 100, 0.836)',
-							borderRadius: 1,
-						}}
-						color="initial"
-						component="h3"
-						variant="body1"
-					>
-						{error}
-					</Typography>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						sx={{ mt: 3, mb: 2 }}
-					>
-						Sign In
-					</Button>
-					<Grid
-						container
-						sx={{
-							display: 'flex',
-							flexDirection: { xs: 'column', lg: 'row' },
-							justifyItems: 'center',
-							alignItems: 'center',
-							gap: { xs: 2, lg: 2 },
-							mt: { xs: 2, lg: 2 },
-						}}
-					>
-						<Grid item xs>
-							<Link
-								className="text-blue-500"
-								to="/admin/auth/forget-password"
-								variant="body2"
-							>
-								Forgot password?
-							</Link>
+						<Typography
+							sx={{
+								mt: 2,
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								backgroundColor: 'rgba(202, 100, 100, 0.836)',
+								borderRadius: 1,
+							}}
+							color="initial"
+							component="h3"
+							variant="body1"
+						>
+							{error}
+						</Typography>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+						>
+							Sign In
+						</Button>
+						<Grid
+							container
+							sx={{
+								display: 'flex',
+								flexDirection: { xs: 'column', lg: 'row' },
+								justifyItems: 'center',
+								alignItems: 'center',
+								gap: { xs: 2, lg: 2 },
+								mt: { xs: 2, lg: 2 },
+							}}
+						>
+							<Grid item xs>
+								<Link
+									className="text-blue-500"
+									to="/admin/auth/forget-password"
+									variant="body2"
+								>
+									Forgot password?
+								</Link>
+							</Grid>
+							<Grid item>
+								<Link
+									className="text-blue-500"
+									to="/admin/auth/signup"
+									variant="body2"
+								>
+									{"Don't have an account? Sign Up"}
+								</Link>
+							</Grid>
+							{message && (
+								<Typography
+									sx={{
+										pt: 2,
+										fontWeight: '800',
+										color: 'green',
+									}}
+									component="h3"
+									color="initial"
+									variant="body1"
+								>
+									{message}
+								</Typography>
+							)}
 						</Grid>
-						<Grid item>
-							<Link
-								className="text-blue-500"
-								to="/admin/auth/signup"
-								variant="body2"
-							>
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
-						{message && (
-							<Typography
-								sx={{
-									pt: 2,
-									fontWeight: '800',
-									color: 'green',
-								}}
-								component="h3"
-								color="initial"
-								variant="body1"
-							>
-								{message}
-							</Typography>
-						)}
-					</Grid>
+					</Box>
 				</Box>
-			</Box>
-		</Container>
+			</Container>
+		</>
 	);
 }

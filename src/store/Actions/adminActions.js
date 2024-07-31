@@ -54,7 +54,7 @@ export const asyncSignInAdmin = admin => async (dispatch, getState) => {
 	try {
 		dispatch(isLoading(true));
 		const data = await axiosInstance.post('/admin/signin', admin);
-		console.log(data, 'Admin SIGN_IN done');
+		// console.log(data, 'Admin SIGN_IN done');
 		dispatch(setMessage(data.data.message));
 		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentAdmin(data));
@@ -140,12 +140,12 @@ export const asyncCreateManyProduct =
 				'/admin/product/create-many',
 				manydata
 			);
-			console.log('allll done bro');
+			// console.log('allll done bro');
 			// dispatch(setAllProducts(data.data.products));
 			// console.log(data.data.products, 'All Product Visible');
 		} catch (error) {
-			console.log(error);
-			// dispatch(isError(error.response.data.message));
+			// console.log(error);
+			dispatch(isError(error.response.data.message));
 		}
 	};
 
@@ -158,7 +158,7 @@ export const asyncSearchProduct = debouncedSearch => async dispatch => {
 		const data = await axiosInstance.get(
 			`/admin/product/search?${params.toString()}`
 		);
-		console.log(data);
+		// console.log(data);
 		dispatch(setAllProducts(data?.data?.products));
 	} catch (error) {
 		// console.log(error);
@@ -173,10 +173,10 @@ export const asyncDeleteProduct = productId => async dispatch => {
 		const data = await axiosInstance.delete(
 			`/admin/product/delete/${productId}`
 		);
-		console.log(data);
+		// console.log(data);
 		dispatch(setMessage(data.data.message));
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 		dispatch(
 			isError(error.response?.data?.message || 'Error occurred during search')
 		);

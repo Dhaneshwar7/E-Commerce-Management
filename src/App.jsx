@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import UserSignIn from './components/user/UserSignIn';
 import UserSignUp from './components/user/UserSignup';
+import Error from './Error';
 
 function App() {
 	const { isAuth } = useSelector(state => state.adminReducer);
@@ -49,6 +50,7 @@ function App() {
 							</Route>
 						</Route>
 					</Route>
+						<Route path="*" element={<Error />} />
 				</Routes>
 			</BrowserRouter>
 		</>

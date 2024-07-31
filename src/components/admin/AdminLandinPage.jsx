@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { createTheme } from '@mui/material/styles';
-import { Features, Footer, Hero } from '../landingpage';
+import { Features, Footer, Hero, LinearBg } from '../landingpage';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -25,6 +25,7 @@ export default function AdminLandingPage() {
 			<CssBaseline />
 			<Hero />
 			<Box sx={{ bgcolor: 'background.default' }}>
+			<LinearBg />
 				<Features />
 				<Divider />
 				<Divider />
