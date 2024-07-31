@@ -18,7 +18,7 @@ import {
 import { useEffect } from 'react';
 import { LinearBg } from '../landingpage';
 export default function UserSignUp() {
-	const { isUserAuth, user, message, success } = useSelector(
+	const { isUserAuth, user, message, success, errors } = useSelector(
 		state => state.userReducer
 	);
 	const dispatch = useDispatch();
@@ -62,11 +62,9 @@ export default function UserSignUp() {
 					city: '',
 					gender: '',
 				});
-				dispatch(asyncSetMessage());
-				setTimeout(() => navigate('/'), 1000);
 			}
 		} catch (error) {
-			console.error('Error during signup:', error.message);
+			console.error('Error during SignUp:', error.message);
 		}
 	};
 	return (
@@ -224,11 +222,15 @@ export default function UserSignUp() {
 								pt: 2,
 								fontWeight: '800',
 								color: 'green',
+								textAlign: 'center',
 							}}
-							component="h3"
-							variant="h6"
+							component="h5"
+							variant="body"
 						>
 							{message && message}
+							{errors && errors === 'Please Login to access this resource'
+								? ''
+								: errors}
 						</Typography>
 					</Box>
 				</Box>

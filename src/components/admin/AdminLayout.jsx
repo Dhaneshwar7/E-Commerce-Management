@@ -13,16 +13,6 @@ const AuthLayout = () => {
 	const { products, isAuth, admin, success, message } = useSelector(
 		state => state.adminReducer
 	);
-	useEffect(() => {
-		if (!admin) {
-			dispatch(asyncCurrentAdmin());
-		} else {
-			if (!products || products.length <= 0) {
-				console.log('all products aajoa ek bar');
-				dispatch(asyncAllProduct());
-			}
-		}
-	}, [isAuth]);
 	return (
 		<>
 			<LinearBg />

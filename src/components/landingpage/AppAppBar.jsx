@@ -15,10 +15,10 @@ import SiteMarkImg from '../../assets/svgs/sitemark.svg';
 import SiteLogo from '../../assets/svgs/sitelogo.svg';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavFilter, SearchBar } from '.';
 import { Profile } from '../admin';
 import { asyncLogoutAdmin } from '../../store/Actions/adminActions';
 import { useEffect } from 'react';
+import SearchBar from './SearchBar';
 function AppAppBar({ mode, toggleColorMode }) {
 	const location = useLocation();
 	const paths = ['/admin/homepage', '/admin/filter'];
@@ -54,7 +54,6 @@ function AppAppBar({ mode, toggleColorMode }) {
 			setOpen(false);
 		}
 	};
-
 	return (
 		<div>
 			<AppBar

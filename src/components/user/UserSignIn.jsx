@@ -24,7 +24,7 @@ const axiosInstance = createAxiosInstance();
 const defaultTheme = createTheme();
 
 export default function UserSignIn() {
-	const { isUserAuth, message, success } = useSelector(
+	const { isUserAuth, message, success, errors } = useSelector(
 		state => state.userReducer
 	);
 	const dispatch = useDispatch();
@@ -56,18 +56,14 @@ export default function UserSignIn() {
 		// SignIn Api code
 		try {
 			dispatch(asyncSignInUser(formValues));
-			// if (success) {
-			// 	setFormValues({
-			// 		email: '',
-			// 		password: '',
-			// 	});
-			// 	setTimeout(() => {
-			// 		dispatch(asyncSetMessage());
-			// 		navigate('/');
-			// 	}, 1000);
-			// }
+			if (success) {
+				setFormValues({
+					email: '',
+					password: '',
+				});
+			}
 		} catch (error) {
-			console.error('Error during signup:', error.message);
+			console.error('Error during SignIn:', error.message);
 		}
 	};
 
@@ -176,20 +172,22 @@ export default function UserSignIn() {
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>
-							{message && (
-								<Typography
-									sx={{
-										pt: 2,
-										fontWeight: '800',
-										color: 'green',
-									}}
-									component="h3"
-									color="initial"
-									variant="body1"
-								>
-									{message}
-								</Typography>
-							)}
+
+							<Typography
+								sx={{
+									pt: 2,
+									fontWeight: '800',
+									color: 'green',
+									textAlign: 'center',
+								}}
+								component="h5"
+								variant="body"
+							>
+								{message && message}
+								{errors && errors === 'Please Login to access this resource'
+									? ''
+									: errors}
+							</Typography>
 						</Grid>
 					</Box>
 				</Box>

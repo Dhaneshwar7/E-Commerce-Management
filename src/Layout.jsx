@@ -10,7 +10,7 @@ import {
 } from './store/Actions/adminActions';
 import { AppAppBar, LinearBg } from '../src/components/landingpage';
 import { blue } from '@mui/material/colors';
-import { asyncCurrentUser } from './store/Actions/userActions';
+import { asyncCurrentUser, asyncSetMessage } from './store/Actions/userActions';
 import { asyncRenderAllProducts } from './store/Actions/productActions';
 
 const Layout = () => {
@@ -45,6 +45,7 @@ const Layout = () => {
 			}
 		} else {
 			if (!products || products.length <= 0) {
+				// console.log('all products aajoa ek bar');
 				dispatch(asyncAllProduct());
 			}
 		}
@@ -53,7 +54,11 @@ const Layout = () => {
 		if (!user) {
 			dispatch(asyncCurrentUser());
 		} else {
-			setTimeout(() => navigate('/'), 1000);
+			// console.log('U Layout page ka chala ');
+			setTimeout(() => {
+				dispatch(asyncSetMessage());
+				navigate('/');
+			}, 1500);
 		}
 	}, [isUserAuth]);
 	useEffect(() => {

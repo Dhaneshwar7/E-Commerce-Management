@@ -16,7 +16,7 @@ import {
 export const asyncHomepage = () => async (dispatch, getState) => {
 	try {
 		const data = await axiosInstance.get('/');
-		// console.log(data);
+		console.log(data);
 		dispatch(setAdmin(data.data.currentAdmin));
 	} catch (error) {
 		// console.log(error);

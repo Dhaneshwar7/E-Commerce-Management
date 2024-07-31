@@ -45,7 +45,7 @@ export const asyncSignUpUser = user => async (dispatch, getState) => {
 		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentUser());
 	} catch (error) {
-		// console.log(error);
+		// console.log(error.response.data.message);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -55,12 +55,12 @@ export const asyncSignInUser = user => async (dispatch, getState) => {
 	try {
 		dispatch(isLoading(true));
 		const data = await axiosInstance.post('/api/user/signin', user);
-		console.log(data, 'User SIGN_IN done');
+		// console.log(data, 'User SIGN_IN done');
 		dispatch(setMessage(data.data.message));
 		dispatch(setSuccess(data.data.success));
 		dispatch(asyncCurrentUser(data));
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 		dispatch(isError(error.response.data.message));
 	}
 };
@@ -121,7 +121,7 @@ export const asyncSearchProduct = debouncedSearch => async dispatch => {
 		const data = await axiosInstance.get(
 			`/user/product/search?${params.toString()}`
 		);
-		console.log(data);
+		// console.log(data);
 		dispatch(setAllCartProducts(data?.data?.products));
 	} catch (error) {
 		// console.log(error);
@@ -141,15 +141,15 @@ export const asyncRemoveErrors = () => async dispatch => {
 
 export const asyncCreateReview = (reviewData, productId) => async dispatch => {
 	try {
-		console.log(reviewData);
-		console.log(productId);
+		// console.log(reviewData);
+		// console.log(productId);
 		const data = await axiosInstance.post(
 			`/api/user/review/create-review/${productId}`,
 			reviewData
 		);
 	dispatch(setMessage(data.data.message));
 	dispatch(setSuccess(data.data.success));
-		console.log(data);
+		// console.log(data);
 	} catch (error) {
 		console.log(error);
 			dispatch(isError(error.response.data.message));

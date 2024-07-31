@@ -20,7 +20,7 @@ const SearchBar = ({mode}) => {
 	const [search, setSearch] = useState('');
 	const { debouncedValue: debouncedSearch, loading } = useDebounce(
 		search,
-		1200
+		1000
 	);
 	const [errorView, setErrorView] = useState('');
 	useEffect(() => {
